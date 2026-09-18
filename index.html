@@ -102,6 +102,39 @@
         button:hover {
             box-shadow: 0 0 10px #ff00ff;
         }
+
+        /* Кнопка "Моя заявка" — жидкое стекло */
+        #my-request-btn {
+            position: fixed;
+            top: 12px;
+            left: 12px;
+            padding: 10px 16px;
+            background: rgba(0, 255, 255, 0.12);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 255, 255, 0.35);
+            color: #00ffff;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 12px;
+            box-shadow: 
+                0 4px 20px rgba(0, 255, 255, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            z-index: 100;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 8px rgba(0, 255, 255, 0.6);
+        }
+        #my-request-btn:hover {
+            background: rgba(0, 255, 255, 0.22);
+            border-color: rgba(0, 255, 255, 0.6);
+            box-shadow: 
+                0 6px 25px rgba(0, 255, 255, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            transform: translateY(-1px);
+        }
+
         #admin-btn {
             position: fixed;
             top: 10px;
@@ -120,6 +153,7 @@
             box-shadow: 0 0 5px #ff00ff;
             text-shadow: 0 0 3px #00ffff;
             animation: glitch 2s infinite;
+            z-index: 100;
         }
         #popup {
             position: fixed;
@@ -137,33 +171,25 @@
             border-radius: 10px;
             max-width: 90%;
             box-sizing: border-box;
+            z-index: 200;
         }
-        #warning-popup {
+        #fake-popup {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.3);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 999;
-        }
-        #warning-content {
-            background: rgba(0, 0, 0, 0.8);
-            padding: 20px;
-            border: 1px solid #ff00ff;
-            border-radius: 10px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 255, 255, 0.4);
+            padding: 22px 28px;
+            color: #00ffff;
             text-align: center;
-            color: #ff00ff;
-            box-shadow: 0 0 20px #ff00ff;
+            box-shadow: 0 8px 32px rgba(0, 255, 255, 0.2);
+            display: none;
+            border-radius: 16px;
             max-width: 80%;
-        }
-        #warning-content button {
-            background: #00ff00;
-            color: #000;
-            margin-top: 10px;
+            z-index: 300;
         }
         #admin-panel {
             display: none;
@@ -220,28 +246,19 @@
             100% { transform: translate(0); }
         }
         @media (max-width: 600px) {
-            body {
-                padding: 5px;
-            }
-            .container {
-                padding: 10px;
-            }
-            #project-title {
-                font-size: 3em;
-            }
-            h2 {
-                font-size: 1.2em;
-            }
-            input, textarea, select {
-                font-size: 0.9em;
-            }
-            button {
-                font-size: 0.9em;
-            }
+            body { padding: 5px; }
+            .container { padding: 10px; }
+            #project-title { font-size: 3em; }
+            h2 { font-size: 1.2em; }
+            input, textarea, select { font-size: 0.9em; }
+            button { font-size: 0.9em; }
+            #my-request-btn { font-size: 13px; padding: 8px 12px; }
         }
     </style>
 </head>
 <body>
+    <button id="my-request-btn" onclick="showFakePopup()">Моя заявка</button>
+
     <div class="container">
         <h1 id="project-title">PXAXBET</h1>
         <h2>Заявка на возврат средств</h2>
@@ -252,6 +269,22 @@
 
             <label for="phone">Номер телефона (ваш)</label>
             <input type="tel" id="phone" required>
+
+            <label for="region">Область РФ</label>
+            <select id="region" required>
+                <option value="">Выберите область</option>
+                <option value="Московская">Московская область</option>
+                <option value="Ленинградская">Ленинградская область</option>
+                <option value="Новосибирская">Новосибирская область</option>
+                <option value="Свердловская">Свердловская область</option>
+                <option value="Краснодарский край">Краснодарский край</option>
+                <option value="Ростовская">Ростовская область</option>
+                <option value="Республика Татарстан">Республика Татарстан</option>
+                <option value="Челябинская">Челябинская область</option>
+                <option value="Нижегородская">Нижегородская область</option>
+                <option value="Самарская">Самарская область</option>
+                <option value="Другая">Другая</option>
+            </select>
 
             <label for="target-instagram">Ник в Instagram аккаунта, на который переводили</label>
             <input type="text" id="target-instagram" required>
@@ -273,7 +306,7 @@
                 <option value="card">Номер карты</option>
                 <option value="crypto">Криптовалюта</option>
             </select>
-            <input type="text" id="transfer-details" placeholder="Введите детали (номер телефона для СБП или номер карты)" required style="display: none;">
+            <input type="text" id="transfer-details" placeholder="Введите детали" required style="display: none;">
 
             <label for="withdrawal-type">Вывод частями* с процентами или вывод единым платежом?</label>
             <select id="withdrawal-type" required>
@@ -296,6 +329,11 @@
         <p>Ваша заявка принята. После рассмотрения заявки средства будут зачислены автоматически.</p>
     </div>
 
+    <div id="fake-popup">
+        <p>Функция «Моя заявка» скоро будет доступна</p>
+        <button onclick="closeFakePopup()" style="margin-top: 15px; background: rgba(0, 255, 255, 0.2); color: #00ffff; border: 1px solid #00ffff;">OK</button>
+    </div>
+
     <button id="admin-btn" onclick="showAdminLogin()">X</button>
 
     <div id="admin-panel">
@@ -313,16 +351,9 @@
         </div>
     </div>
 
-    <div id="warning-popup">
-        <div id="warning-content">
-            <p>Предупреждение: Технические работы в процессе. Форма недоступна для заполнения.</p>
-            <button onclick="closeWarningPopup()">OK</button>
-        </div>
-    </div>
-
     <script>
         const ADMIN_USERNAME = '09pX90Ax';
-        const ADMIN_PASSWORD_HASH = 'f2a6b6f7a5c2d4e3f1a0b9c8d7e6f5a4b3c2d1e0f9a8b7c6d5e4f3a2b1c0d9e8'; // SHA-256 хэш сложного пароля
+        const ADMIN_PASSWORD_HASH = 'f2a6b6f7a5c2d4e3f1a0b9c8d7e6f5a4b3c2d1e0f9a8b7c6d5e4f3a2b1c0d9e8';
 
         async function hashPassword(password) {
             const encoder = new TextEncoder();
@@ -336,36 +367,22 @@
             try {
                 return window.localStorage;
             } catch (e) {
-                console.warn('localStorage not available, using in-memory storage');
                 return {
                     data: {},
-                    getItem(key) {
-                        return this.data[key] || null;
-                    },
-                    setItem(key, value) {
-                        this.data[key] = value;
-                    }
+                    getItem(key) { return this.data[key] || null; },
+                    setItem(key, value) { this.data[key] = value; }
                 };
             }
         }
 
         const storage = getStorage();
-
         if (!storage.getItem('applications')) {
             storage.setItem('applications', JSON.stringify([]));
         }
 
         const form = document.getElementById('refund-form');
-        const instagramNick = document.getElementById('instagram-nick');
-        const phone = document.getElementById('phone');
-        const targetInstagram = document.getElementById('target-instagram');
-        const telegramUsername = document.getElementById('telegram-username');
-        const amount = document.getElementById('amount');
-        const receipt = document.getElementById('receipt');
         const transferMethod = document.getElementById('transfer-method');
         const transferDetails = document.getElementById('transfer-details');
-        const withdrawalType = document.getElementById('withdrawal-type');
-        const comment = document.getElementById('comment');
         const popup = document.getElementById('popup');
 
         transferMethod.addEventListener('change', () => {
@@ -383,16 +400,17 @@
             e.preventDefault();
 
             const data = {
-                instagramNick: instagramNick.value,
-                phone: phone.value,
-                targetInstagram: targetInstagram.value,
-                telegramUsername: telegramUsername.value,
-                amount: amount.value,
-                receipt: receipt.files[0] ? 'Чек загружен' : 'Нет чека',
+                instagramNick: document.getElementById('instagram-nick').value,
+                phone: document.getElementById('phone').value,
+                region: document.getElementById('region').value,
+                targetInstagram: document.getElementById('target-instagram').value,
+                telegramUsername: document.getElementById('telegram-username').value,
+                amount: document.getElementById('amount').value,
+                receipt: document.getElementById('receipt').files[0] ? 'Чек загружен' : 'Нет чека',
                 transferMethod: transferMethod.value,
                 transferDetails: transferDetails.value,
-                withdrawalType: withdrawalType.value,
-                comment: comment.value,
+                withdrawalType: document.getElementById('withdrawal-type').value,
+                comment: document.getElementById('comment').value,
                 timestamp: new Date().toISOString()
             };
 
@@ -407,6 +425,13 @@
                 transferDetails.style.display = 'none';
             }, 3000);
         });
+
+        function showFakePopup() {
+            document.getElementById('fake-popup').style.display = 'block';
+        }
+        function closeFakePopup() {
+            document.getElementById('fake-popup').style.display = 'none';
+        }
 
         function showAdminLogin() {
             document.getElementById('admin-panel').style.display = 'block';
@@ -440,6 +465,7 @@
                     <p><strong>Заявка #${index + 1}</strong> (${app.timestamp})</p>
                     <p>Instagram: ${app.instagramNick}</p>
                     <p>Телефон: ${app.phone}</p>
+                    <p>Область: ${app.region || '—'}</p>
                     <p>Целевой Instagram: ${app.targetInstagram}</p>
                     <p>Telegram: ${app.telegramUsername}</p>
                     <p>Сумма: ${app.amount}</p>
@@ -455,18 +481,9 @@
         function logoutAdmin() {
             closeAdminPanel();
         }
-
         function closeAdminPanel() {
             document.getElementById('admin-panel').style.display = 'none';
         }
-
-        function closeWarningPopup() {
-            document.getElementById('warning-popup').style.display = 'none';
-        }
-
-        window.onload = () => {
-            // document.getElementById('warning-popup').style.display = 'flex'; // Комментируем, если не нужно
-        };
 
         const title = document.getElementById('project-title');
         let isFirst = true;
