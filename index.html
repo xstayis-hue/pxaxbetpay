@@ -7,261 +7,270 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
     <style>
         body {
-            background: linear-gradient(135deg, #0a0a0a, #1a0033, #00331a);
-            background-size: 400% 400%;
-            animation: gradient 15s ease infinite;
-            color: #00ff00;
-            font-family: 'Courier New', monospace;
             margin: 0;
             padding: 10px;
             overflow-x: hidden;
+            font-family: 'Courier New', monospace;
+            color: #00ff00;
+            background: #0a0a0a;
             position: relative;
+            min-height: 100vh;
         }
+
+        /* Параллакс слои */
+        .parallax-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 120%;
+            z-index: -2;
+            background: linear-gradient(135deg, #0a0a0a, #1a0033, #00331a);
+            background-size: 400% 400%;
+            animation: gradient 18s ease infinite;
+        }
+
+        .parallax-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.35;
+        }
+
+        .layer-1 {
+            background: radial-gradient(circle at 20% 30%, rgba(255, 0, 255, 0.25), transparent 50%);
+        }
+        .layer-2 {
+            background: radial-gradient(circle at 80% 70%, rgba(0, 255, 255, 0.2), transparent 45%);
+        }
+        .layer-3 {
+            background: radial-gradient(circle at 50% 50%, rgba(0, 255, 0, 0.12), transparent 60%);
+        }
+
         @keyframes gradient {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
-        body::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 255, 0, 0.1);
-            filter: blur(10px);
-            z-index: -1;
-            pointer-events: none;
-        }
+
         .container {
             max-width: 100%;
             width: 100%;
             margin: 0 auto;
             padding: 10px;
             border: 1px solid #00ff00;
-            box-shadow: 0 0 10px #00ff00;
-            background: rgba(0, 0, 0, 0.8);
-            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.4);
+            background: rgba(0, 0, 0, 0.75);
+            border-radius: 12px;
             box-sizing: border-box;
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(4px);
         }
+
         #project-title {
             text-align: center;
             color: #ff00ff;
-            text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #00ffff;
+            text-shadow: 0 0 10px #ff00ff, 0 0 25px #ff00ff, 0 0 40px #00ffff;
             font-size: 4em;
             margin-bottom: 10px;
-            animation: glitch-intense 0.5s infinite;
+            animation: glitch-intense 0.6s infinite;
             font-family: 'Orbitron', sans-serif;
         }
+
         h2 {
             text-align: center;
             color: #ff00ff;
-            text-shadow: 0 0 5px #ff00ff;
+            text-shadow: 0 0 6px #ff00ff;
             font-size: 1.5em;
             font-weight: 300;
         }
+
         label {
             display: block;
-            margin-top: 10px;
+            margin-top: 12px;
             color: #00ffff;
         }
+
         input, textarea, select {
             width: 100%;
-            padding: 8px;
+            padding: 9px;
             margin-top: 5px;
-            background: #1a1a1a;
+            background: rgba(26, 26, 26, 0.9);
             border: 1px solid #00ff00;
             color: #00ff00;
             font-family: inherit;
-            border-radius: 5px;
+            border-radius: 6px;
             box-sizing: border-box;
         }
+
         .note {
             font-size: 0.8em;
-            color: #ff0000;
-            margin-top: 2px;
+            color: #ff4444;
+            margin-top: 3px;
         }
+
         .explanation {
             font-size: 0.8em;
             color: #00ffff;
             margin-top: 5px;
         }
+
         button {
             width: 100%;
-            padding: 10px;
-            margin-top: 15px;
+            padding: 11px;
+            margin-top: 16px;
             background: #ff00ff;
             border: none;
             color: #000;
             font-weight: bold;
             cursor: pointer;
-            border-radius: 5px;
+            border-radius: 6px;
             text-shadow: 0 0 2px #000;
+            transition: 0.25s;
         }
         button:hover {
-            box-shadow: 0 0 10px #ff00ff;
+            box-shadow: 0 0 18px #ff00ff;
+            transform: translateY(-1px);
         }
 
-        /* Кнопка "Моя заявка" — жидкое стекло */
+        /* Кнопки в стиле жидкого стекла */
         #my-request-btn {
             position: fixed;
             top: 12px;
             left: 12px;
-            padding: 10px 16px;
-            background: rgba(0, 255, 255, 0.12);
+            padding: 4px 9px;
+            background: rgba(0, 255, 255, 0.14);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(0, 255, 255, 0.35);
+            border: 1px solid rgba(0, 255, 255, 0.45);
             color: #00ffff;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
             cursor: pointer;
-            border-radius: 12px;
-            box-shadow: 
-                0 4px 20px rgba(0, 255, 255, 0.15),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border-radius: 7px;
+            box-shadow: 0 4px 14px rgba(0, 255, 255, 0.2);
             z-index: 100;
             white-space: nowrap;
-            transition: all 0.3s ease;
-            text-shadow: 0 0 8px rgba(0, 255, 255, 0.6);
+            transition: 0.25s;
+            text-shadow: 0 0 6px rgba(0, 255, 255, 0.5);
         }
         #my-request-btn:hover {
-            background: rgba(0, 255, 255, 0.22);
-            border-color: rgba(0, 255, 255, 0.6);
-            box-shadow: 
-                0 6px 25px rgba(0, 255, 255, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            background: rgba(0, 255, 255, 0.25);
             transform: translateY(-1px);
         }
 
         #admin-btn {
             position: fixed;
-            top: 10px;
-            right: 10px;
-            width: 30px;
-            height: 30px;
-            background: #ff00ff;
-            border: 1px solid #00ffff;
-            color: #00ffff;
-            font-size: 20px;
+            top: 12px;
+            right: 12px;
+            width: 32px;
+            height: 32px;
+            background: rgba(255, 0, 255, 0.15);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 0, 255, 0.5);
+            color: #ff00ff;
+            font-size: 17px;
+            font-weight: bold;
             cursor: pointer;
-            border-radius: 5px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 0 5px #ff00ff;
-            text-shadow: 0 0 3px #00ffff;
-            animation: glitch 2s infinite;
+            box-shadow: 0 4px 14px rgba(255, 0, 255, 0.25);
             z-index: 100;
+            transition: 0.25s;
+            text-shadow: 0 0 8px rgba(255, 0, 255, 0.6);
         }
-        #popup {
+        #admin-btn:hover {
+            background: rgba(255, 0, 255, 0.28);
+            transform: translateY(-1px);
+        }
+
+        #popup, #fake-popup {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid #00ff00;
-            padding: 15px;
-            color: #00ff00;
-            text-align: center;
-            box-shadow: 0 0 20px #00ff00;
-            display: none;
-            border-radius: 10px;
-            max-width: 90%;
-            box-sizing: border-box;
-            z-index: 200;
-        }
-        #fake-popup {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(0, 0, 0, 0.75);
+            background: rgba(0, 0, 0, 0.78);
             backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(0, 255, 255, 0.4);
-            padding: 22px 28px;
+            padding: 20px 24px;
             color: #00ffff;
             text-align: center;
-            box-shadow: 0 8px 32px rgba(0, 255, 255, 0.2);
-            display: none;
-            border-radius: 16px;
-            max-width: 80%;
+            border-radius: 14px;
+            max-width: 85%;
             z-index: 300;
+            display: none;
         }
+
         #admin-panel {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.92);
             z-index: 1000;
             padding: 10px;
             overflow-y: auto;
-            box-sizing: border-box;
         }
+
         #admin-login {
             max-width: 100%;
-            width: 100%;
             margin: 50px auto 0;
-            padding: 15px;
+            padding: 18px;
             border: 1px solid #ff00ff;
             background: #1a1a1a;
             border-radius: 10px;
-            box-sizing: border-box;
         }
-        #admin-content {
-            max-width: 100%;
-            width: 100%;
-            margin: 0 auto;
-            box-sizing: border-box;
-        }
+
         .application {
             margin-bottom: 15px;
-            padding: 10px;
+            padding: 12px;
             border: 1px solid #00ffff;
             background: #0a0a0a;
-            border-radius: 5px;
+            border-radius: 6px;
             word-wrap: break-word;
         }
-        @keyframes glitch {
-            0% { transform: translate(0); }
-            20% { transform: translate(-2px, 2px); }
-            40% { transform: translate(-2px, -2px); }
-            60% { transform: translate(2px, 2px); }
-            80% { transform: translate(2px, -2px); }
-            100% { transform: translate(0); }
-        }
+
         @keyframes glitch-intense {
-            0% { transform: translate(0); clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
-            10% { transform: translate(-5px, 5px); clip-path: polygon(0 60%, 100% 60%, 100% 100%, 0 100%); }
-            20% { transform: translate(5px, -5px); clip-path: polygon(0 0, 100% 0, 100% 20%, 0 20%); }
-            30% { transform: translate(-3px, 3px); clip-path: polygon(0 10%, 100% 10%, 100% 90%, 0 90%); }
-            40% { transform: translate(3px, -3px); clip-path: polygon(0 30%, 100% 30%, 100% 70%, 0 70%); }
-            50% { transform: translate(0); clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+            0% { transform: translate(0); }
+            10% { transform: translate(-4px, 3px); }
+            20% { transform: translate(4px, -3px); }
+            30% { transform: translate(-2px, 2px); }
+            40% { transform: translate(2px, -2px); }
+            50% { transform: translate(0); }
             100% { transform: translate(0); }
         }
+
         @media (max-width: 600px) {
-            body { padding: 5px; }
-            .container { padding: 10px; }
-            #project-title { font-size: 3em; }
+            #project-title { font-size: 2.7em; }
             h2 { font-size: 1.2em; }
-            input, textarea, select { font-size: 0.9em; }
-            button { font-size: 0.9em; }
-            #my-request-btn { font-size: 13px; padding: 8px 12px; }
+            #my-request-btn { font-size: 12px; padding: 3px 7px; }
+            #admin-btn { width: 30px; height: 30px; font-size: 15px; }
         }
     </style>
 </head>
 <body>
+
+    <!-- Параллакс слои -->
+    <div class="parallax-bg" id="parallax-bg"></div>
+    <div class="parallax-layer layer-1" id="layer1"></div>
+    <div class="parallax-layer layer-2" id="layer2"></div>
+    <div class="parallax-layer layer-3" id="layer3"></div>
+
     <button id="my-request-btn" onclick="showFakePopup()">Моя заявка</button>
+    <button id="admin-btn" onclick="showAdminLogin()">X</button>
 
     <div class="container">
         <h1 id="project-title">PXAXBET</h1>
         <h2>Заявка на возврат средств</h2>
+
         <form id="refund-form">
             <label for="instagram-nick">Ник в Instagram</label>
             <input type="text" id="instagram-nick" required>
@@ -319,7 +328,7 @@
             <label for="comment">Комментарий (до 300 символов)</label>
             <textarea id="comment" maxlength="300"></textarea>
 
-            <button type="submit" id="submit-btn">Отправить заявку</button>
+            <button type="submit">Отправить заявку</button>
         </form>
 
         <button id="soon-btn" disabled>скоро🤫</button>
@@ -330,11 +339,9 @@
     </div>
 
     <div id="fake-popup">
-        <p>Функция «Моя заявка» скоро будет доступна</p>
-        <button onclick="closeFakePopup()" style="margin-top: 15px; background: rgba(0, 255, 255, 0.2); color: #00ffff; border: 1px solid #00ffff;">OK</button>
+        <p>Ваша заявка находится в очереди или не была создана.</p>
+        <button onclick="closeFakePopup()" style="margin-top: 12px; background: rgba(0,255,255,0.2); color:#00ffff; border:1px solid #00ffff; padding:8px 16px; border-radius:6px;">OK</button>
     </div>
-
-    <button id="admin-btn" onclick="showAdminLogin()">X</button>
 
     <div id="admin-panel">
         <div id="admin-login">
@@ -342,9 +349,9 @@
             <input type="text" id="admin-username" placeholder="Логин">
             <input type="password" id="admin-password" placeholder="Пароль">
             <button onclick="loginAdmin()">Войти</button>
-            <button onclick="closeAdminPanel()" style="background: #ff0000; margin-top: 10px;">Закрыть</button>
+            <button onclick="closeAdminPanel()" style="background:#ff0000; margin-top:10px;">Закрыть</button>
         </div>
-        <div id="admin-content" style="display: none;">
+        <div id="admin-content" style="display:none;">
             <h2>Заявки</h2>
             <div id="applications-list"></div>
             <button onclick="logoutAdmin()">Выйти</button>
@@ -352,53 +359,46 @@
     </div>
 
     <script>
-        const ADMIN_USERNAME = '09pX90Ax';
-        const ADMIN_PASSWORD_HASH = 'f2a6b6f7a5c2d4e3f1a0b9c8d7e6f5a4b3c2d1e0f9a8b7c6d5e4f3a2b1c0d9e8';
+        // Параллакс
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+            document.getElementById('layer1').style.transform = `translateY(${scrollY * 0.25}px)`;
+            document.getElementById('layer2').style.transform = `translateY(${scrollY * 0.45}px)`;
+            document.getElementById('layer3').style.transform = `translateY(${scrollY * 0.65}px)`;
+        });
 
-        async function hashPassword(password) {
-            const encoder = new TextEncoder();
-            const data = encoder.encode(password);
-            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-        }
-
-        function getStorage() {
-            try {
-                return window.localStorage;
-            } catch (e) {
-                return {
-                    data: {},
-                    getItem(key) { return this.data[key] || null; },
-                    setItem(key, value) { this.data[key] = value; }
-                };
+        // Автозаполнение Telegram
+        if (window.Telegram && window.Telegram.WebApp) {
+            Telegram.WebApp.ready();
+            Telegram.WebApp.expand();
+            const user = Telegram.WebApp.initDataUnsafe?.user;
+            if (user?.username) {
+                document.getElementById('telegram-username').value = '@' + user.username;
             }
         }
 
-        const storage = getStorage();
-        if (!storage.getItem('applications')) {
-            storage.setItem('applications', JSON.stringify([]));
-        }
+        const storage = (() => {
+            try { return localStorage; } 
+            catch { 
+                return { data: {}, getItem(k){return this.data[k]||null}, setItem(k,v){this.data[k]=v} };
+            }
+        })();
+
+        if (!storage.getItem('applications')) storage.setItem('applications', '[]');
 
         const form = document.getElementById('refund-form');
         const transferMethod = document.getElementById('transfer-method');
         const transferDetails = document.getElementById('transfer-details');
-        const popup = document.getElementById('popup');
 
         transferMethod.addEventListener('change', () => {
             transferDetails.style.display = 'block';
-            if (transferMethod.value === 'sbp') {
-                transferDetails.placeholder = 'Номер телефона для СБП';
-            } else if (transferMethod.value === 'card') {
-                transferDetails.placeholder = 'Номер карты';
-            } else if (transferMethod.value === 'crypto') {
-                transferDetails.placeholder = 'Адрес кошелька (BTC, ETH и т.д.)';
-            }
+            if (transferMethod.value === 'sbp') transferDetails.placeholder = 'Номер телефона для СБП';
+            else if (transferMethod.value === 'card') transferDetails.placeholder = 'Номер карты';
+            else if (transferMethod.value === 'crypto') transferDetails.placeholder = 'Адрес кошелька';
         });
 
-        form.addEventListener('submit', (e) => {
+        form.addEventListener('submit', e => {
             e.preventDefault();
-
             const data = {
                 instagramNick: document.getElementById('instagram-nick').value,
                 phone: document.getElementById('phone').value,
@@ -413,14 +413,13 @@
                 comment: document.getElementById('comment').value,
                 timestamp: new Date().toISOString()
             };
-
-            let apps = JSON.parse(storage.getItem('applications')) || [];
+            const apps = JSON.parse(storage.getItem('applications') || '[]');
             apps.push(data);
             storage.setItem('applications', JSON.stringify(apps));
 
-            popup.style.display = 'block';
+            document.getElementById('popup').style.display = 'block';
             setTimeout(() => {
-                popup.style.display = 'none';
+                document.getElementById('popup').style.display = 'none';
                 form.reset();
                 transferDetails.style.display = 'none';
             }, 3000);
@@ -442,9 +441,11 @@
         async function loginAdmin() {
             const username = document.getElementById('admin-username').value;
             const password = document.getElementById('admin-password').value;
-            const hashedPassword = await hashPassword(password);
+            const encoder = new TextEncoder();
+            const hashBuffer = await crypto.subtle.digest('SHA-256', encoder.encode(password));
+            const hash = Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2,'0')).join('');
 
-            if (username === ADMIN_USERNAME && hashedPassword === ADMIN_PASSWORD_HASH) {
+            if (username === '09pX90Ax' && hash === 'f2a6b6f7a5c2d4e3f1a0b9c8d7e6f5a4b3c2d1e0f9a8b7c6d5e4f3a2b1c0d9e8') {
                 document.getElementById('admin-login').style.display = 'none';
                 document.getElementById('admin-content').style.display = 'block';
                 loadApplications();
@@ -456,13 +457,13 @@
         function loadApplications() {
             const list = document.getElementById('applications-list');
             list.innerHTML = '';
-            const apps = JSON.parse(storage.getItem('applications')) || [];
-            apps.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-            apps.forEach((app, index) => {
+            const apps = JSON.parse(storage.getItem('applications') || '[]');
+            apps.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
+            apps.forEach((app, i) => {
                 const div = document.createElement('div');
-                div.classList.add('application');
+                div.className = 'application';
                 div.innerHTML = `
-                    <p><strong>Заявка #${index + 1}</strong> (${app.timestamp})</p>
+                    <p><strong>Заявка #${i+1}</strong> (${app.timestamp})</p>
                     <p>Instagram: ${app.instagramNick}</p>
                     <p>Телефон: ${app.phone}</p>
                     <p>Область: ${app.region || '—'}</p>
@@ -470,27 +471,26 @@
                     <p>Telegram: ${app.telegramUsername}</p>
                     <p>Сумма: ${app.amount}</p>
                     <p>Чек: ${app.receipt}</p>
-                    <p>Перевод: ${app.transferMethod} - ${app.transferDetails}</p>
-                    <p>Тип вывода: ${app.withdrawalType === 'partial' ? 'Частями с процентами' : 'Единым платежом'}</p>
-                    <p>Комментарий: ${app.comment}</p>
+                    <p>Перевод: ${app.transferMethod} — ${app.transferDetails}</p>
+                    <p>Тип вывода: ${app.withdrawalType === 'partial' ? 'Частями' : 'Единым платежом'}</p>
+                    <p>Комментарий: ${app.comment || '—'}</p>
                 `;
                 list.appendChild(div);
             });
         }
 
-        function logoutAdmin() {
-            closeAdminPanel();
-        }
+        function logoutAdmin() { closeAdminPanel(); }
         function closeAdminPanel() {
             document.getElementById('admin-panel').style.display = 'none';
         }
 
+        // Мерцание заголовка
         const title = document.getElementById('project-title');
         let isFirst = true;
         setInterval(() => {
             title.innerText = isFirst ? 'PXAXBET' : 'PXAXBYTE';
             isFirst = !isFirst;
-        }, 500);
+        }, 550);
     </script>
 </body>
 </html>
