@@ -38,6 +38,17 @@
         .layer-2 { background: radial-gradient(circle at 80% 70%, rgba(0,255,255,0.18), transparent 45%); }
         .layer-3 { background: radial-gradient(circle at 50% 50%, rgba(0,255,0,0.1), transparent 60%); }
 
+        /* Неоновый дождь */
+        #matrix {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.18;
+        }
+
         @keyframes gradient {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
@@ -196,10 +207,12 @@
             padding: 12px;
             display: flex;
             gap: 10px;
+            flex-wrap: wrap;
         }
 
         #soon-btn, #game-btn {
             flex: 1;
+            min-width: 120px;
             padding: 10px;
             background: rgba(0, 255, 255, 0.12);
             backdrop-filter: blur(10px);
@@ -214,7 +227,15 @@
             font-family: inherit;
         }
 
-        /* ===== МИНИ-ИГРА ===== */
+        .game-stats {
+            width: 100%;
+            margin-top: 8px;
+            font-size: 12px;
+            color: #00ffff;
+            opacity: 0.7;
+        }
+
+        /* Мини-игра */
         #game-modal {
             display: none;
             position: fixed;
@@ -242,12 +263,6 @@
             letter-spacing: 2px;
             color: #ff00ff;
             text-shadow: 0 0 8px #ff00ff;
-            margin-bottom: 4px;
-        }
-
-        .game-sub {
-            font-size: 12px;
-            color: #666;
             margin-bottom: 18px;
         }
 
@@ -349,6 +364,57 @@
             cursor: pointer;
         }
 
+        /* Прогресс-бар отправки */
+        #process-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 400;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .process-box {
+            width: 85%;
+            max-width: 320px;
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px solid #00ffff;
+            border-radius: 12px;
+            padding: 24px 20px;
+            text-align: center;
+        }
+
+        .process-title {
+            color: #00ffff;
+            font-size: 14px;
+            margin-bottom: 16px;
+            letter-spacing: 1px;
+        }
+
+        .process-bar-bg {
+            width: 100%;
+            height: 12px;
+            background: #111;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .process-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #00ffff, #ff00ff);
+            border-radius: 6px;
+            transition: width 0.1s linear;
+        }
+
+        .process-percent {
+            font-size: 18px;
+            color: #00ffff;
+        }
+
         #popup, #fake-popup {
             position: fixed;
             top: 50%; left: 50%;
@@ -418,8 +484,8 @@
     <div class="parallax-layer layer-1" id="layer1"></div>
     <div class="parallax-layer layer-2" id="layer2"></div>
     <div class="parallax-layer layer-3" id="layer3"></div>
+    <canvas id="matrix"></canvas>
 
-    <!-- Верхний блок -->
     <div class="section header-section">
         <div class="header-buttons">
             <button id="my-request-btn" onclick="playClick(); showFakePopup()">Моя заявка</button>
@@ -429,7 +495,6 @@
         <h2>Заявка на возврат средств</h2>
     </div>
 
-    <!-- Форма -->
     <div class="section">
         <form id="refund-form">
             <label for="instagram-nick">Ник в Instagram</label>
@@ -492,25 +557,22 @@
         </form>
     </div>
 
-    <!-- Нижняя секция -->
     <div class="section bottom-section">
         <button id="soon-btn">2027</button>
         <button id="game-btn" onclick="playClick(); openGame()">Стабилизация</button>
+        <div class="game-stats" id="game-stats">Стабилизаций: 0</div>
     </div>
 
-    <!-- Модалка мини-игры -->
+    <!-- Мини-игра -->
     <div id="game-modal">
         <div class="game-box">
             <div class="game-title">СТАБИЛИЗАЦИЯ ПЛАТЕЖА</div>
-            <div class="game-sub">Бесконечная стабилизация канала</div>
-
             <div class="percent" id="percent">15%</div>
             <div class="progress-container">
                 <div class="progress-bar" id="bar"></div>
             </div>
             <div class="status" id="status">Сигнал нестабилен...</div>
-
-            <button class="stabilize-btn" id="stab-btn" onclick="stabilize()">СТАБИЛИЗИРОВАТЬ</button>
+            <button class="stabilize-btn" onclick="stabilize()">СТАБИЛИЗИРОВАТЬ</button>
             <button class="close-game" onclick="closeGame()">Закрыть</button>
 
             <div class="reward-popup" id="reward">
@@ -518,6 +580,17 @@
                 <p>Вы заработали ускорение одного платежа в свой профиль</p>
                 <button onclick="closeReward()">Продолжить</button>
             </div>
+        </div>
+    </div>
+
+    <!-- Прогресс отправки -->
+    <div id="process-modal">
+        <div class="process-box">
+            <div class="process-title">ОБРАБОТКА ЗАЯВКИ</div>
+            <div class="process-bar-bg">
+                <div class="process-bar" id="process-bar"></div>
+            </div>
+            <div class="process-percent" id="process-percent">0%</div>
         </div>
     </div>
 
@@ -548,7 +621,6 @@
     <script>
         // ===== ЗВУК =====
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
         function playTone(freq, duration, type = 'square', volume = 0.1) {
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
@@ -561,25 +633,48 @@
             gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
             osc.stop(audioCtx.currentTime + duration);
         }
-
-        function playClick() {
-            playTone(800, 0.05, 'square', 0.08);
-        }
-
+        function playClick() { playTone(800, 0.05, 'square', 0.08); }
         function playSuccess() {
             playTone(600, 0.08, 'sine', 0.1);
             setTimeout(() => playTone(900, 0.12, 'sine', 0.1), 80);
         }
-
-        function playStab() {
-            playTone(660, 0.04, 'square', 0.07);
-        }
-
+        function playStab() { playTone(660, 0.04, 'square', 0.07); }
         function playWin() {
             playTone(520, 0.1, 'sine', 0.12);
             setTimeout(() => playTone(780, 0.15, 'sine', 0.12), 100);
             setTimeout(() => playTone(1040, 0.2, 'sine', 0.1), 220);
         }
+
+        // ===== МАТРИЧНЫЙ ДОЖДЬ =====
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const letters = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+        const drops = Array(Math.floor(columns)).fill(1);
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#0f0';
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = letters[Math.floor(Math.random() * letters.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            }
+        }
+        setInterval(drawMatrix, 50);
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
 
         // ===== ПАРАЛЛАКС =====
         window.addEventListener('scroll', () => {
@@ -607,6 +702,14 @@
             }
         })();
         if (!storage.getItem('applications')) storage.setItem('applications', '[]');
+        if (!storage.getItem('stabilizations')) storage.setItem('stabilizations', '0');
+
+        // Обновляем счётчик стабилизаций
+        function updateGameStats() {
+            const count = storage.getItem('stabilizations') || 0;
+            document.getElementById('game-stats').textContent = `Стабилизаций: ${count}`;
+        }
+        updateGameStats();
 
         // ===== ФОРМА =====
         const form = document.getElementById('refund-form');
@@ -645,13 +748,40 @@
             apps.push(data);
             storage.setItem('applications', JSON.stringify(apps));
 
-            document.getElementById('popup').style.display = 'block';
-            setTimeout(() => {
-                document.getElementById('popup').style.display = 'none';
-                form.reset();
-                transferDetails.style.display = 'none';
-            }, 3000);
+            // Запускаем прогресс-бар
+            startProcess(() => {
+                document.getElementById('popup').style.display = 'block';
+                setTimeout(() => {
+                    document.getElementById('popup').style.display = 'none';
+                    form.reset();
+                    transferDetails.style.display = 'none';
+                }, 3000);
+            });
         });
+
+        // ===== ПРОГРЕСС ОТПРАВКИ =====
+        function startProcess(callback) {
+            const modal = document.getElementById('process-modal');
+            const bar = document.getElementById('process-bar');
+            const percent = document.getElementById('process-percent');
+            modal.style.display = 'flex';
+            let p = 0;
+
+            const interval = setInterval(() => {
+                p += Math.random() * 4 + 1.5;
+                if (p > 100) p = 100;
+                bar.style.width = p + '%';
+                percent.textContent = Math.floor(p) + '%';
+
+                if (p >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        modal.style.display = 'none';
+                        callback();
+                    }, 400);
+                }
+            }, 80);
+        }
 
         // ===== МИНИ-ИГРА =====
         let progress = 15;
@@ -702,7 +832,6 @@
 
         function gameUpdate() {
             if (!isPlaying) return;
-
             progress -= decayRate;
 
             if (Math.random() < glitchChance) {
@@ -713,7 +842,6 @@
             }
 
             if (progress < 0) progress = 0;
-
             bar.style.width = progress + '%';
             percentEl.textContent = Math.floor(progress) + '%';
 
@@ -726,16 +854,11 @@
         function stabilize() {
             if (!isPlaying) return;
             playStab();
-
             progress += clickPower + Math.random() * 1.3;
             if (progress > 100) progress = 100;
-
             bar.style.width = progress + '%';
             percentEl.textContent = Math.floor(progress) + '%';
-
-            if (progress >= 100) {
-                winGame();
-            }
+            if (progress >= 100) winGame();
         }
 
         function winGame() {
@@ -746,6 +869,12 @@
             bar.style.boxShadow = '0 0 22px #00ff88';
             bar.style.background = 'linear-gradient(90deg, #00ff88, #00ffff)';
             reward.style.display = 'block';
+
+            // Сохраняем историю
+            let count = parseInt(storage.getItem('stabilizations') || '0');
+            count++;
+            storage.setItem('stabilizations', count);
+            updateGameStats();
         }
 
         function closeReward() {
@@ -760,7 +889,6 @@
             statusEl.style.color = "#aaa";
         }
 
-        // ===== ОСТАЛЬНОЕ =====
         function showFakePopup() {
             document.getElementById('fake-popup').style.display = 'block';
         }
