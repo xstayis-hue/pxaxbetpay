@@ -54,7 +54,6 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Форма — более прозрачная */
         .section {
             background: rgba(0, 0, 0, 0.22);
             backdrop-filter: blur(14px);
@@ -144,9 +143,33 @@
             text-shadow: 0 0 10px #ff00ff, 0 0 25px #ff00ff, 0 0 40px #00ffff;
             font-size: 3.2em;
             margin: 4px 0 2px;
-            animation: glitch-intense 0.6s infinite;
             font-family: 'Orbitron', sans-serif;
             line-height: 1.1;
+            position: relative;
+            animation: glitch-strong 2.8s infinite;
+        }
+
+        /* Усиленный глитч заголовка */
+        @keyframes glitch-strong {
+            0%, 90%, 100% {
+                transform: translate(0);
+                text-shadow: 0 0 10px #ff00ff, 0 0 25px #ff00ff, 0 0 40px #00ffff;
+            }
+            92% {
+                transform: translate(-3px, 1px);
+                text-shadow: -2px 0 #00ffff, 2px 0 #ff00ff;
+            }
+            94% {
+                transform: translate(3px, -1px);
+                text-shadow: 2px 0 #00ffff, -2px 0 #ff00ff;
+            }
+            96% {
+                transform: translate(-2px, 2px);
+                text-shadow: -1px 0 #ff00ff, 1px 0 #00ffff;
+            }
+            98% {
+                transform: translate(2px, -2px);
+            }
         }
 
         h2 {
@@ -366,6 +389,20 @@
             cursor: pointer;
         }
 
+        /* Глитч при победе */
+        .glitch-screen {
+            animation: screen-glitch 0.45s linear;
+        }
+
+        @keyframes screen-glitch {
+            0% { filter: none; transform: translate(0); }
+            20% { filter: hue-rotate(90deg); transform: translate(-4px, 2px); }
+            40% { filter: hue-rotate(-90deg); transform: translate(4px, -2px); }
+            60% { filter: hue-rotate(45deg); transform: translate(-3px, 1px); }
+            80% { filter: hue-rotate(-45deg); transform: translate(3px, -1px); }
+            100% { filter: none; transform: translate(0); }
+        }
+
         #process-modal {
             display: none;
             position: fixed;
@@ -459,16 +496,6 @@
             background: #0a0a0a;
             border-radius: 6px;
             word-wrap: break-word;
-        }
-
-        @keyframes glitch-intense {
-            0% { transform: translate(0); }
-            10% { transform: translate(-3px, 2px); }
-            20% { transform: translate(3px, -2px); }
-            30% { transform: translate(-2px, 1px); }
-            40% { transform: translate(2px, -1px); }
-            50% { transform: translate(0); }
-            100% { transform: translate(0); }
         }
 
         @media (max-width: 600px) {
@@ -674,20 +701,16 @@
             canvas.height = window.innerHeight;
         });
 
-        // Скролл + движение кнопок внутри блока
         const myBtn = document.getElementById('my-request-btn');
         const adminBtn = document.getElementById('admin-btn');
 
         window.addEventListener('scroll', () => {
             const y = window.scrollY;
-
-            // Параллакс слоёв
             document.getElementById('layer1').style.transform = `translateY(${y * 0.25}px)`;
             document.getElementById('layer2').style.transform = `translateY(${y * 0.45}px)`;
             document.getElementById('layer3').style.transform = `translateY(${y * 0.65}px)`;
 
-            // Кнопки — лёгкое движение, но остаются в блоке
-            const move = Math.min(y * 0.15, 12); // максимум 12px
+            const move = Math.min(y * 0.15, 12);
             myBtn.style.transform = `translateY(${move}px)`;
             adminBtn.style.transform = `translateY(${move * 0.8}px)`;
         });
@@ -865,6 +888,11 @@
         function winGame() {
             isPlaying = false;
             playWin();
+
+            // Сильный глитч экрана
+            document.body.classList.add('glitch-screen');
+            setTimeout(() => document.body.classList.remove('glitch-screen'), 450);
+
             statusEl.textContent = "Канал стабилизирован";
             statusEl.style.color = "#00ff88";
             bar.style.boxShadow = '0 0 22px #00ff88';
