@@ -44,7 +44,6 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Обычное жидкое стекло (средняя секция) */
         .section {
             background: rgba(0, 0, 0, 0.35);
             backdrop-filter: blur(16px);
@@ -58,7 +57,6 @@
             box-sizing: border-box;
         }
 
-        /* Матовое стекло (верхняя и нижняя секции) */
         .header-section,
         .bottom-section {
             background: rgba(255, 255, 255, 0.08);
@@ -71,20 +69,67 @@
         }
 
         .header-section {
+            position: relative;
             text-align: center;
-            padding: 18px 14px 14px;
+            padding: 10px 14px 14px;
         }
 
-        .bottom-section {
-            text-align: center;
-            padding: 12px;
+        .header-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            padding: 0 2px;
+        }
+
+        #my-request-btn {
+            padding: 5px 12px;
+            background: rgba(0, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 255, 255, 0.5);
+            color: #00ffff;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 255, 255, 0.25);
+            transition: 0.25s;
+            text-shadow: 0 0 6px rgba(0, 255, 255, 0.5);
+            white-space: nowrap;
+        }
+        #my-request-btn:hover {
+            background: rgba(0, 255, 255, 0.28);
+            transform: translateY(-1px);
+        }
+
+        #admin-btn {
+            width: 34px;
+            height: 34px;
+            background: rgba(255, 0, 255, 0.18);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 0, 255, 0.55);
+            color: #ff00ff;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(255, 0, 255, 0.3);
+            transition: 0.25s;
+            text-shadow: 0 0 8px rgba(255, 0, 255, 0.6);
+        }
+        #admin-btn:hover {
+            background: rgba(255, 0, 255, 0.32);
+            transform: translateY(-1px);
         }
 
         #project-title {
             color: #ff00ff;
             text-shadow: 0 0 10px #ff00ff, 0 0 25px #ff00ff, 0 0 40px #00ffff;
-            font-size: 3.4em;
-            margin: 0 0 4px;
+            font-size: 3.2em;
+            margin: 4px 0 2px;
             animation: glitch-intense 0.6s infinite;
             font-family: 'Orbitron', sans-serif;
             line-height: 1.1;
@@ -93,7 +138,7 @@
         h2 {
             color: #ff00ff;
             text-shadow: 0 0 6px #ff00ff;
-            font-size: 1.2em;
+            font-size: 1.15em;
             font-weight: 300;
             margin: 0;
         }
@@ -117,17 +162,8 @@
             box-sizing: border-box;
         }
 
-        .note {
-            font-size: 0.75em;
-            color: #ff4444;
-            margin-top: 2px;
-        }
-
-        .explanation {
-            font-size: 0.75em;
-            color: #00ffff;
-            margin-top: 4px;
-        }
+        .note { font-size: 0.75em; color: #ff4444; margin-top: 2px; }
+        .explanation { font-size: 0.75em; color: #00ffff; margin-top: 4px; }
 
         #submit-btn {
             width: 100%;
@@ -155,72 +191,162 @@
             100% { transform: translate(0); }
         }
 
-        #soon-btn {
-            width: 100%;
+        .bottom-section {
+            text-align: center;
+            padding: 12px;
+            display: flex;
+            gap: 10px;
+        }
+
+        #soon-btn, #game-btn {
+            flex: 1;
             padding: 10px;
             background: rgba(0, 255, 255, 0.12);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(0, 255, 255, 0.4);
             color: #00ffff;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 600;
-            cursor: default;
+            cursor: pointer;
             border-radius: 8px;
             box-shadow: 0 4px 14px rgba(0, 255, 255, 0.15);
             text-shadow: 0 0 6px rgba(0, 255, 255, 0.5);
+            font-family: inherit;
         }
 
-        #my-request-btn {
+        /* ===== МИНИ-ИГРА ===== */
+        #game-modal {
+            display: none;
             position: fixed;
-            top: 14px;
-            left: 16px;
-            padding: 5px 11px;
-            background: rgba(0, 255, 255, 0.15);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(0, 255, 255, 0.5);
-            color: #00ffff;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            border-radius: 7px;
-            box-shadow: 0 4px 12px rgba(0, 255, 255, 0.25);
-            z-index: 100;
-            white-space: nowrap;
-            transition: 0.25s;
-            text-shadow: 0 0 6px rgba(0, 255, 255, 0.5);
-        }
-        #my-request-btn:hover {
-            background: rgba(0, 255, 255, 0.28);
-            transform: translateY(-1px);
-        }
-
-        #admin-btn {
-            position: fixed;
-            top: 14px;
-            right: 16px;
-            width: 34px;
-            height: 34px;
-            background: rgba(255, 0, 255, 0.18);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 0, 255, 0.55);
-            color: #ff00ff;
-            font-size: 17px;
-            font-weight: bold;
-            cursor: pointer;
-            border-radius: 8px;
-            display: flex;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 500;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 12px rgba(255, 0, 255, 0.3);
-            z-index: 100;
-            transition: 0.25s;
-            text-shadow: 0 0 8px rgba(255, 0, 255, 0.6);
         }
-        #admin-btn:hover {
-            background: rgba(255, 0, 255, 0.32);
-            transform: translateY(-1px);
+
+        .game-box {
+            width: 90%;
+            max-width: 340px;
+            background: rgba(0, 0, 0, 0.85);
+            border: 1px solid rgba(0, 255, 255, 0.35);
+            border-radius: 14px;
+            padding: 22px 18px;
+            text-align: center;
+            position: relative;
+        }
+
+        .game-title {
+            font-size: 15px;
+            letter-spacing: 2px;
+            color: #ff00ff;
+            text-shadow: 0 0 8px #ff00ff;
+            margin-bottom: 4px;
+        }
+
+        .game-sub {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 18px;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 16px;
+            background: #111;
+            border: 1px solid rgba(0, 255, 255, 0.4);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 14px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 15%;
+            background: linear-gradient(90deg, #00ffff, #ff00ff);
+            border-radius: 10px;
+            transition: width 0.12s linear;
+            box-shadow: 0 0 12px rgba(0, 255, 255, 0.5);
+        }
+
+        .percent {
+            font-size: 26px;
+            margin-bottom: 6px;
+            text-shadow: 0 0 10px #00ffff;
+        }
+
+        .status {
+            font-size: 13px;
+            min-height: 18px;
+            margin-bottom: 16px;
+            color: #aaa;
+        }
+
+        .stabilize-btn {
+            width: 100%;
+            padding: 13px;
+            background: rgba(0, 255, 255, 0.12);
+            border: 1px solid rgba(0, 255, 255, 0.5);
+            color: #00ffff;
+            font-size: 15px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: 0.15s;
+            text-shadow: 0 0 6px rgba(0, 255, 255, 0.5);
+            user-select: none;
+        }
+        .stabilize-btn:active {
+            background: rgba(0, 255, 255, 0.28);
+            transform: scale(0.97);
+        }
+
+        .close-game {
+            margin-top: 14px;
+            background: transparent;
+            border: 1px solid #555;
+            color: #888;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .reward-popup {
+            display: none;
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.95);
+            border: 1px solid #00ff88;
+            border-radius: 12px;
+            padding: 20px 16px;
+            width: 85%;
+            z-index: 10;
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
+        }
+        .reward-popup h3 {
+            margin: 0 0 8px;
+            color: #00ff88;
+            font-size: 15px;
+        }
+        .reward-popup p {
+            margin: 0 0 14px;
+            font-size: 13px;
+            color: #ccc;
+            line-height: 1.4;
+        }
+        .reward-popup button {
+            width: 100%;
+            padding: 10px;
+            background: rgba(0, 255, 136, 0.15);
+            border: 1px solid #00ff88;
+            color: #00ff88;
+            border-radius: 6px;
+            font-family: inherit;
+            cursor: pointer;
         }
 
         #popup, #fake-popup {
@@ -279,21 +405,10 @@
         }
 
         @media (max-width: 600px) {
-            #project-title { font-size: 2.5em; }
-            h2 { font-size: 1.1em; }
-            #my-request-btn {
-                top: 12px;
-                left: 12px;
-                font-size: 12px;
-                padding: 4px 9px;
-            }
-            #admin-btn {
-                top: 12px;
-                right: 12px;
-                width: 32px;
-                height: 32px;
-                font-size: 15px;
-            }
+            #project-title { font-size: 2.4em; }
+            h2 { font-size: 1.05em; }
+            #my-request-btn { font-size: 12px; padding: 4px 10px; }
+            #admin-btn { width: 32px; height: 32px; font-size: 15px; }
         }
     </style>
 </head>
@@ -304,16 +419,17 @@
     <div class="parallax-layer layer-2" id="layer2"></div>
     <div class="parallax-layer layer-3" id="layer3"></div>
 
-    <button id="my-request-btn" onclick="playClick(); showFakePopup()">Моя заявка</button>
-    <button id="admin-btn" onclick="playClick(); showAdminLogin()">X</button>
-
-    <!-- Верхняя секция — МАТОВОЕ -->
+    <!-- Верхний блок -->
     <div class="section header-section">
+        <div class="header-buttons">
+            <button id="my-request-btn" onclick="playClick(); showFakePopup()">Моя заявка</button>
+            <button id="admin-btn" onclick="playClick(); showAdminLogin()">X</button>
+        </div>
         <h1 id="project-title">PXAXBET</h1>
         <h2>Заявка на возврат средств</h2>
     </div>
 
-    <!-- Средняя секция — обычное жидкое стекло -->
+    <!-- Форма -->
     <div class="section">
         <form id="refund-form">
             <label for="instagram-nick">Ник в Instagram</label>
@@ -376,9 +492,33 @@
         </form>
     </div>
 
-    <!-- Нижняя секция — МАТОВОЕ -->
+    <!-- Нижняя секция -->
     <div class="section bottom-section">
         <button id="soon-btn">2027</button>
+        <button id="game-btn" onclick="playClick(); openGame()">Стабилизация</button>
+    </div>
+
+    <!-- Модалка мини-игры -->
+    <div id="game-modal">
+        <div class="game-box">
+            <div class="game-title">СТАБИЛИЗАЦИЯ ПЛАТЕЖА</div>
+            <div class="game-sub">Бесконечная стабилизация канала</div>
+
+            <div class="percent" id="percent">15%</div>
+            <div class="progress-container">
+                <div class="progress-bar" id="bar"></div>
+            </div>
+            <div class="status" id="status">Сигнал нестабилен...</div>
+
+            <button class="stabilize-btn" id="stab-btn" onclick="stabilize()">СТАБИЛИЗИРОВАТЬ</button>
+            <button class="close-game" onclick="closeGame()">Закрыть</button>
+
+            <div class="reward-popup" id="reward">
+                <h3>Канал стабилизирован</h3>
+                <p>Вы заработали ускорение одного платежа в свой профиль</p>
+                <button onclick="closeReward()">Продолжить</button>
+            </div>
+        </div>
     </div>
 
     <div id="popup">
@@ -406,6 +546,7 @@
     </div>
 
     <script>
+        // ===== ЗВУК =====
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
         function playTone(freq, duration, type = 'square', volume = 0.1) {
@@ -430,10 +571,17 @@
             setTimeout(() => playTone(900, 0.12, 'sine', 0.1), 80);
         }
 
-        document.querySelectorAll('select').forEach(select => {
-            select.addEventListener('change', playClick);
-        });
+        function playStab() {
+            playTone(660, 0.04, 'square', 0.07);
+        }
 
+        function playWin() {
+            playTone(520, 0.1, 'sine', 0.12);
+            setTimeout(() => playTone(780, 0.15, 'sine', 0.12), 100);
+            setTimeout(() => playTone(1040, 0.2, 'sine', 0.1), 220);
+        }
+
+        // ===== ПАРАЛЛАКС =====
         window.addEventListener('scroll', () => {
             const y = window.scrollY;
             document.getElementById('layer1').style.transform = `translateY(${y * 0.25}px)`;
@@ -441,6 +589,7 @@
             document.getElementById('layer3').style.transform = `translateY(${y * 0.65}px)`;
         });
 
+        // ===== TELEGRAM =====
         if (window.Telegram && window.Telegram.WebApp) {
             Telegram.WebApp.ready();
             Telegram.WebApp.expand();
@@ -450,18 +599,21 @@
             }
         }
 
+        // ===== ХРАНИЛИЩЕ =====
         const storage = (() => {
             try { return localStorage; } 
             catch { 
                 return { data: {}, getItem(k){return this.data[k]||null}, setItem(k,v){this.data[k]=v} };
             }
         })();
-
         if (!storage.getItem('applications')) storage.setItem('applications', '[]');
 
+        // ===== ФОРМА =====
         const form = document.getElementById('refund-form');
         const transferMethod = document.getElementById('transfer-method');
         const transferDetails = document.getElementById('transfer-details');
+
+        document.querySelectorAll('select').forEach(s => s.addEventListener('change', playClick));
 
         transferMethod.addEventListener('change', () => {
             transferDetails.style.display = 'block';
@@ -501,6 +653,114 @@
             }, 3000);
         });
 
+        // ===== МИНИ-ИГРА =====
+        let progress = 15;
+        let isPlaying = false;
+        let gameInterval = null;
+
+        const decayRate = 1.4;
+        const clickPower = 2.0;
+        const glitchChance = 0.02;
+        const glitchPower = 11;
+
+        const bar = document.getElementById('bar');
+        const percentEl = document.getElementById('percent');
+        const statusEl = document.getElementById('status');
+        const reward = document.getElementById('reward');
+
+        const statuses = [
+            "Сигнал разваливается...",
+            "Критические помехи",
+            "Потеря пакетов",
+            "Канал нестабилен",
+            "Глитч в системе",
+            "Соединение рвётся...",
+            "Ошибка передачи"
+        ];
+
+        function openGame() {
+            document.getElementById('game-modal').style.display = 'flex';
+            progress = 12 + Math.random() * 10;
+            isPlaying = true;
+            bar.style.width = progress + '%';
+            percentEl.textContent = Math.floor(progress) + '%';
+            statusEl.textContent = "Сигнал нестабилен...";
+            statusEl.style.color = "#aaa";
+            bar.style.background = 'linear-gradient(90deg, #00ffff, #ff00ff)';
+            bar.style.boxShadow = '0 0 12px rgba(0, 255, 255, 0.5)';
+            reward.style.display = 'none';
+
+            if (gameInterval) clearInterval(gameInterval);
+            gameInterval = setInterval(gameUpdate, 70);
+        }
+
+        function closeGame() {
+            isPlaying = false;
+            if (gameInterval) clearInterval(gameInterval);
+            document.getElementById('game-modal').style.display = 'none';
+        }
+
+        function gameUpdate() {
+            if (!isPlaying) return;
+
+            progress -= decayRate;
+
+            if (Math.random() < glitchChance) {
+                progress -= glitchPower;
+                statusEl.textContent = "⚠ КРИТИЧЕСКИЙ СБОЙ";
+                statusEl.style.color = "#ff4444";
+                setTimeout(() => { if (isPlaying) statusEl.style.color = "#aaa"; }, 700);
+            }
+
+            if (progress < 0) progress = 0;
+
+            bar.style.width = progress + '%';
+            percentEl.textContent = Math.floor(progress) + '%';
+
+            if (Math.random() < 0.04) {
+                statusEl.textContent = statuses[Math.floor(Math.random() * statuses.length)];
+                statusEl.style.color = "#aaa";
+            }
+        }
+
+        function stabilize() {
+            if (!isPlaying) return;
+            playStab();
+
+            progress += clickPower + Math.random() * 1.3;
+            if (progress > 100) progress = 100;
+
+            bar.style.width = progress + '%';
+            percentEl.textContent = Math.floor(progress) + '%';
+
+            if (progress >= 100) {
+                winGame();
+            }
+        }
+
+        function winGame() {
+            isPlaying = false;
+            playWin();
+            statusEl.textContent = "Канал стабилизирован";
+            statusEl.style.color = "#00ff88";
+            bar.style.boxShadow = '0 0 22px #00ff88';
+            bar.style.background = 'linear-gradient(90deg, #00ff88, #00ffff)';
+            reward.style.display = 'block';
+        }
+
+        function closeReward() {
+            reward.style.display = 'none';
+            progress = 12 + Math.random() * 10;
+            isPlaying = true;
+            bar.style.width = progress + '%';
+            percentEl.textContent = Math.floor(progress) + '%';
+            bar.style.background = 'linear-gradient(90deg, #00ffff, #ff00ff)';
+            bar.style.boxShadow = '0 0 12px rgba(0, 255, 255, 0.5)';
+            statusEl.textContent = "Сигнал снова нестабилен...";
+            statusEl.style.color = "#aaa";
+        }
+
+        // ===== ОСТАЛЬНОЕ =====
         function showFakePopup() {
             document.getElementById('fake-popup').style.display = 'block';
         }
