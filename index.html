@@ -68,14 +68,16 @@
             box-sizing: border-box;
         }
 
+        /* Шапка — чуть ярче и главнее */
         .header-section {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(22px) saturate(180%);
-            -webkit-backdrop-filter: blur(22px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.18);
+            background: rgba(255, 255, 255, 0.11);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border: 1px solid rgba(0, 255, 255, 0.25);
             box-shadow: 
-                0 8px 32px rgba(0, 0, 0, 0.35),
-                inset 0 1px 0 rgba(255, 255, 255, 0.12);
+                0 8px 40px rgba(0, 255, 255, 0.12),
+                0 0 0 1px rgba(255, 0, 255, 0.08),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
             position: relative;
             text-align: center;
             padding: 10px 14px 14px;
@@ -280,8 +282,8 @@
             font-family: inherit;
         }
 
-        /* Блоки PhxCoin / Ai / Vph */
-        .phx-section, .ai-section, .vph-section {
+        /* Блоки */
+        .phx-section, .ai-section, .vph-section, .soon-section {
             text-align: center;
             padding: 22px 14px;
         }
@@ -320,7 +322,6 @@
             opacity: 0.8;
         }
 
-        /* PhxCoin иконка */
         .phx-icon {
             animation: coin-spin 4s linear infinite;
             color: #00ff88;
@@ -332,7 +333,6 @@
         }
         .phx-anim { color: #00ff88; }
 
-        /* Ai иконка */
         .ai-icon {
             animation: ai-glow 1.8s ease-in-out infinite;
             color: #00ffff;
@@ -343,7 +343,6 @@
         }
         .ai-anim { color: #00ffff; }
 
-        /* Vph иконка */
         .vph-icon {
             animation: pulse-lock 2.2s ease-in-out infinite;
         }
@@ -353,13 +352,13 @@
         }
         .vph-anim { color: #00ff88; }
 
-        /* Кнопка 2027 под Vph */
-        .soon-wrap {
-            margin-top: 14px;
+        /* Отдельный блок 2027 */
+        .soon-section {
+            padding: 14px;
         }
         #soon-btn {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             background: rgba(0, 255, 255, 0.08);
             border: 1px solid rgba(0, 255, 255, 0.25);
             color: #00ffff;
@@ -368,10 +367,9 @@
             cursor: pointer;
             border-radius: 8px;
             font-family: inherit;
-            opacity: 0.7;
+            opacity: 0.75;
         }
 
-        /* Faq */
         .faq-footer {
             text-align: center;
             padding: 18px 0 8px;
@@ -390,7 +388,6 @@
             color: #00ffff;
         }
 
-        /* Мини-игра */
         #game-modal {
             display: none;
             position: fixed;
@@ -774,12 +771,10 @@
         </div>
     </div>
 
-    <!-- Игра отдельно -->
     <div class="section game-section">
         <button id="game-btn" onclick="playClick(); openGame()">Стабилизация</button>
     </div>
 
-    <!-- PhxCoin -->
     <div class="section phx-section">
         <div class="block-icon phx-icon">◎</div>
         <div class="block-title">PhxCoin</div>
@@ -787,7 +782,6 @@
         <div class="block-anim phx-anim" id="phx-anim">◈ generating...</div>
     </div>
 
-    <!-- Ai -->
     <div class="section ai-section">
         <div class="block-icon ai-icon">◈</div>
         <div class="block-title">Ai</div>
@@ -795,24 +789,22 @@
         <div class="block-anim ai-anim" id="ai-anim">◌ thinking...</div>
     </div>
 
-    <!-- Vph + кнопка 2027 -->
     <div class="section vph-section">
         <div class="block-icon vph-icon">🔒</div>
         <div class="block-title">Vph</div>
         <div class="block-status">В разработке</div>
         <div class="block-anim vph-anim" id="vph-anim">◌ connecting...</div>
-        
-        <div class="soon-wrap">
-            <button id="soon-btn">2027</button>
-        </div>
     </div>
 
-    <!-- Faq -->
+    <!-- Отдельный блок 2027 -->
+    <div class="section soon-section">
+        <button id="soon-btn">2027</button>
+    </div>
+
     <div class="faq-footer">
         <button onclick="playClick()">Faq</button>
     </div>
 
-    <!-- Мини-игра -->
     <div id="game-modal">
         <div class="game-box">
             <div class="game-title">СТАБИЛИЗАЦИЯ ПЛАТЕЖА</div>
@@ -941,7 +933,6 @@
             adminBtn.style.transform = `translateY(${move * 0.8}px)`;
         });
 
-        // Анимации текстов
         const phxTexts = ['◈ generating...', '◈ mining block...', '◈ syncing chain...', '◈ PhxCoin online'];
         let phxI = 0;
         setInterval(() => {
