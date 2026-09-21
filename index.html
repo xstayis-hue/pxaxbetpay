@@ -61,6 +61,7 @@
             border: 1px solid rgba(255, 255, 255, 0.12);
             box-shadow: 
                 0 8px 32px rgba(0, 0, 0, 0.3),
+                0 0 20px rgba(0, 255, 255, 0.04),
                 inset 0 1px 0 rgba(255, 255, 255, 0.08);
             border-radius: 14px;
             margin-bottom: 14px;
@@ -68,15 +69,14 @@
             box-sizing: border-box;
         }
 
-        /* Шапка — чуть ярче и главнее */
         .header-section {
             background: rgba(255, 255, 255, 0.11);
             backdrop-filter: blur(24px) saturate(180%);
             -webkit-backdrop-filter: blur(24px) saturate(180%);
-            border: 1px solid rgba(0, 255, 255, 0.25);
+            border: 1px solid rgba(0, 255, 255, 0.28);
             box-shadow: 
-                0 8px 40px rgba(0, 255, 255, 0.12),
-                0 0 0 1px rgba(255, 0, 255, 0.08),
+                0 8px 40px rgba(0, 255, 255, 0.15),
+                0 0 30px rgba(255, 0, 255, 0.08),
                 inset 0 1px 0 rgba(255, 255, 255, 0.15);
             position: relative;
             text-align: center;
@@ -113,7 +113,7 @@
             font-weight: 600;
             cursor: pointer;
             border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 255, 255, 0.25);
+            box-shadow: 0 4px 12px rgba(0, 255, 255, 0.3), 0 0 15px rgba(0, 255, 255, 0.1);
             transition: transform 0.15s ease, background 0.2s;
             text-shadow: 0 0 6px rgba(0, 255, 255, 0.5);
             white-space: nowrap;
@@ -123,6 +123,7 @@
         #my-request-btn:hover,
         #profile-btn:hover {
             background: rgba(0, 255, 255, 0.28);
+            box-shadow: 0 4px 18px rgba(0, 255, 255, 0.4);
         }
 
         #admin-btn {
@@ -139,7 +140,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 12px rgba(255, 0, 255, 0.3);
+            box-shadow: 0 4px 12px rgba(255, 0, 255, 0.35), 0 0 15px rgba(255, 0, 255, 0.15);
             transition: transform 0.15s ease;
             text-shadow: 0 0 8px rgba(255, 0, 255, 0.6);
             will-change: transform;
@@ -246,10 +247,11 @@
             cursor: pointer;
             border-radius: 6px;
             transition: 0.25s;
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.3);
         }
         #submit-btn:hover {
             animation: glitch-btn 0.4s infinite;
-            box-shadow: 0 0 18px #ff00ff;
+            box-shadow: 0 0 28px #ff00ff;
         }
 
         @keyframes glitch-btn {
@@ -277,12 +279,11 @@
             font-weight: 600;
             cursor: pointer;
             border-radius: 8px;
-            box-shadow: 0 4px 14px rgba(0, 255, 255, 0.15);
+            box-shadow: 0 4px 14px rgba(0, 255, 255, 0.2), 0 0 18px rgba(0, 255, 255, 0.08);
             text-shadow: 0 0 6px rgba(0, 255, 255, 0.5);
             font-family: inherit;
         }
 
-        /* Блоки */
         .phx-section, .ai-section, .vph-section, .soon-section {
             text-align: center;
             padding: 22px 14px;
@@ -352,7 +353,6 @@
         }
         .vph-anim { color: #00ff88; }
 
-        /* Отдельный блок 2027 */
         .soon-section {
             padding: 14px;
         }
@@ -386,6 +386,75 @@
         }
         .faq-footer button:hover {
             color: #00ffff;
+        }
+
+        /* Профиль */
+        #profile-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 500;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-box {
+            width: 90%;
+            max-width: 340px;
+            background: rgba(0, 0, 0, 0.88);
+            border: 1px solid rgba(0, 255, 255, 0.4);
+            border-radius: 14px;
+            padding: 22px 18px;
+            text-align: center;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 0 40px rgba(0, 255, 255, 0.15);
+        }
+
+        .profile-title {
+            font-size: 16px;
+            color: #ff00ff;
+            text-shadow: 0 0 8px #ff00ff;
+            margin-bottom: 16px;
+            letter-spacing: 1px;
+        }
+
+        .profile-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 9px 0;
+            border-bottom: 1px solid rgba(0, 255, 255, 0.12);
+            font-size: 13px;
+        }
+        .profile-row:last-of-type {
+            border-bottom: none;
+        }
+        .profile-label {
+            color: #777;
+        }
+        .profile-value {
+            color: #00ffff;
+            font-weight: 600;
+        }
+        .profile-value.status-ok {
+            color: #00ff88;
+        }
+        .profile-value.status-none {
+            color: #ff6666;
+        }
+
+        .profile-close {
+            margin-top: 18px;
+            width: 100%;
+            padding: 11px;
+            background: rgba(0, 255, 255, 0.12);
+            border: 1px solid rgba(0, 255, 255, 0.45);
+            color: #00ffff;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 14px;
+            cursor: pointer;
         }
 
         #game-modal {
@@ -698,7 +767,7 @@
         <div class="header-buttons">
             <div class="header-left">
                 <button id="my-request-btn" onclick="playClick(); showFakePopup()">Моя заявка</button>
-                <button id="profile-btn" onclick="playClick()">Мой профиль</button>
+                <button id="profile-btn" onclick="playClick(); openProfile()">Мой профиль</button>
             </div>
             <button id="admin-btn" onclick="playClick(); showAdminLogin()">X</button>
         </div>
@@ -796,13 +865,40 @@
         <div class="block-anim vph-anim" id="vph-anim">◌ connecting...</div>
     </div>
 
-    <!-- Отдельный блок 2027 -->
     <div class="section soon-section">
         <button id="soon-btn">2027</button>
     </div>
 
     <div class="faq-footer">
         <button onclick="playClick()">Faq</button>
+    </div>
+
+    <!-- Профиль -->
+    <div id="profile-modal">
+        <div class="profile-box">
+            <div class="profile-title">ПРОФИЛЬ</div>
+            <div class="profile-row">
+                <span class="profile-label">ID</span>
+                <span class="profile-value" id="profile-id">PX-0000</span>
+            </div>
+            <div class="profile-row">
+                <span class="profile-label">Сектор</span>
+                <span class="profile-value" id="profile-sector">—</span>
+            </div>
+            <div class="profile-row">
+                <span class="profile-label">Статус заявки</span>
+                <span class="profile-value" id="profile-status">—</span>
+            </div>
+            <div class="profile-row">
+                <span class="profile-label">Стабилизаций</span>
+                <span class="profile-value" id="profile-stabs">0</span>
+            </div>
+            <div class="profile-row">
+                <span class="profile-label">Ускорений</span>
+                <span class="profile-value" id="profile-boosts">0</span>
+            </div>
+            <button class="profile-close" onclick="closeProfile()">Закрыть</button>
+        </div>
     </div>
 
     <div id="game-modal">
@@ -980,12 +1076,47 @@
         if (!storage.getItem('applications')) storage.setItem('applications', '[]');
         if (!storage.getItem('stabilizations')) storage.setItem('stabilizations', '0');
         if (!storage.getItem('boosts')) storage.setItem('boosts', '0');
+        if (!storage.getItem('userId')) {
+            storage.setItem('userId', 'PX-' + Math.floor(1000 + Math.random() * 9000));
+        }
 
         function updateGameStats() {
             const count = storage.getItem('stabilizations') || 0;
             document.getElementById('game-stats').textContent = `Стабилизаций: ${count}`;
         }
         updateGameStats();
+
+        // ===== ПРОФИЛЬ =====
+        function openProfile() {
+            const apps = JSON.parse(storage.getItem('applications') || '[]');
+            const stabs = storage.getItem('stabilizations') || 0;
+            const boosts = storage.getItem('boosts') || 0;
+            const userId = storage.getItem('userId');
+
+            const sectors = ['3-A', '4', '7-B', '9', '12-C', '15', 'NULL'];
+
+            document.getElementById('profile-id').textContent = userId;
+            document.getElementById('profile-sector').textContent = sectors[Math.floor(Math.random() * sectors.length)];
+            
+            const statusEl = document.getElementById('profile-status');
+            if (apps.length > 0) {
+                statusEl.textContent = 'В обработке';
+                statusEl.className = 'profile-value status-ok';
+            } else {
+                statusEl.textContent = 'Не найдена';
+                statusEl.className = 'profile-value status-none';
+            }
+
+            document.getElementById('profile-stabs').textContent = stabs;
+            document.getElementById('profile-boosts').textContent = boosts;
+
+            document.getElementById('profile-modal').style.display = 'flex';
+        }
+
+        function closeProfile() {
+            playClick();
+            document.getElementById('profile-modal').style.display = 'none';
+        }
 
         const form = document.getElementById('refund-form');
         const transferMethod = document.getElementById('transfer-method');
