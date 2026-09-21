@@ -353,9 +353,7 @@
         }
         .vph-anim { color: #00ff88; }
 
-        .soon-section {
-            padding: 14px;
-        }
+        .soon-section { padding: 14px; }
         #soon-btn {
             width: 100%;
             padding: 12px;
@@ -384,11 +382,8 @@
             letter-spacing: 1px;
             transition: color 0.2s;
         }
-        .faq-footer button:hover {
-            color: #00ffff;
-        }
+        .faq-footer button:hover { color: #00ffff; }
 
-        /* Профиль */
         #profile-modal {
             display: none;
             position: fixed;
@@ -416,36 +411,44 @@
             font-size: 16px;
             color: #ff00ff;
             text-shadow: 0 0 8px #ff00ff;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
             letter-spacing: 1px;
+        }
+
+        .profile-balance {
+            background: rgba(0, 255, 136, 0.08);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 14px;
+        }
+        .balance-label {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 4px;
+        }
+        .balance-value {
+            font-size: 22px;
+            color: #00ff88;
+            font-weight: 700;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.4);
         }
 
         .profile-row {
             display: flex;
             justify-content: space-between;
-            padding: 9px 0;
+            padding: 8px 0;
             border-bottom: 1px solid rgba(0, 255, 255, 0.12);
             font-size: 13px;
         }
-        .profile-row:last-of-type {
-            border-bottom: none;
-        }
-        .profile-label {
-            color: #777;
-        }
-        .profile-value {
-            color: #00ffff;
-            font-weight: 600;
-        }
-        .profile-value.status-ok {
-            color: #00ff88;
-        }
-        .profile-value.status-none {
-            color: #ff6666;
-        }
+        .profile-row:last-of-type { border-bottom: none; }
+        .profile-label { color: #777; }
+        .profile-value { color: #00ffff; font-weight: 600; }
+        .profile-value.status-ok { color: #00ff88; }
+        .profile-value.status-none { color: #ff6666; }
 
         .profile-close {
-            margin-top: 18px;
+            margin-top: 16px;
             width: 100%;
             padding: 11px;
             background: rgba(0, 255, 255, 0.12);
@@ -873,10 +876,15 @@
         <button onclick="playClick()">Faq</button>
     </div>
 
-    <!-- Профиль -->
     <div id="profile-modal">
         <div class="profile-box">
             <div class="profile-title">ПРОФИЛЬ</div>
+
+            <div class="profile-balance">
+                <div class="balance-label">Баланс</div>
+                <div class="balance-value" id="profile-balance">0 ₽</div>
+            </div>
+
             <div class="profile-row">
                 <span class="profile-label">ID</span>
                 <span class="profile-value" id="profile-id">PX-0000</span>
@@ -884,6 +892,10 @@
             <div class="profile-row">
                 <span class="profile-label">Сектор</span>
                 <span class="profile-value" id="profile-sector">—</span>
+            </div>
+            <div class="profile-row">
+                <span class="profile-label">Уровень доступа</span>
+                <span class="profile-value" id="profile-level">LEVEL 1</span>
             </div>
             <div class="profile-row">
                 <span class="profile-label">Статус заявки</span>
@@ -897,6 +909,7 @@
                 <span class="profile-label">Ускорений</span>
                 <span class="profile-value" id="profile-boosts">0</span>
             </div>
+
             <button class="profile-close" onclick="closeProfile()">Закрыть</button>
         </div>
     </div>
@@ -1073,12 +1086,30 @@
                 return { data: {}, getItem(k){return this.data[k]||null}, setItem(k,v){this.data[k]=v} };
             }
         })();
+
         if (!storage.getItem('applications')) storage.setItem('applications', '[]');
         if (!storage.getItem('stabilizations')) storage.setItem('stabilizations', '0');
         if (!storage.getItem('boosts')) storage.setItem('boosts', '0');
+        if (!storage.getItem('balance')) storage.setItem('balance', '0');
+        if (!storage.getItem('accessLevel')) storage.setItem('accessLevel', '1');
         if (!storage.getItem('userId')) {
             storage.setItem('userId', 'PX-' + Math.floor(1000 + Math.random() * 9000));
         }
+        if (!storage.getItem('userSector')) storage.setItem('userSector', 'NULL');
+
+        const regionToSector = {
+            'Московская': '1-A',
+            'Ленинградская': '2-B',
+            'Новосибирская': '3-C',
+            'Свердловская': '4-A',
+            'Краснодарский край': '5-B',
+            'Ростовская': '6-C',
+            'Республика Татарстан': '7-A',
+            'Челябинская': '8-B',
+            'Нижегородская': '9-C',
+            'Самарская': '10-A',
+            'Другая': 'NULL'
+        };
 
         function updateGameStats() {
             const count = storage.getItem('stabilizations') || 0;
@@ -1086,18 +1117,27 @@
         }
         updateGameStats();
 
-        // ===== ПРОФИЛЬ =====
         function openProfile() {
             const apps = JSON.parse(storage.getItem('applications') || '[]');
             const stabs = storage.getItem('stabilizations') || 0;
             const boosts = storage.getItem('boosts') || 0;
             const userId = storage.getItem('userId');
+            const balance = storage.getItem('balance') || '0';
+            const level = storage.getItem('accessLevel') || '1';
+            let sector = storage.getItem('userSector') || 'NULL';
 
-            const sectors = ['3-A', '4', '7-B', '9', '12-C', '15', 'NULL'];
+            if (apps.length > 0 && apps[0].region) {
+                sector = regionToSector[apps[0].region] || 'NULL';
+                storage.setItem('userSector', sector);
+            }
 
             document.getElementById('profile-id').textContent = userId;
-            document.getElementById('profile-sector').textContent = sectors[Math.floor(Math.random() * sectors.length)];
-            
+            document.getElementById('profile-sector').textContent = sector;
+            document.getElementById('profile-balance').textContent = balance + ' ₽';
+            document.getElementById('profile-level').textContent = 'LEVEL ' + level;
+            document.getElementById('profile-stabs').textContent = stabs;
+            document.getElementById('profile-boosts').textContent = boosts;
+
             const statusEl = document.getElementById('profile-status');
             if (apps.length > 0) {
                 statusEl.textContent = 'В обработке';
@@ -1106,9 +1146,6 @@
                 statusEl.textContent = 'Не найдена';
                 statusEl.className = 'profile-value status-none';
             }
-
-            document.getElementById('profile-stabs').textContent = stabs;
-            document.getElementById('profile-boosts').textContent = boosts;
 
             document.getElementById('profile-modal').style.display = 'flex';
         }
@@ -1135,10 +1172,14 @@
             e.preventDefault();
             playSuccess();
 
+            const region = document.getElementById('region').value;
+            const sector = regionToSector[region] || 'NULL';
+            storage.setItem('userSector', sector);
+
             const data = {
                 instagramNick: document.getElementById('instagram-nick').value,
                 phone: document.getElementById('phone').value,
-                region: document.getElementById('region').value,
+                region: region,
                 targetInstagram: document.getElementById('target-instagram').value,
                 telegramUsername: document.getElementById('telegram-username').value,
                 amount: document.getElementById('amount').value,
