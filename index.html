@@ -68,7 +68,8 @@
         }
 
         .header-section,
-        .bottom-section {
+        .bottom-section,
+        .vpn-section {
             background: rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(22px) saturate(180%);
             -webkit-backdrop-filter: blur(22px) saturate(180%);
@@ -179,7 +180,6 @@
             margin: 0;
         }
 
-        /* Сворачиваемый блок формы */
         .form-toggle {
             cursor: pointer;
             text-align: center;
@@ -190,9 +190,7 @@
             user-select: none;
             text-shadow: 0 0 8px rgba(0, 255, 255, 0.4);
         }
-        .form-toggle:hover {
-            color: #fff;
-        }
+        .form-toggle:hover { color: #fff; }
 
         .form-content {
             max-height: 0;
@@ -277,6 +275,36 @@
             box-shadow: 0 4px 14px rgba(0, 255, 255, 0.15);
             text-shadow: 0 0 6px rgba(0, 255, 255, 0.5);
             font-family: inherit;
+        }
+
+        /* VPN блок */
+        .vpn-section {
+            text-align: center;
+            padding: 22px 14px;
+        }
+        .vpn-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+            opacity: 0.7;
+        }
+        .vpn-title {
+            font-size: 17px;
+            color: #00ffff;
+            margin-bottom: 6px;
+            letter-spacing: 2px;
+            text-shadow: 0 0 8px rgba(0, 255, 255, 0.4);
+            font-weight: 600;
+        }
+        .vpn-status {
+            display: inline-block;
+            margin-top: 4px;
+            padding: 4px 12px;
+            font-size: 12px;
+            color: #ffaa00;
+            background: rgba(255, 170, 0, 0.12);
+            border: 1px solid rgba(255, 170, 0, 0.35);
+            border-radius: 20px;
+            letter-spacing: 0.5px;
         }
 
         /* Мини-игра */
@@ -595,7 +623,6 @@
         <h2>Заявка на возврат средств</h2>
     </div>
 
-    <!-- Сворачиваемый блок формы -->
     <div class="section">
         <div class="form-toggle" onclick="toggleForm()">Создать заявку ▾</div>
         <div class="form-content" id="form-content">
@@ -664,6 +691,13 @@
     <div class="section bottom-section">
         <button id="soon-btn">2027</button>
         <button id="game-btn" onclick="playClick(); openGame()">Стабилизация</button>
+    </div>
+
+    <!-- VPN блок -->
+    <div class="section vpn-section">
+        <div class="vpn-icon">🔒</div>
+        <div class="vpn-title">VPN</div>
+        <div class="vpn-status">В разработке</div>
     </div>
 
     <!-- Мини-игра -->
@@ -794,7 +828,6 @@
             adminBtn.style.transform = `translateY(${move * 0.8}px)`;
         });
 
-        // Сворачивание формы
         function toggleForm() {
             playClick();
             const content = document.getElementById('form-content');
@@ -820,6 +853,7 @@
         })();
         if (!storage.getItem('applications')) storage.setItem('applications', '[]');
         if (!storage.getItem('stabilizations')) storage.setItem('stabilizations', '0');
+        if (!storage.getItem('boosts')) storage.setItem('boosts', '0');
 
         function updateGameStats() {
             const count = storage.getItem('stabilizations') || 0;
@@ -990,6 +1024,11 @@
             let count = parseInt(storage.getItem('stabilizations') || '0');
             count++;
             storage.setItem('stabilizations', count);
+
+            let boosts = parseInt(storage.getItem('boosts') || '0');
+            boosts++;
+            storage.setItem('boosts', boosts);
+
             updateGameStats();
         }
 
