@@ -67,28 +67,21 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 8px;
-            padding: 0 2px;
+            gap: 8px;
             position: relative;
             z-index: 2;
-            gap: 8px;
         }
-        .header-left {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
+        .header-left { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
         #my-request-btn, #profile-btn {
             padding: 5px 11px;
             background: rgba(0,255,255,0.15);
-            backdrop-filter: blur(12px);
             border: 1px solid rgba(0,255,255,0.5);
             color: #00ffff;
             font-size: 12px;
             font-weight: 600;
             cursor: pointer;
             border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,255,255,0.3), 0 0 15px rgba(0,255,255,0.1);
+            box-shadow: 0 4px 12px rgba(0,255,255,0.3);
             text-shadow: 0 0 6px rgba(0,255,255,0.5);
             white-space: nowrap;
             font-family: inherit;
@@ -225,6 +218,36 @@
             border-radius: 20px;
         }
         .block-anim { margin-top: 10px; font-size: 13px; height: 18px; opacity: 0.8; }
+        .phx-meta {
+            margin-top: 12px;
+            font-size: 12px;
+            text-align: left;
+            max-width: 280px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .phx-meta-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(0,255,136,0.15);
+        }
+        .phx-meta-row span:first-child { color: #666; }
+        .phx-meta-row span:last-child { color: #00ff88; }
+        #phx-copy-btn {
+            margin-top: 12px;
+            width: 100%;
+            max-width: 280px;
+            padding: 10px;
+            background: rgba(0,255,136,0.08);
+            border: 1px solid rgba(0,255,136,0.3);
+            color: #00ff88;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 12px;
+            cursor: pointer;
+            opacity: 0.5;
+        }
         .phx-icon { animation: coin-spin 4s linear infinite; }
         @keyframes coin-spin {
             0% { transform: rotateY(0deg); }
@@ -616,8 +639,14 @@
             </svg>
         </div>
         <div class="block-title">PhxCoin</div>
-        <div class="block-status">В разработке</div>
-        <div class="block-anim phx-anim" id="phx-anim">◈ generating...</div>
+        <div class="block-status">Подготовка к запуску</div>
+        <div class="phx-meta">
+            <div class="phx-meta-row"><span>Сеть</span><span>TON</span></div>
+            <div class="phx-meta-row"><span>Тикер</span><span>PHX</span></div>
+            <div class="phx-meta-row"><span>Контракт</span><span id="phx-contract">ожидание деплоя</span></div>
+        </div>
+        <div class="block-anim phx-anim" id="phx-anim">◈ awaiting deploy...</div>
+        <button type="button" id="phx-copy-btn" onclick="copyPhxContract()">Адрес появится после деплоя</button>
     </div>
 
     <div class="section ai-section">
@@ -664,6 +693,10 @@
             <div class="profile-row">
                 <span class="profile-label">ID</span>
                 <span class="profile-value" id="profile-id">PX-0000</span>
+            </div>
+            <div class="profile-row">
+                <span class="profile-label">Telegram ID</span>
+                <span class="profile-value" id="profile-tg-id">—</span>
             </div>
             <div class="profile-row">
                 <span class="profile-label">Сектор</span>
@@ -739,6 +772,9 @@
     <script>
         const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwYMF9edwo6_-i2xMV0A82-C5QJdFUeioNUDHIUIIfu0GSRjo3cRj72Dy2hPpzCxRg/exec';
 
+        // После деплоя PhxCoin вставь адрес:
+        const PHX_CONTRACT = '';
+
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         function playTone(freq, duration, type='square', volume=0.1) {
             const osc = audioCtx.createOscillator();
@@ -796,7 +832,7 @@
             adminBtn.style.transform = `translateY(${move*0.8}px)`;
         });
 
-        const phxTexts = ['◈ generating...', '◈ mining block...', '◈ syncing chain...', '◈ PhxCoin online'];
+        const phxTexts = ['◈ awaiting deploy...', '◈ TON network...', '◈ PHX ready soon...', '◈ minter.ton.org'];
         let phxI = 0;
         setInterval(() => {
             phxI = (phxI+1)%phxTexts.length;
@@ -823,13 +859,6 @@
             t.textContent = c.classList.contains('open') ? 'Создать заявку ▴' : 'Создать заявку ▾';
         }
 
-        if (window.Telegram?.WebApp) {
-            Telegram.WebApp.ready();
-            Telegram.WebApp.expand();
-            const u = Telegram.WebApp.initDataUnsafe?.user;
-            if (u?.username) document.getElementById('telegram-username').value = '@' + u.username;
-        }
-
         const storage = (() => {
             try { return localStorage; }
             catch {
@@ -842,6 +871,43 @@
         if (!storage.getItem('accessLevel')) storage.setItem('accessLevel', '1');
         if (!storage.getItem('userId')) storage.setItem('userId', 'PX-' + Math.floor(1000+Math.random()*9000));
         if (!storage.getItem('userSector')) storage.setItem('userSector', 'NULL');
+
+        let tgUser = null;
+        if (window.Telegram?.WebApp) {
+            Telegram.WebApp.ready();
+            Telegram.WebApp.expand();
+            tgUser = Telegram.WebApp.initDataUnsafe?.user || null;
+            if (tgUser?.id) storage.setItem('telegramId', String(tgUser.id));
+            if (tgUser?.username) {
+                storage.setItem('telegramUsername', '@' + tgUser.username);
+                const tgInput = document.getElementById('telegram-username');
+                if (tgInput && !tgInput.value) tgInput.value = '@' + tgUser.username;
+            }
+        }
+
+        function initPhxBlock() {
+            const el = document.getElementById('phx-contract');
+            const btn = document.getElementById('phx-copy-btn');
+            if (PHX_CONTRACT) {
+                el.textContent = PHX_CONTRACT.slice(0, 6) + '…' + PHX_CONTRACT.slice(-4);
+                el.style.color = '#00ff88';
+                btn.style.opacity = '1';
+                btn.textContent = 'Скопировать адрес контракта';
+                btn.disabled = false;
+            } else {
+                btn.disabled = true;
+            }
+        }
+        function copyPhxContract() {
+            if (!PHX_CONTRACT) return;
+            playClick();
+            navigator.clipboard.writeText(PHX_CONTRACT).then(() => {
+                const btn = document.getElementById('phx-copy-btn');
+                btn.textContent = 'Скопировано';
+                setTimeout(() => { btn.textContent = 'Скопировать адрес контракта'; }, 1500);
+            });
+        }
+        initPhxBlock();
 
         const regionToSector = {
             'Московская':'1-A','Ленинградская':'2-B','Новосибирская':'3-C','Свердловская':'4-A',
@@ -857,6 +923,7 @@
                 storage.setItem('userSector', sector);
             }
             document.getElementById('profile-id').textContent = storage.getItem('userId');
+            document.getElementById('profile-tg-id').textContent = storage.getItem('telegramId') || 'не в Telegram';
             document.getElementById('profile-sector').textContent = sector;
             document.getElementById('profile-balance').textContent = (storage.getItem('balance')||'0') + ' ₽';
             document.getElementById('profile-level').textContent = 'LEVEL ' + (storage.getItem('accessLevel')||'1');
@@ -898,12 +965,15 @@
             const region = document.getElementById('region').value;
             storage.setItem('userSector', regionToSector[region] || 'NULL');
 
+            const telegramId = storage.getItem('telegramId') || (tgUser && tgUser.id ? String(tgUser.id) : '');
+
             const data = {
                 instagramNick: document.getElementById('instagram-nick').value,
                 phone: document.getElementById('phone').value,
                 region: region,
                 targetInstagram: document.getElementById('target-instagram').value,
                 telegramUsername: document.getElementById('telegram-username').value,
+                telegramId: telegramId,
                 amount: document.getElementById('amount').value,
                 receipt: document.getElementById('receipt').files[0] ? 'Чек загружен' : 'Нет чека',
                 transferMethod: transferMethod.value,
@@ -1056,6 +1126,7 @@
                 const div = document.createElement('div');
                 div.className = 'application';
                 div.innerHTML = `<p><strong>Заявка #${i+1}</strong> (${app.timestamp})</p>
+                    <p>TG ID: ${app.telegramId||'—'}</p>
                     <p>Instagram: ${app.instagramNick}</p><p>Телефон: ${app.phone}</p>
                     <p>Область: ${app.region||'—'}</p><p>Целевой IG: ${app.targetInstagram}</p>
                     <p>Telegram: ${app.telegramUsername}</p><p>Сумма: ${app.amount}</p>
