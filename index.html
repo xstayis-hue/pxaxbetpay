@@ -8,12 +8,22 @@
     <style>
         body {
             margin: 0;
-            padding: 12px 10px;
+            padding: 14px 12px 28px;
             overflow-x: hidden;
             font-family: 'Courier New', monospace;
             color: #00ff00;
             background: #0a0a0a;
             min-height: 100vh;
+        }
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            pointer-events: none;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            background-size: 180px 180px;
         }
         .parallax-bg {
             position: fixed; top: 0; left: 0;
@@ -40,56 +50,107 @@
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
+
+        /* Более прозрачное стекло */
         .section {
-            background: rgba(255,255,255,0.06);
-            backdrop-filter: blur(18px) saturate(160%);
-            -webkit-backdrop-filter: blur(18px) saturate(160%);
-            border: 1px solid rgba(255,255,255,0.12);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 20px rgba(0,255,255,0.04), inset 0 1px 0 rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.03);
+            backdrop-filter: blur(22px) saturate(170%);
+            -webkit-backdrop-filter: blur(22px) saturate(170%);
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.22), 0 0 16px rgba(0,255,255,0.03), inset 0 1px 0 rgba(255,255,255,0.06);
             border-radius: 14px;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
             padding: 16px 14px;
             box-sizing: border-box;
+            transition: box-shadow 0.25s ease, border-color 0.25s ease;
         }
+        .section.tap-pulse { animation: section-pulse 0.55s ease; }
+        @keyframes section-pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0,255,255,0); }
+            40% {
+                border-color: rgba(0,255,255,0.5);
+                box-shadow: 0 0 24px rgba(0,255,255,0.22), inset 0 0 12px rgba(0,255,255,0.06);
+            }
+            100% {
+                border-color: rgba(255,255,255,0.1);
+                box-shadow: 0 8px 32px rgba(0,0,0,0.22), 0 0 16px rgba(0,255,255,0.03);
+            }
+        }
+
         .header-section {
-            background: rgba(255,255,255,0.11);
-            backdrop-filter: blur(24px) saturate(180%);
-            -webkit-backdrop-filter: blur(24px) saturate(180%);
-            border: 1px solid rgba(0,255,255,0.28);
-            box-shadow: 0 8px 40px rgba(0,255,255,0.15), 0 0 30px rgba(255,0,255,0.08), inset 0 1px 0 rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.055);
+            backdrop-filter: blur(28px) saturate(180%);
+            -webkit-backdrop-filter: blur(28px) saturate(180%);
+            border: 1px solid rgba(0,255,255,0.22);
+            box-shadow: 0 8px 36px rgba(0,255,255,0.1), 0 0 24px rgba(255,0,255,0.05), inset 0 1px 0 rgba(255,255,255,0.1);
             position: relative;
             text-align: center;
-            padding: 10px 14px 14px;
+            padding: 14px 14px 16px;
             overflow: hidden;
+            margin-bottom: 12px;
         }
+        .header-section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #ff00ff, #00ffff, #ff00ff, transparent);
+            box-shadow: 0 0 12px #00ffff, 0 0 20px rgba(255,0,255,0.5);
+            animation: neon-strip 3s ease-in-out infinite;
+        }
+        @keyframes neon-strip {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
         .header-buttons {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             gap: 8px;
             position: relative;
             z-index: 2;
         }
         .header-left { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+
         #my-request-btn, #profile-btn {
-            padding: 5px 11px;
-            background: rgba(0,255,255,0.15);
-            border: 1px solid rgba(0,255,255,0.5);
+            padding: 6px 12px;
+            background: rgba(0,255,255,0.12);
+            border: 1px solid rgba(0,255,255,0.45);
             color: #00ffff;
             font-size: 12px;
             font-weight: 600;
             cursor: pointer;
             border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,255,255,0.3);
+            box-shadow: 0 4px 12px rgba(0,255,255,0.22);
             text-shadow: 0 0 6px rgba(0,255,255,0.5);
             white-space: nowrap;
             font-family: inherit;
+            position: relative;
         }
+        #my-request-btn .status-dot {
+            display: inline-block;
+            width: 7px; height: 7px;
+            border-radius: 50%;
+            background: #555;
+            margin-right: 6px;
+            vertical-align: middle;
+        }
+        #my-request-btn .status-dot.on {
+            background: #00ff88;
+            box-shadow: 0 0 6px #00ff88, 0 0 10px rgba(0,255,136,0.6);
+            animation: dot-blink 1.6s ease-in-out infinite;
+        }
+        @keyframes dot-blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.45; }
+        }
+
         #admin-btn {
             width: 34px; height: 34px;
-            background: rgba(255,0,255,0.18);
-            border: 1px solid rgba(255,0,255,0.55);
+            background: rgba(255,0,255,0.14);
+            border: 1px solid rgba(255,0,255,0.5);
             color: #ff00ff;
             font-size: 16px;
             font-weight: bold;
@@ -98,14 +159,16 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 12px rgba(255,0,255,0.35);
+            box-shadow: 0 4px 12px rgba(255,0,255,0.28);
             font-family: inherit;
+            flex-shrink: 0;
         }
+
         #project-title {
             color: #ff00ff;
             text-shadow: 0 0 10px #ff00ff, 0 0 25px #ff00ff, 0 0 40px #00ffff;
             font-size: 3.2em;
-            margin: 4px 0 2px;
+            margin: 6px 0 2px;
             font-family: 'Orbitron', sans-serif;
             line-height: 1.1;
             animation: glitch-strong 2.8s infinite;
@@ -118,19 +181,22 @@
             98% { transform: translate(2px, -2px); }
         }
         h2 {
-            color: #ff00ff;
-            text-shadow: 0 0 6px #ff00ff;
-            font-size: 1.15em;
+            color: #cc66cc;
+            text-shadow: 0 0 4px rgba(255,0,255,0.35);
+            font-size: 0.95em;
             font-weight: 300;
             margin: 0;
+            letter-spacing: 0.5px;
+            opacity: 0.75;
         }
+
         .form-toggle {
             cursor: pointer;
             text-align: center;
             color: #00ffff;
-            font-size: 1.15em;
+            font-size: 1.1em;
             font-weight: 600;
-            padding: 4px 0;
+            padding: 6px 0;
             user-select: none;
             text-shadow: 0 0 8px rgba(0,255,255,0.4);
         }
@@ -141,56 +207,108 @@
             opacity: 0;
         }
         .form-content.open {
-            max-height: 2000px;
+            max-height: 2400px;
             opacity: 1;
-            margin-top: 12px;
+            margin-top: 14px;
         }
-        label { display: block; margin-top: 12px; color: #00ffff; font-size: 0.95em; }
+        label {
+            display: block;
+            margin-top: 14px;
+            color: #00ffff;
+            font-size: 0.9em;
+        }
+        label:first-of-type { margin-top: 0; }
         input, textarea, select {
             width: 100%;
-            padding: 9px;
-            margin-top: 4px;
-            background: rgba(10,10,10,0.45);
-            border: 1px solid rgba(0,255,0,0.45);
+            padding: 10px;
+            margin-top: 5px;
+            background: rgba(10,10,10,0.35);
+            border: 1px solid rgba(0,255,0,0.35);
             color: #00ff00;
             font-family: inherit;
             border-radius: 6px;
             box-sizing: border-box;
         }
-        .note { font-size: 0.75em; color: #ff4444; margin-top: 2px; }
-        .explanation { font-size: 0.75em; color: #00ffff; margin-top: 4px; }
+        input::placeholder, textarea::placeholder {
+            color: #2a5a2a;
+            opacity: 1;
+        }
+        .note {
+            font-size: 0.65em;
+            color: #cc5555;
+            margin-top: 3px;
+            line-height: 1.2;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            opacity: 0.85;
+        }
+        .explanation {
+            font-size: 0.72em;
+            color: #00aaaa;
+            margin-top: 6px;
+            line-height: 1.4;
+        }
         #submit-btn {
             width: 100%;
-            padding: 12px;
-            margin-top: 18px;
+            padding: 13px;
+            margin-top: 20px;
             background: #ff00ff;
             border: none;
             color: #000;
             font-weight: bold;
             cursor: pointer;
-            border-radius: 6px;
+            border-radius: 8px;
             box-shadow: 0 0 20px rgba(255,0,255,0.3);
             font-family: inherit;
+            font-size: 14px;
         }
-        .game-section { text-align: center; padding: 12px; }
+
+        .game-section { text-align: center; padding: 14px; }
         #game-btn {
             width: 100%;
-            padding: 12px;
-            background: rgba(0,255,255,0.12);
-            border: 1px solid rgba(0,255,255,0.4);
+            padding: 13px;
+            background: rgba(0,255,255,0.1);
+            border: 1px solid rgba(0,255,255,0.35);
             color: #00ffff;
             font-size: 14px;
             font-weight: 600;
             cursor: pointer;
             border-radius: 8px;
-            box-shadow: 0 4px 14px rgba(0,255,255,0.2);
+            box-shadow: 0 4px 14px rgba(0,255,255,0.15);
             text-shadow: 0 0 6px rgba(0,255,255,0.5);
             font-family: inherit;
         }
-        .phx-section, .ai-section, .vph-section, .soon-section {
+
+        .phx-section {
             text-align: center;
-            padding: 22px 14px;
+            padding: 20px 14px;
+            border-color: rgba(0,255,136,0.18);
+            background: rgba(0,255,136,0.025);
+            box-shadow: 0 8px 28px rgba(0,0,0,0.2), 0 0 14px rgba(0,255,136,0.04), inset 0 1px 0 rgba(0,255,136,0.06);
         }
+        .ai-section {
+            text-align: center;
+            padding: 20px 14px;
+            border-color: rgba(0,255,255,0.2);
+            background: rgba(0,255,255,0.03);
+            box-shadow: 0 8px 28px rgba(0,0,0,0.2), 0 0 14px rgba(0,255,255,0.05), inset 0 1px 0 rgba(0,255,255,0.08);
+        }
+        .vph-section {
+            text-align: center;
+            padding: 20px 14px;
+            border-color: rgba(80,120,80,0.2);
+            background: rgba(255,255,255,0.02);
+            opacity: 0.9;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.03);
+        }
+        .soon-section {
+            text-align: center;
+            padding: 14px;
+            border-color: rgba(0,255,255,0.12);
+            background: rgba(255,255,255,0.025);
+        }
+
         .block-icon {
             width: 48px; height: 48px;
             margin: 0 auto 10px;
@@ -200,26 +318,28 @@
         }
         .block-icon svg { width: 44px; height: 44px; }
         .block-title {
-            font-size: 17px;
+            font-size: 16px;
             color: #00ffff;
             margin-bottom: 6px;
             letter-spacing: 2px;
             text-shadow: 0 0 8px rgba(0,255,255,0.4);
             font-weight: 600;
         }
+        .phx-section .block-title { color: #00ff88; text-shadow: 0 0 8px rgba(0,255,136,0.4); }
+        .vph-section .block-title { color: #6a9a6a; text-shadow: none; }
         .block-status {
             display: inline-block;
             margin-top: 4px;
             padding: 4px 12px;
-            font-size: 12px;
+            font-size: 11px;
             color: #ffaa00;
-            background: rgba(255,170,0,0.12);
-            border: 1px solid rgba(255,170,0,0.35);
+            background: rgba(255,170,0,0.1);
+            border: 1px solid rgba(255,170,0,0.3);
             border-radius: 20px;
         }
-        .block-anim { margin-top: 10px; font-size: 13px; height: 18px; opacity: 0.8; }
+        .block-anim { margin-top: 10px; font-size: 12px; height: 18px; opacity: 0.8; }
         .phx-meta {
-            margin-top: 12px;
+            margin-top: 14px;
             font-size: 12px;
             text-align: left;
             max-width: 280px;
@@ -229,18 +349,18 @@
         .phx-meta-row {
             display: flex;
             justify-content: space-between;
-            padding: 6px 0;
-            border-bottom: 1px solid rgba(0,255,136,0.15);
+            padding: 7px 0;
+            border-bottom: 1px solid rgba(0,255,136,0.12);
         }
         .phx-meta-row span:first-child { color: #666; }
         .phx-meta-row span:last-child { color: #00ff88; }
         #phx-copy-btn {
-            margin-top: 12px;
+            margin-top: 14px;
             width: 100%;
             max-width: 280px;
             padding: 10px;
-            background: rgba(0,255,136,0.08);
-            border: 1px solid rgba(0,255,136,0.3);
+            background: rgba(0,255,136,0.06);
+            border: 1px solid rgba(0,255,136,0.25);
             color: #00ff88;
             border-radius: 8px;
             font-family: inherit;
@@ -262,16 +382,15 @@
         .ai-anim { color: #00ffff; }
         .vph-icon { animation: pulse-lock 2.2s ease-in-out infinite; }
         @keyframes pulse-lock {
-            0%, 100% { opacity: 0.65; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.06); }
+            0%, 100% { opacity: 0.55; transform: scale(1); }
+            50% { opacity: 0.9; transform: scale(1.05); }
         }
-        .vph-anim { color: #00ff88; }
-        .soon-section { padding: 14px; }
+        .vph-anim { color: #5a8a5a; }
         #soon-btn {
             width: 100%;
             padding: 12px;
-            background: rgba(0,255,255,0.08);
-            border: 1px solid rgba(0,255,255,0.25);
+            background: rgba(0,255,255,0.06);
+            border: 1px solid rgba(0,255,255,0.2);
             color: #00ffff;
             font-size: 14px;
             font-weight: 600;
@@ -280,31 +399,35 @@
             font-family: inherit;
             opacity: 0.75;
         }
-        .faq-footer { text-align: center; padding: 18px 0 8px; }
+        .faq-footer { text-align: center; padding: 16px 0 4px; }
         .faq-footer button {
             background: transparent;
             border: none;
             color: #555;
-            font-size: 13px;
+            font-size: 12px;
             font-family: inherit;
             cursor: pointer;
             letter-spacing: 1px;
         }
+
         #profile-modal, #game-modal, #process-modal {
             display: none;
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85);
+            background: rgba(0,0,0,0.8);
             z-index: 500;
             align-items: center;
             justify-content: center;
+            padding: 16px;
+            box-sizing: border-box;
         }
         .profile-box, .game-box {
-            width: 90%;
+            width: 100%;
             max-width: 340px;
-            background: rgba(0,0,0,0.88);
-            border: 1px solid rgba(0,255,255,0.4);
+            background: rgba(0,0,0,0.75);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0,255,255,0.35);
             border-radius: 14px;
             padding: 22px 18px;
             text-align: center;
@@ -318,8 +441,8 @@
             letter-spacing: 1px;
         }
         .profile-balance {
-            background: rgba(0,255,136,0.08);
-            border: 1px solid rgba(0,255,136,0.3);
+            background: rgba(0,255,136,0.06);
+            border: 1px solid rgba(0,255,136,0.25);
             border-radius: 10px;
             padding: 12px;
             margin-bottom: 14px;
@@ -335,7 +458,7 @@
             display: flex;
             justify-content: space-between;
             padding: 8px 0;
-            border-bottom: 1px solid rgba(0,255,255,0.12);
+            border-bottom: 1px solid rgba(0,255,255,0.1);
             font-size: 13px;
         }
         .profile-row:last-of-type { border-bottom: none; }
@@ -347,8 +470,8 @@
             margin-top: 16px;
             width: 100%;
             padding: 11px;
-            background: rgba(0,255,255,0.12);
-            border: 1px solid rgba(0,255,255,0.45);
+            background: rgba(0,255,255,0.1);
+            border: 1px solid rgba(0,255,255,0.4);
             color: #00ffff;
             border-radius: 8px;
             font-family: inherit;
@@ -367,6 +490,7 @@
             color: #00ff88;
             opacity: 0.85;
             margin-bottom: 12px;
+            line-height: 1.35;
         }
         .game-stats-inside {
             font-size: 12px;
@@ -378,7 +502,7 @@
             width: 100%;
             height: 16px;
             background: #111;
-            border: 1px solid rgba(0,255,255,0.4);
+            border: 1px solid rgba(0,255,255,0.35);
             border-radius: 10px;
             overflow: hidden;
             margin-bottom: 14px;
@@ -396,8 +520,8 @@
         .stabilize-btn {
             width: 100%;
             padding: 13px;
-            background: rgba(0,255,255,0.12);
-            border: 1px solid rgba(0,255,255,0.5);
+            background: rgba(0,255,255,0.1);
+            border: 1px solid rgba(0,255,255,0.45);
             color: #00ffff;
             font-size: 15px;
             font-weight: 600;
@@ -421,7 +545,7 @@
             position: absolute;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            background: rgba(0,0,0,0.95);
+            background: rgba(0,0,0,0.92);
             border: 1px solid #00ff88;
             border-radius: 12px;
             padding: 20px 16px;
@@ -433,7 +557,7 @@
         .reward-popup button {
             width: 100%;
             padding: 10px;
-            background: rgba(0,255,136,0.15);
+            background: rgba(0,255,136,0.12);
             border: 1px solid #00ff88;
             color: #00ff88;
             border-radius: 6px;
@@ -441,9 +565,9 @@
             cursor: pointer;
         }
         .process-box {
-            width: 85%;
+            width: 100%;
             max-width: 320px;
-            background: rgba(0,0,0,0.9);
+            background: rgba(0,0,0,0.8);
             border: 1px solid #00ffff;
             border-radius: 12px;
             padding: 24px 20px;
@@ -468,36 +592,39 @@
             position: fixed;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            background: rgba(0,0,0,0.75);
+            background: rgba(0,0,0,0.72);
             backdrop-filter: blur(18px);
-            border: 1px solid rgba(0,255,255,0.4);
-            padding: 20px 24px;
+            border: 1px solid rgba(0,255,255,0.35);
+            padding: 22px 24px;
             color: #00ffff;
             text-align: center;
             border-radius: 14px;
             max-width: 85%;
             z-index: 300;
             display: none;
+            font-size: 14px;
+            line-height: 1.45;
         }
         #admin-panel {
             display: none;
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background: rgba(0,0,0,0.93);
+            background: rgba(0,0,0,0.9);
             z-index: 1000;
-            padding: 10px;
+            padding: 12px;
             overflow-y: auto;
+            box-sizing: border-box;
         }
         #admin-login {
             max-width: 100%;
-            margin: 50px auto 0;
+            margin: 40px auto 0;
             padding: 18px;
             border: 1px solid #ff00ff;
-            background: rgba(0,0,0,0.7);
+            background: rgba(0,0,0,0.65);
             border-radius: 12px;
         }
-        #admin-login h2 { text-align: center; margin-bottom: 16px; color: #ff00ff; }
+        #admin-login h2 { text-align: center; margin: 0 0 16px; color: #ff00ff; font-size: 1.1em; }
         #admin-login input { margin-bottom: 10px; width: 100%; }
         .admin-buttons { display: flex; gap: 10px; margin-top: 14px; }
         .admin-buttons button {
@@ -511,20 +638,20 @@
             border: 1px solid;
         }
         #login-btn {
-            background: rgba(0,255,255,0.15);
-            border-color: rgba(0,255,255,0.5);
+            background: rgba(0,255,255,0.12);
+            border-color: rgba(0,255,255,0.45);
             color: #00ffff;
         }
         #close-admin-btn {
-            background: rgba(255,0,100,0.15);
-            border-color: rgba(255,0,100,0.5);
+            background: rgba(255,0,100,0.12);
+            border-color: rgba(255,0,100,0.45);
             color: #ff6699;
         }
         .application {
             margin-bottom: 14px;
             padding: 12px;
             border: 1px solid #00ffff;
-            background: #0a0a0a;
+            background: rgba(10,10,10,0.7);
             border-radius: 6px;
             word-wrap: break-word;
             color: #0f0;
@@ -539,7 +666,8 @@
         }
         @media (max-width: 600px) {
             #project-title { font-size: 2.4em; }
-            #my-request-btn, #profile-btn { font-size: 11px; padding: 4px 9px; }
+            #my-request-btn, #profile-btn { font-size: 11px; padding: 5px 10px; }
+            .note { font-size: 0.6em; }
         }
     </style>
 </head>
@@ -553,7 +681,9 @@
     <div class="section header-section">
         <div class="header-buttons">
             <div class="header-left">
-                <button id="my-request-btn" onclick="playClick(); showFakePopup()">Моя заявка</button>
+                <button id="my-request-btn" onclick="playClick(); showFakePopup()">
+                    <span class="status-dot" id="request-dot"></span>Моя заявка
+                </button>
                 <button id="profile-btn" onclick="playClick(); openProfile()">Мой профиль</button>
             </div>
             <button id="admin-btn" onclick="playClick(); showAdminLogin()">X</button>
@@ -562,16 +692,16 @@
         <h2>Заявка на возврат средств</h2>
     </div>
 
-    <div class="section">
+    <div class="section" id="form-section">
         <div class="form-toggle" onclick="toggleForm()">Создать заявку ▾</div>
         <div class="form-content" id="form-content">
             <form id="refund-form">
                 <label for="instagram-nick">Ник в Instagram</label>
-                <input type="text" id="instagram-nick" required>
-                <div class="note">Компания Meta запрещена на территории РФ</div>
+                <input type="text" id="instagram-nick" placeholder="например @username" required>
+                <div class="note">Meta запрещена на территории РФ</div>
 
                 <label for="phone">Номер телефона (ваш)</label>
-                <input type="tel" id="phone" required>
+                <input type="tel" id="phone" placeholder="+7 900 000-00-00" required>
 
                 <label for="region">Область РФ</label>
                 <select id="region" required>
@@ -589,15 +719,15 @@
                     <option value="Другая">Другая</option>
                 </select>
 
-                <label for="target-instagram">Ник в Instagram аккаунта, на который переводили</label>
-                <input type="text" id="target-instagram" required>
-                <div class="note">Социальная сеть запрещена на территории РФ</div>
+                <label for="target-instagram">Ник Instagram (куда переводили)</label>
+                <input type="text" id="target-instagram" placeholder="@account" required>
+                <div class="note">Соцсеть запрещена на территории РФ</div>
 
                 <label for="telegram-username">Юзернейм Telegram (ваш)</label>
-                <input type="text" id="telegram-username" required>
+                <input type="text" id="telegram-username" placeholder="@username" required>
 
                 <label for="amount">Сумма на возврат</label>
-                <input type="number" id="amount" required min="1">
+                <input type="number" id="amount" placeholder="10000" required min="1">
 
                 <label for="receipt">Загрузить чек</label>
                 <input type="file" id="receipt" accept="image/*,application/pdf">
@@ -609,7 +739,7 @@
                     <option value="card">Номер карты</option>
                     <option value="crypto">Криптовалюта</option>
                 </select>
-                <input type="text" id="transfer-details" placeholder="Введите детали" required style="display:none;">
+                <input type="text" id="transfer-details" placeholder="Реквизиты" required style="display:none;">
 
                 <label for="withdrawal-type">Вывод частями* или единым платежом?</label>
                 <select id="withdrawal-type" required>
@@ -617,10 +747,10 @@
                     <option value="partial">Вывод частями с процентами</option>
                     <option value="single">Вывод единым платежом</option>
                 </select>
-                <div class="explanation">*Например, 20.000р частями — 5–6 платежей по ~7.000р.</div>
+                <div class="explanation">*Например, 20 000 ₽ частями — 5–6 платежей по ~7 000 ₽</div>
 
                 <label for="comment">Комментарий (до 300 символов)</label>
-                <textarea id="comment" maxlength="300"></textarea>
+                <textarea id="comment" maxlength="300" placeholder="Краткий комментарий…"></textarea>
 
                 <button type="submit" id="submit-btn">Отправить заявку</button>
             </form>
@@ -665,9 +795,9 @@
     <div class="section vph-section">
         <div class="block-icon vph-icon">
             <svg viewBox="0 0 56 56" fill="none">
-                <rect x="14" y="24" width="28" height="22" rx="3" stroke="#00ff88" stroke-width="2"/>
-                <path d="M20 24 V18 a8 8 0 0 1 16 0 v6" stroke="#00ff88" stroke-width="2" fill="none"/>
-                <circle cx="28" cy="35" r="3" fill="#00ff88"/>
+                <rect x="14" y="24" width="28" height="22" rx="3" stroke="#6a9a6a" stroke-width="2"/>
+                <path d="M20 24 V18 a8 8 0 0 1 16 0 v6" stroke="#6a9a6a" stroke-width="2" fill="none"/>
+                <circle cx="28" cy="35" r="3" fill="#6a9a6a"/>
             </svg>
         </div>
         <div class="block-title">Vph</div>
@@ -693,10 +823,6 @@
             <div class="profile-row">
                 <span class="profile-label">ID</span>
                 <span class="profile-value" id="profile-id">PX-0000</span>
-            </div>
-            <div class="profile-row">
-                <span class="profile-label">Telegram ID</span>
-                <span class="profile-value" id="profile-tg-id">—</span>
             </div>
             <div class="profile-row">
                 <span class="profile-label">Сектор</span>
@@ -748,8 +874,8 @@
         <p>Ваша заявка принята. После рассмотрения средства будут зачислены автоматически.</p>
     </div>
     <div id="fake-popup">
-        <p>Ваша заявка находится в очереди или не была создана.</p>
-        <button onclick="closeFakePopup()" style="margin-top:12px;background:rgba(0,255,255,0.2);color:#00ffff;border:1px solid #00ffff;padding:8px 16px;border-radius:6px;font-family:inherit;">OK</button>
+        <p id="fake-popup-text">Ваша заявка находится в очереди или не была создана.</p>
+        <button onclick="closeFakePopup()" style="margin-top:14px;background:rgba(0,255,255,0.2);color:#00ffff;border:1px solid #00ffff;padding:8px 16px;border-radius:6px;font-family:inherit;cursor:pointer;">OK</button>
     </div>
 
     <div id="admin-panel">
@@ -771,8 +897,6 @@
 
     <script>
         const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwYMF9edwo6_-i2xMV0A82-C5QJdFUeioNUDHIUIIfu0GSRjo3cRj72Dy2hPpzCxRg/exec';
-
-        // После деплоя PhxCoin вставь адрес:
         const PHX_CONTRACT = '';
 
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -832,6 +956,14 @@
             adminBtn.style.transform = `translateY(${move*0.8}px)`;
         });
 
+        document.querySelectorAll('.section').forEach(sec => {
+            sec.addEventListener('pointerdown', () => {
+                sec.classList.remove('tap-pulse');
+                void sec.offsetWidth;
+                sec.classList.add('tap-pulse');
+            });
+        });
+
         const phxTexts = ['◈ awaiting deploy...', '◈ TON network...', '◈ PHX ready soon...', '◈ minter.ton.org'];
         let phxI = 0;
         setInterval(() => {
@@ -885,6 +1017,14 @@
             }
         }
 
+        function updateRequestDot() {
+            const apps = JSON.parse(storage.getItem('applications') || '[]');
+            const dot = document.getElementById('request-dot');
+            if (apps.length > 0) dot.classList.add('on');
+            else dot.classList.remove('on');
+        }
+        updateRequestDot();
+
         function initPhxBlock() {
             const el = document.getElementById('phx-contract');
             const btn = document.getElementById('phx-copy-btn');
@@ -923,7 +1063,6 @@
                 storage.setItem('userSector', sector);
             }
             document.getElementById('profile-id').textContent = storage.getItem('userId');
-            document.getElementById('profile-tg-id').textContent = storage.getItem('telegramId') || 'не в Telegram';
             document.getElementById('profile-sector').textContent = sector;
             document.getElementById('profile-balance').textContent = (storage.getItem('balance')||'0') + ' ₽';
             document.getElementById('profile-level').textContent = 'LEVEL ' + (storage.getItem('accessLevel')||'1');
@@ -961,10 +1100,8 @@
         form.addEventListener('submit', e => {
             e.preventDefault();
             playSuccess();
-
             const region = document.getElementById('region').value;
             storage.setItem('userSector', regionToSector[region] || 'NULL');
-
             const telegramId = storage.getItem('telegramId') || (tgUser && tgUser.id ? String(tgUser.id) : '');
 
             const data = {
@@ -986,6 +1123,7 @@
             const apps = JSON.parse(storage.getItem('applications') || '[]');
             apps.push(data);
             storage.setItem('applications', JSON.stringify(apps));
+            updateRequestDot();
 
             fetch(APPS_SCRIPT_URL, {
                 method: 'POST',
@@ -1097,8 +1235,20 @@
             statusEl.style.color = '#aaa';
         }
 
-        function showFakePopup() { document.getElementById('fake-popup').style.display = 'block'; }
-        function closeFakePopup() { playClick(); document.getElementById('fake-popup').style.display = 'none'; }
+        function showFakePopup() {
+            const apps = JSON.parse(storage.getItem('applications') || '[]');
+            const text = document.getElementById('fake-popup-text');
+            if (apps.length > 0) {
+                text.textContent = 'Заявка есть на этом устройстве. Статусы с сервера подключим позже.';
+            } else {
+                text.textContent = 'Заявка не найдена. Создайте её в форме ниже.';
+            }
+            document.getElementById('fake-popup').style.display = 'block';
+        }
+        function closeFakePopup() {
+            playClick();
+            document.getElementById('fake-popup').style.display = 'none';
+        }
         function showAdminLogin() {
             document.getElementById('admin-panel').style.display = 'block';
             document.getElementById('admin-login').style.display = 'block';
