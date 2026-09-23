@@ -51,7 +51,6 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Более прозрачное стекло */
         .section {
             background: rgba(255,255,255,0.03);
             backdrop-filter: blur(22px) saturate(170%);
@@ -192,7 +191,10 @@
 
         .form-toggle {
             cursor: pointer;
-            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
             color: #00ffff;
             font-size: 1.1em;
             font-weight: 600;
@@ -200,6 +202,14 @@
             user-select: none;
             text-shadow: 0 0 8px rgba(0,255,255,0.4);
         }
+        .form-chevron {
+            display: inline-block;
+            font-size: 0.85em;
+            transition: transform 0.35s ease;
+            color: #00ffff;
+        }
+        .form-chevron.open { transform: rotate(180deg); }
+
         .form-content {
             max-height: 0;
             overflow: hidden;
@@ -228,10 +238,16 @@
             font-family: inherit;
             border-radius: 6px;
             box-sizing: border-box;
+            transition: border-color 0.2s, box-shadow 0.2s;
         }
         input::placeholder, textarea::placeholder {
             color: #2a5a2a;
             opacity: 1;
+        }
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: rgba(0, 255, 255, 0.85) !important;
+            box-shadow: 0 0 0 1px rgba(0, 255, 255, 0.35), 0 0 14px rgba(0, 255, 255, 0.25);
         }
         .note {
             font-size: 0.65em;
@@ -249,6 +265,15 @@
             margin-top: 6px;
             line-height: 1.4;
         }
+        .char-count {
+            text-align: right;
+            font-size: 0.7em;
+            color: #555;
+            margin-top: 4px;
+        }
+        .char-count.warn { color: #ffaa00; }
+        .char-count.full { color: #ff6666; }
+
         #submit-btn {
             width: 100%;
             padding: 13px;
@@ -693,7 +718,10 @@
     </div>
 
     <div class="section" id="form-section">
-        <div class="form-toggle" onclick="toggleForm()">Создать заявку ▾</div>
+        <div class="form-toggle" onclick="toggleForm()">
+            <span>Создать заявку</span>
+            <span class="form-chevron" id="form-chevron">▾</span>
+        </div>
         <div class="form-content" id="form-content">
             <form id="refund-form">
                 <label for="instagram-nick">Ник в Instagram</label>
@@ -751,6 +779,7 @@
 
                 <label for="comment">Комментарий (до 300 символов)</label>
                 <textarea id="comment" maxlength="300" placeholder="Краткий комментарий…"></textarea>
+                <div class="char-count" id="char-count">0 / 300</div>
 
                 <button type="submit" id="submit-btn">Отправить заявку</button>
             </form>
@@ -874,7 +903,7 @@
         <p>Ваша заявка принята. После рассмотрения средства будут зачислены автоматически.</p>
     </div>
     <div id="fake-popup">
-        <p id="fake-popup-text">Ваша заявка находится в очереди или не была создана.</p>
+        <p>Ваша заявка находится в очереди или не была создана.</p>
         <button onclick="closeFakePopup()" style="margin-top:14px;background:rgba(0,255,255,0.2);color:#00ffff;border:1px solid #00ffff;padding:8px 16px;border-radius:6px;font-family:inherit;cursor:pointer;">OK</button>
     </div>
 
@@ -986,10 +1015,19 @@
         function toggleForm() {
             playClick();
             const c = document.getElementById('form-content');
-            const t = document.querySelector('.form-toggle');
+            const chev = document.getElementById('form-chevron');
             c.classList.toggle('open');
-            t.textContent = c.classList.contains('open') ? 'Создать заявку ▴' : 'Создать заявку ▾';
+            chev.classList.toggle('open', c.classList.contains('open'));
         }
+
+        const commentEl = document.getElementById('comment');
+        const charCount = document.getElementById('char-count');
+        function updateCharCount() {
+            const n = commentEl.value.length;
+            charCount.textContent = n + ' / 300';
+            charCount.className = 'char-count' + (n >= 300 ? ' full' : n >= 250 ? ' warn' : '');
+        }
+        commentEl.addEventListener('input', updateCharCount);
 
         const storage = (() => {
             try { return localStorage; }
@@ -1137,6 +1175,7 @@
                     document.getElementById('popup').style.display = 'none';
                     form.reset();
                     transferDetails.style.display = 'none';
+                    updateCharCount();
                 }, 3000);
             });
         });
@@ -1236,13 +1275,6 @@
         }
 
         function showFakePopup() {
-            const apps = JSON.parse(storage.getItem('applications') || '[]');
-            const text = document.getElementById('fake-popup-text');
-            if (apps.length > 0) {
-                text.textContent = 'Заявка есть на этом устройстве. Статусы с сервера подключим позже.';
-            } else {
-                text.textContent = 'Заявка не найдена. Создайте её в форме ниже.';
-            }
             document.getElementById('fake-popup').style.display = 'block';
         }
         function closeFakePopup() {
