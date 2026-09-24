@@ -126,7 +126,6 @@
             text-shadow: 0 0 6px rgba(0,255,255,0.5);
             white-space: nowrap;
             font-family: inherit;
-            position: relative;
         }
         #my-request-btn .status-dot {
             display: inline-block;
@@ -209,7 +208,6 @@
             color: #00ffff;
         }
         .form-chevron.open { transform: rotate(180deg); }
-
         .form-content {
             max-height: 0;
             overflow: hidden;
@@ -240,10 +238,7 @@
             box-sizing: border-box;
             transition: border-color 0.2s, box-shadow 0.2s;
         }
-        input::placeholder, textarea::placeholder {
-            color: #2a5a2a;
-            opacity: 1;
-        }
+        input::placeholder, textarea::placeholder { color: #2a5a2a; opacity: 1; }
         input:focus, textarea:focus, select:focus {
             outline: none;
             border-color: rgba(0, 255, 255, 0.85) !important;
@@ -273,7 +268,6 @@
         }
         .char-count.warn { color: #ffaa00; }
         .char-count.full { color: #ff6666; }
-
         #submit-btn {
             width: 100%;
             padding: 13px;
@@ -305,64 +299,14 @@
             font-family: inherit;
         }
 
+        /* —— PhxCoin —— */
         .phx-section {
             text-align: center;
             padding: 20px 14px;
             border-color: rgba(0,255,136,0.18);
             background: rgba(0,255,136,0.025);
-            box-shadow: 0 8px 28px rgba(0,0,0,0.2), 0 0 14px rgba(0,255,136,0.04), inset 0 1px 0 rgba(0,255,136,0.06);
-        }
-        .ai-section {
-            text-align: center;
-            padding: 20px 14px;
-            border-color: rgba(0,255,255,0.2);
-            background: rgba(0,255,255,0.03);
-            box-shadow: 0 8px 28px rgba(0,0,0,0.2), 0 0 14px rgba(0,255,255,0.05), inset 0 1px 0 rgba(0,255,255,0.08);
-        }
-        .vph-section {
-            text-align: center;
-            padding: 20px 14px;
-            border-color: rgba(80,120,80,0.2);
-            background: rgba(255,255,255,0.02);
-            opacity: 0.9;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.03);
-        }
-        .soon-section {
-            text-align: center;
-            padding: 14px;
-            border-color: rgba(0,255,255,0.12);
-            background: rgba(255,255,255,0.025);
-        }
-
-        .block-icon {
-            width: 48px; height: 48px;
-            margin: 0 auto 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .block-icon svg { width: 44px; height: 44px; }
-        .block-title {
-            font-size: 16px;
-            color: #00ffff;
-            margin-bottom: 6px;
-            letter-spacing: 2px;
-            text-shadow: 0 0 8px rgba(0,255,255,0.4);
-            font-weight: 600;
         }
         .phx-section .block-title { color: #00ff88; text-shadow: 0 0 8px rgba(0,255,136,0.4); }
-        .vph-section .block-title { color: #6a9a6a; text-shadow: none; }
-        .block-status {
-            display: inline-block;
-            margin-top: 4px;
-            padding: 4px 12px;
-            font-size: 11px;
-            color: #ffaa00;
-            background: rgba(255,170,0,0.1);
-            border: 1px solid rgba(255,170,0,0.3);
-            border-radius: 20px;
-        }
-        .block-anim { margin-top: 10px; font-size: 12px; height: 18px; opacity: 0.8; }
         .phx-meta {
             margin-top: 14px;
             font-size: 12px;
@@ -399,31 +343,169 @@
             100% { transform: rotateY(360deg); }
         }
         .phx-anim { color: #00ff88; }
-        .ai-icon { animation: ai-glow 1.8s ease-in-out infinite; }
-        @keyframes ai-glow {
-            0%, 100% { opacity: 0.6; filter: drop-shadow(0 0 2px #00ffff); }
-            50% { opacity: 1; filter: drop-shadow(0 0 10px #00ffff); }
+
+        /* —— Ai —— */
+        .ai-section {
+            text-align: center;
+            padding: 20px 14px;
+            border-color: rgba(0,255,255,0.2);
+            background: rgba(0,255,255,0.03);
         }
-        .ai-anim { color: #00ffff; }
+        .ai-icon-wrap {
+            width: 56px; height: 56px;
+            margin: 0 auto 10px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .ai-ring {
+            position: absolute;
+            inset: 0;
+            border: 1.5px solid rgba(0,255,255,0.35);
+            border-top-color: #00ffff;
+            border-radius: 50%;
+            animation: ai-spin 3.2s linear infinite;
+        }
+        @keyframes ai-spin {
+            to { transform: rotate(360deg); }
+        }
+        .ai-icon-wrap svg { width: 36px; height: 36px; position: relative; z-index: 1; }
+        .ai-eye {
+            transform-origin: center;
+            animation: ai-blink 4.5s ease-in-out infinite;
+        }
+        @keyframes ai-blink {
+            0%, 42%, 48%, 100% { transform: scaleY(1); }
+            45% { transform: scaleY(0.12); }
+        }
+        .ai-term {
+            margin-top: 10px;
+            text-align: left;
+            max-width: 260px;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 11px;
+            line-height: 1.55;
+            color: #00cccc;
+            min-height: 3.2em;
+        }
+        .ai-term .dim { color: #2a5a5a; }
+        .ai-term .cursor {
+            display: inline-block;
+            width: 7px;
+            animation: term-blink 1s step-end infinite;
+        }
+        @keyframes term-blink { 50% { opacity: 0; } }
+
+        /* —— Vph —— */
+        .vph-section {
+            text-align: center;
+            padding: 20px 14px;
+            border-color: rgba(80,120,80,0.2);
+            background: rgba(255,255,255,0.02);
+            opacity: 0.95;
+        }
+        .vph-section .block-title { color: #6a9a6a; text-shadow: none; }
         .vph-icon { animation: pulse-lock 2.2s ease-in-out infinite; }
         @keyframes pulse-lock {
             0%, 100% { opacity: 0.55; transform: scale(1); }
             50% { opacity: 0.9; transform: scale(1.05); }
         }
-        .vph-anim { color: #5a8a5a; }
+        .vph-anim { color: #5a8a5a; font-size: 12px; margin-top: 10px; min-height: 18px; }
+        .vph-tunnel {
+            margin: 12px auto 0;
+            max-width: 240px;
+            height: 4px;
+            background: rgba(0,255,136,0.08);
+            border-radius: 3px;
+            overflow: hidden;
+            border: 1px solid rgba(0,255,136,0.12);
+        }
+        .vph-tunnel-fill {
+            height: 100%;
+            width: 35%;
+            background: linear-gradient(90deg, transparent, rgba(0,255,136,0.55), transparent);
+            animation: tunnel-move 2.4s ease-in-out infinite;
+        }
+        @keyframes tunnel-move {
+            0% { transform: translateX(-130%); }
+            100% { transform: translateX(380%); }
+        }
+
+        /* —— 2027: terminal + silent bar —— */
+        .soon-section {
+            text-align: center;
+            padding: 16px 14px;
+            border-color: rgba(0,255,136,0.15);
+            background: rgba(0,20,15,0.25);
+        }
         #soon-btn {
             width: 100%;
-            padding: 12px;
-            background: rgba(0,255,255,0.06);
-            border: 1px solid rgba(0,255,255,0.2);
-            color: #00ffff;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            border-radius: 8px;
+            padding: 12px 14px;
+            background: rgba(0,20,20,0.45);
+            border: 1px solid rgba(0,255,136,0.25);
+            color: #00ff88;
+            font-size: 12px;
+            text-align: left;
             font-family: inherit;
-            opacity: 0.75;
+            border-radius: 6px;
+            cursor: default;
+            line-height: 1.55;
+            opacity: 0.85;
         }
+        #soon-btn .dim { color: #3a5a4a; }
+        #soon-btn .blink {
+            animation: term-blink 1.2s step-end infinite;
+        }
+        .soon-bar {
+            margin-top: 10px;
+            height: 3px;
+            background: rgba(0,255,136,0.08);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .soon-bar-fill {
+            height: 100%;
+            width: 40%;
+            background: linear-gradient(90deg, transparent, rgba(0,255,136,0.45), transparent);
+            animation: tunnel-move 2.8s ease-in-out infinite;
+        }
+        .soon-hint {
+            margin-top: 8px;
+            font-size: 10px;
+            color: #3a4a3a;
+            letter-spacing: 1px;
+        }
+
+        .block-icon {
+            width: 48px; height: 48px;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .block-icon svg { width: 44px; height: 44px; }
+        .block-title {
+            font-size: 16px;
+            color: #00ffff;
+            margin-bottom: 6px;
+            letter-spacing: 2px;
+            text-shadow: 0 0 8px rgba(0,255,255,0.4);
+            font-weight: 600;
+        }
+        .block-status {
+            display: inline-block;
+            margin-top: 4px;
+            padding: 4px 12px;
+            font-size: 11px;
+            color: #ffaa00;
+            background: rgba(255,170,0,0.1);
+            border: 1px solid rgba(255,170,0,0.3);
+            border-radius: 20px;
+        }
+        .block-anim { margin-top: 10px; font-size: 12px; height: 18px; opacity: 0.8; }
+
         .faq-footer { text-align: center; padding: 16px 0 4px; }
         .faq-footer button {
             background: transparent;
@@ -809,16 +891,19 @@
     </div>
 
     <div class="section ai-section">
-        <div class="block-icon ai-icon">
+        <div class="ai-icon-wrap">
+            <div class="ai-ring"></div>
             <svg viewBox="0 0 56 56" fill="none">
-                <circle cx="28" cy="28" r="18" stroke="#00ffff" stroke-width="2"/>
-                <circle cx="28" cy="28" r="8" fill="#00ffff" opacity="0.55"/>
-                <circle cx="28" cy="28" r="3" fill="#fff"/>
+                <circle cx="28" cy="28" r="14" stroke="#00ffff" stroke-width="1.5" opacity="0.5"/>
+                <circle class="ai-eye" cx="28" cy="28" r="6" fill="#00ffff" opacity="0.7"/>
+                <circle cx="28" cy="28" r="2.5" fill="#fff"/>
             </svg>
         </div>
         <div class="block-title">Ai</div>
-        <div class="block-status">В разработке</div>
-        <div class="block-anim ai-anim" id="ai-anim">◌ thinking...</div>
+        <div class="block-status" id="ai-status">standby</div>
+        <div class="ai-term" id="ai-term">
+            <span class="dim">&gt;</span> boot…<span class="cursor">_</span>
+        </div>
     </div>
 
     <div class="section vph-section">
@@ -831,11 +916,17 @@
         </div>
         <div class="block-title">Vph</div>
         <div class="block-status">В разработке</div>
-        <div class="block-anim vph-anim" id="vph-anim">◌ connecting...</div>
+        <div class="vph-anim" id="vph-anim">◌ securing node…</div>
+        <div class="vph-tunnel"><div class="vph-tunnel-fill"></div></div>
     </div>
 
     <div class="section soon-section">
-        <button id="soon-btn">2027</button>
+        <button id="soon-btn" type="button" disabled aria-disabled="true">
+            <span class="dim">&gt;</span> module_2027<br>
+            <span class="dim">&gt;</span> status: sealed<span class="blink">_</span>
+        </button>
+        <div class="soon-bar"><div class="soon-bar-fill"></div></div>
+        <div class="soon-hint">инициализация отложена</div>
     </div>
 
     <div class="faq-footer">
@@ -993,22 +1084,33 @@
             });
         });
 
+        /* Phx texts */
         const phxTexts = ['◈ awaiting deploy...', '◈ TON network...', '◈ PHX ready soon...', '◈ minter.ton.org'];
         let phxI = 0;
         setInterval(() => {
-            phxI = (phxI+1)%phxTexts.length;
+            phxI = (phxI + 1) % phxTexts.length;
             document.getElementById('phx-anim').textContent = phxTexts[phxI];
         }, 1800);
-        const aiTexts = ['◌ thinking...', '◌ processing...', '◌ analyzing...', '◌ online'];
+
+        /* Ai terminal */
+        const aiLines = [
+            { html: '<span class="dim">&gt;</span> boot…', status: 'standby' },
+            { html: '<span class="dim">&gt;</span> link channel…', status: 'standby' },
+            { html: '<span class="dim">&gt;</span> agent online', status: 'listening' },
+            { html: '<span class="dim">&gt;</span> await input…', status: 'listening' }
+        ];
         let aiI = 0;
         setInterval(() => {
-            aiI = (aiI+1)%aiTexts.length;
-            document.getElementById('ai-anim').textContent = aiTexts[aiI];
-        }, 1700);
-        const vphTexts = ['◌ connecting...', '◌ securing...', '◌ handshake...', '◌ standby'];
+            aiI = (aiI + 1) % aiLines.length;
+            document.getElementById('ai-term').innerHTML = aiLines[aiI].html + '<span class="cursor">_</span>';
+            document.getElementById('ai-status').textContent = aiLines[aiI].status;
+        }, 2200);
+
+        /* Vph texts — no percents */
+        const vphTexts = ['◌ securing node…', '◌ handshake…', '◌ encrypted path…', '◌ tunnel idle…'];
         let vphI = 0;
         setInterval(() => {
-            vphI = (vphI+1)%vphTexts.length;
+            vphI = (vphI + 1) % vphTexts.length;
             document.getElementById('vph-anim').textContent = vphTexts[vphI];
         }, 2000);
 
@@ -1039,7 +1141,7 @@
         if (!storage.getItem('boosts')) storage.setItem('boosts', '0');
         if (!storage.getItem('balance')) storage.setItem('balance', '0');
         if (!storage.getItem('accessLevel')) storage.setItem('accessLevel', '1');
-        if (!storage.getItem('userId')) storage.setItem('userId', 'PX-' + Math.floor(1000+Math.random()*9000));
+        if (!storage.getItem('userId')) storage.setItem('userId', 'PX-' + Math.floor(1000 + Math.random() * 9000));
         if (!storage.getItem('userSector')) storage.setItem('userSector', 'NULL');
 
         let tgUser = null;
@@ -1094,17 +1196,17 @@
         };
 
         function openProfile() {
-            const apps = JSON.parse(storage.getItem('applications')||'[]');
-            let sector = storage.getItem('userSector')||'NULL';
+            const apps = JSON.parse(storage.getItem('applications') || '[]');
+            let sector = storage.getItem('userSector') || 'NULL';
             if (apps.length > 0 && apps[0].region) {
-                sector = regionToSector[apps[0].region]||'NULL';
+                sector = regionToSector[apps[0].region] || 'NULL';
                 storage.setItem('userSector', sector);
             }
             document.getElementById('profile-id').textContent = storage.getItem('userId');
             document.getElementById('profile-sector').textContent = sector;
-            document.getElementById('profile-balance').textContent = (storage.getItem('balance')||'0') + ' ₽';
-            document.getElementById('profile-level').textContent = 'LEVEL ' + (storage.getItem('accessLevel')||'1');
-            document.getElementById('profile-boosts').textContent = storage.getItem('boosts')||'0';
+            document.getElementById('profile-balance').textContent = (storage.getItem('balance') || '0') + ' ₽';
+            document.getElementById('profile-level').textContent = 'LEVEL ' + (storage.getItem('accessLevel') || '1');
+            document.getElementById('profile-boosts').textContent = storage.getItem('boosts') || '0';
             const st = document.getElementById('profile-status');
             if (apps.length > 0) {
                 st.textContent = 'В обработке';
@@ -1121,7 +1223,7 @@
         }
 
         function updateGameStats() {
-            document.getElementById('game-stats').textContent = 'Ускорений: ' + (storage.getItem('boosts')||'0');
+            document.getElementById('game-stats').textContent = 'Ускорений: ' + (storage.getItem('boosts') || '0');
         }
 
         const form = document.getElementById('refund-form');
@@ -1187,7 +1289,7 @@
             modal.style.display = 'flex';
             let p = 0;
             const iv = setInterval(() => {
-                p += Math.random()*4 + 1.5;
+                p += Math.random() * 4 + 1.5;
                 if (p > 100) p = 100;
                 barEl.style.width = p + '%';
                 percent.textContent = Math.floor(p) + '%';
@@ -1208,7 +1310,7 @@
 
         function openGame() {
             document.getElementById('game-modal').style.display = 'flex';
-            progress = 12 + Math.random()*10;
+            progress = 12 + Math.random() * 10;
             isPlaying = true;
             bar.style.width = progress + '%';
             percentEl.textContent = Math.floor(progress) + '%';
@@ -1238,14 +1340,14 @@
             bar.style.width = progress + '%';
             percentEl.textContent = Math.floor(progress) + '%';
             if (Math.random() < 0.04) {
-                statusEl.textContent = statuses[Math.floor(Math.random()*statuses.length)];
+                statusEl.textContent = statuses[Math.floor(Math.random() * statuses.length)];
                 statusEl.style.color = '#aaa';
             }
         }
         function stabilize() {
             if (!isPlaying) return;
             playStab();
-            progress += clickPower + Math.random()*1.3;
+            progress += clickPower + Math.random() * 1.3;
             if (progress > 100) progress = 100;
             bar.style.width = progress + '%';
             percentEl.textContent = Math.floor(progress) + '%';
@@ -1260,12 +1362,12 @@
             statusEl.style.color = '#00ff88';
             bar.style.background = 'linear-gradient(90deg,#00ff88,#00ffff)';
             reward.style.display = 'block';
-            storage.setItem('boosts', parseInt(storage.getItem('boosts')||'0') + 1);
+            storage.setItem('boosts', parseInt(storage.getItem('boosts') || '0') + 1);
             updateGameStats();
         }
         function closeReward() {
             reward.style.display = 'none';
-            progress = 12 + Math.random()*10;
+            progress = 12 + Math.random() * 10;
             isPlaying = true;
             bar.style.width = progress + '%';
             percentEl.textContent = Math.floor(progress) + '%';
@@ -1292,7 +1394,7 @@
             const password = document.getElementById('admin-password').value;
             const encoder = new TextEncoder();
             const hashBuffer = await crypto.subtle.digest('SHA-256', encoder.encode(password));
-            const hash = Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2,'0')).join('');
+            const hash = Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
             if (username === '09pX90Ax' && hash === 'f2a6b6f7a5c2d4e3f1a0b9c8d7e6f5a4b3c2d1e0f9a8b7c6d5e4f3a2b1c0d9e8') {
                 document.getElementById('admin-login').style.display = 'none';
                 document.getElementById('admin-content').style.display = 'block';
@@ -1302,19 +1404,19 @@
         function loadApplications() {
             const list = document.getElementById('applications-list');
             list.innerHTML = '';
-            const apps = JSON.parse(storage.getItem('applications')||'[]');
-            apps.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
+            const apps = JSON.parse(storage.getItem('applications') || '[]');
+            apps.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
             apps.forEach((app, i) => {
                 const div = document.createElement('div');
                 div.className = 'application';
-                div.innerHTML = `<p><strong>Заявка #${i+1}</strong> (${app.timestamp})</p>
-                    <p>TG ID: ${app.telegramId||'—'}</p>
+                div.innerHTML = `<p><strong>Заявка #${i + 1}</strong> (${app.timestamp})</p>
+                    <p>TG ID: ${app.telegramId || '—'}</p>
                     <p>Instagram: ${app.instagramNick}</p><p>Телефон: ${app.phone}</p>
-                    <p>Область: ${app.region||'—'}</p><p>Целевой IG: ${app.targetInstagram}</p>
+                    <p>Область: ${app.region || '—'}</p><p>Целевой IG: ${app.targetInstagram}</p>
                     <p>Telegram: ${app.telegramUsername}</p><p>Сумма: ${app.amount}</p>
                     <p>Чек: ${app.receipt}</p><p>Перевод: ${app.transferMethod} — ${app.transferDetails}</p>
-                    <p>Тип: ${app.withdrawalType==='partial'?'Частями':'Единым'}</p>
-                    <p>Комментарий: ${app.comment||'—'}</p>`;
+                    <p>Тип: ${app.withdrawalType === 'partial' ? 'Частями' : 'Единым'}</p>
+                    <p>Комментарий: ${app.comment || '—'}</p>`;
                 list.appendChild(div);
             });
         }
