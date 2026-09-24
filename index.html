@@ -25,6 +25,29 @@
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
             background-size: 180px 180px;
         }
+        .scan-line {
+            position: fixed;
+            left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(0,255,255,0.55), transparent);
+            box-shadow: 0 0 14px rgba(0,255,255,0.4);
+            z-index: 60;
+            pointer-events: none;
+            opacity: 0;
+        }
+        .scan-line.go { animation: scan-pass 1.1s ease-in-out; }
+        @keyframes scan-pass {
+            0% { top: -2%; opacity: 0; }
+            15% { opacity: 0.75; }
+            85% { opacity: 0.5; }
+            100% { top: 102%; opacity: 0; }
+        }
+        #burst-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: 55;
+            pointer-events: none;
+        }
         .parallax-bg {
             position: fixed; top: 0; left: 0;
             width: 100%; height: 120%; z-index: -2;
@@ -50,7 +73,6 @@
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
-
         .section {
             background: rgba(255,255,255,0.03);
             backdrop-filter: blur(22px) saturate(170%);
@@ -75,7 +97,6 @@
                 box-shadow: 0 8px 32px rgba(0,0,0,0.22), 0 0 16px rgba(0,255,255,0.03);
             }
         }
-
         .header-section {
             background: rgba(255,255,255,0.055);
             backdrop-filter: blur(28px) saturate(180%);
@@ -101,7 +122,6 @@
             0%, 100% { opacity: 0.7; }
             50% { opacity: 1; }
         }
-
         .header-buttons {
             display: flex;
             justify-content: space-between;
@@ -112,7 +132,6 @@
             z-index: 2;
         }
         .header-left { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
-
         #my-request-btn, #profile-btn {
             padding: 6px 12px;
             background: rgba(0,255,255,0.12);
@@ -137,14 +156,13 @@
         }
         #my-request-btn .status-dot.on {
             background: #00ff88;
-            box-shadow: 0 0 6px #00ff88, 0 0 10px rgba(0,255,136,0.6);
+            box-shadow: 0 0 6px #00ff88;
             animation: dot-blink 1.6s ease-in-out infinite;
         }
         @keyframes dot-blink {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.45; }
         }
-
         #admin-btn {
             width: 34px; height: 34px;
             background: rgba(255,0,255,0.14);
@@ -161,7 +179,6 @@
             font-family: inherit;
             flex-shrink: 0;
         }
-
         #project-title {
             color: #ff00ff;
             text-shadow: 0 0 10px #ff00ff, 0 0 25px #ff00ff, 0 0 40px #00ffff;
@@ -187,7 +204,6 @@
             letter-spacing: 0.5px;
             opacity: 0.75;
         }
-
         .form-toggle {
             cursor: pointer;
             display: flex;
@@ -219,12 +235,7 @@
             opacity: 1;
             margin-top: 14px;
         }
-        label {
-            display: block;
-            margin-top: 14px;
-            color: #00ffff;
-            font-size: 0.9em;
-        }
+        label { display: block; margin-top: 14px; color: #00ffff; font-size: 0.9em; }
         label:first-of-type { margin-top: 0; }
         input, textarea, select {
             width: 100%;
@@ -248,24 +259,13 @@
             font-size: 0.65em;
             color: #cc5555;
             margin-top: 3px;
-            line-height: 1.2;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             opacity: 0.85;
         }
-        .explanation {
-            font-size: 0.72em;
-            color: #00aaaa;
-            margin-top: 6px;
-            line-height: 1.4;
-        }
-        .char-count {
-            text-align: right;
-            font-size: 0.7em;
-            color: #555;
-            margin-top: 4px;
-        }
+        .explanation { font-size: 0.72em; color: #00aaaa; margin-top: 6px; line-height: 1.4; }
+        .char-count { text-align: right; font-size: 0.7em; color: #555; margin-top: 4px; }
         .char-count.warn { color: #ffaa00; }
         .char-count.full { color: #ff6666; }
         #submit-btn {
@@ -282,7 +282,6 @@
             font-family: inherit;
             font-size: 14px;
         }
-
         .game-section { text-align: center; padding: 14px; }
         #game-btn {
             width: 100%;
@@ -294,12 +293,8 @@
             font-weight: 600;
             cursor: pointer;
             border-radius: 8px;
-            box-shadow: 0 4px 14px rgba(0,255,255,0.15);
-            text-shadow: 0 0 6px rgba(0,255,255,0.5);
             font-family: inherit;
         }
-
-        /* —— PhxCoin —— */
         .phx-section {
             text-align: center;
             padding: 20px 14px;
@@ -343,8 +338,14 @@
             100% { transform: rotateY(360deg); }
         }
         .phx-anim { color: #00ff88; }
+        .ton-live {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #00ff88;
+            letter-spacing: 0.5px;
+        }
+        .ton-live span { color: #556; font-size: 10px; }
 
-        /* —— Ai —— */
         .ai-section {
             text-align: center;
             padding: 20px 14px;
@@ -367,14 +368,9 @@
             border-radius: 50%;
             animation: ai-spin 3.2s linear infinite;
         }
-        @keyframes ai-spin {
-            to { transform: rotate(360deg); }
-        }
+        @keyframes ai-spin { to { transform: rotate(360deg); } }
         .ai-icon-wrap svg { width: 36px; height: 36px; position: relative; z-index: 1; }
-        .ai-eye {
-            transform-origin: center;
-            animation: ai-blink 4.5s ease-in-out infinite;
-        }
+        .ai-eye { transform-origin: center; animation: ai-blink 4.5s ease-in-out infinite; }
         @keyframes ai-blink {
             0%, 42%, 48%, 100% { transform: scaleY(1); }
             45% { transform: scaleY(0.12); }
@@ -391,22 +387,16 @@
             min-height: 3.2em;
         }
         .ai-term .dim { color: #2a5a5a; }
-        .ai-term .cursor {
-            display: inline-block;
-            width: 7px;
-            animation: term-blink 1s step-end infinite;
-        }
+        .ai-term .cursor { display: inline-block; width: 7px; animation: term-blink 1s step-end infinite; }
         @keyframes term-blink { 50% { opacity: 0; } }
 
-        /* —— Vph —— */
         .vph-section {
             text-align: center;
             padding: 20px 14px;
             border-color: rgba(80,120,80,0.2);
             background: rgba(255,255,255,0.02);
-            opacity: 0.95;
         }
-        .vph-section .block-title { color: #6a9a6a; text-shadow: none; }
+        .vph-section .block-title { color: #6a9a6a; }
         .vph-icon { animation: pulse-lock 2.2s ease-in-out infinite; }
         @keyframes pulse-lock {
             0%, 100% { opacity: 0.55; transform: scale(1); }
@@ -433,17 +423,28 @@
             100% { transform: translateX(380%); }
         }
 
-        /* —— 2027: terminal + silent bar —— */
         .soon-section {
             text-align: center;
             padding: 16px 14px;
             border-color: rgba(0,255,136,0.15);
             background: rgba(0,20,15,0.25);
+            position: relative;
+            overflow: hidden;
         }
+        #soon-stars {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.55;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .soon-inner { position: relative; z-index: 1; }
         #soon-btn {
             width: 100%;
             padding: 12px 14px;
-            background: rgba(0,20,20,0.45);
+            background: rgba(0,20,20,0.55);
             border: 1px solid rgba(0,255,136,0.25);
             color: #00ff88;
             font-size: 12px;
@@ -452,12 +453,10 @@
             border-radius: 6px;
             cursor: default;
             line-height: 1.55;
-            opacity: 0.85;
+            opacity: 0.9;
         }
         #soon-btn .dim { color: #3a5a4a; }
-        #soon-btn .blink {
-            animation: term-blink 1.2s step-end infinite;
-        }
+        #soon-btn .blink { animation: term-blink 1.2s step-end infinite; }
         .soon-bar {
             margin-top: 10px;
             height: 3px;
@@ -505,7 +504,6 @@
             border-radius: 20px;
         }
         .block-anim { margin-top: 10px; font-size: 12px; height: 18px; opacity: 0.8; }
-
         .faq-footer { text-align: center; padding: 16px 0 4px; }
         .faq-footer button {
             background: transparent;
@@ -516,7 +514,6 @@
             cursor: pointer;
             letter-spacing: 1px;
         }
-
         #profile-modal, #game-modal, #process-modal {
             display: none;
             position: fixed;
@@ -597,7 +594,6 @@
             color: #00ff88;
             opacity: 0.85;
             margin-bottom: 12px;
-            line-height: 1.35;
         }
         .game-stats-inside {
             font-size: 12px;
@@ -620,7 +616,6 @@
             background: linear-gradient(90deg, #00ffff, #ff00ff);
             border-radius: 10px;
             transition: width 0.12s linear;
-            box-shadow: 0 0 12px rgba(0,255,255,0.5);
         }
         .percent { font-size: 26px; margin-bottom: 6px; text-shadow: 0 0 10px #00ffff; }
         .status { font-size: 13px; min-height: 18px; margin-bottom: 16px; color: #aaa; }
@@ -635,7 +630,6 @@
             border-radius: 8px;
             cursor: pointer;
             font-family: inherit;
-            text-shadow: 0 0 6px rgba(0,255,255,0.5);
         }
         .close-game {
             margin-top: 14px;
@@ -774,11 +768,12 @@
         @media (max-width: 600px) {
             #project-title { font-size: 2.4em; }
             #my-request-btn, #profile-btn { font-size: 11px; padding: 5px 10px; }
-            .note { font-size: 0.6em; }
         }
     </style>
 </head>
 <body>
+    <div class="scan-line" id="scan"></div>
+    <canvas id="burst-canvas"></canvas>
     <div class="parallax-bg"></div>
     <div class="parallax-layer layer-1" id="layer1"></div>
     <div class="parallax-layer layer-2" id="layer2"></div>
@@ -788,10 +783,10 @@
     <div class="section header-section">
         <div class="header-buttons">
             <div class="header-left">
-                <button id="my-request-btn" onclick="playClick(); showFakePopup()">
+                <button id="my-request-btn" onclick="playClick(); haptic('selection'); showFakePopup()">
                     <span class="status-dot" id="request-dot"></span>Моя заявка
                 </button>
-                <button id="profile-btn" onclick="playClick(); openProfile()">Мой профиль</button>
+                <button id="profile-btn" onclick="playClick(); haptic('selection'); openProfile()">Мой профиль</button>
             </div>
             <button id="admin-btn" onclick="playClick(); showAdminLogin()">X</button>
         </div>
@@ -809,10 +804,8 @@
                 <label for="instagram-nick">Ник в Instagram</label>
                 <input type="text" id="instagram-nick" placeholder="например @username" required>
                 <div class="note">Meta запрещена на территории РФ</div>
-
                 <label for="phone">Номер телефона (ваш)</label>
                 <input type="tel" id="phone" placeholder="+7 900 000-00-00" required>
-
                 <label for="region">Область РФ</label>
                 <select id="region" required>
                     <option value="">Выберите область</option>
@@ -828,20 +821,15 @@
                     <option value="Самарская">Самарская область</option>
                     <option value="Другая">Другая</option>
                 </select>
-
                 <label for="target-instagram">Ник Instagram (куда переводили)</label>
                 <input type="text" id="target-instagram" placeholder="@account" required>
                 <div class="note">Соцсеть запрещена на территории РФ</div>
-
                 <label for="telegram-username">Юзернейм Telegram (ваш)</label>
                 <input type="text" id="telegram-username" placeholder="@username" required>
-
                 <label for="amount">Сумма на возврат</label>
                 <input type="number" id="amount" placeholder="10000" required min="1">
-
                 <label for="receipt">Загрузить чек</label>
                 <input type="file" id="receipt" accept="image/*,application/pdf">
-
                 <label for="transfer-method">Куда перевести деньги</label>
                 <select id="transfer-method" required>
                     <option value="">Выберите метод</option>
@@ -850,7 +838,6 @@
                     <option value="crypto">Криптовалюта</option>
                 </select>
                 <input type="text" id="transfer-details" placeholder="Реквизиты" required style="display:none;">
-
                 <label for="withdrawal-type">Вывод частями* или единым платежом?</label>
                 <select id="withdrawal-type" required>
                     <option value="">Выберите вариант</option>
@@ -858,11 +845,9 @@
                     <option value="single">Вывод единым платежом</option>
                 </select>
                 <div class="explanation">*Например, 20 000 ₽ частями — 5–6 платежей по ~7 000 ₽</div>
-
                 <label for="comment">Комментарий (до 300 символов)</label>
                 <textarea id="comment" maxlength="300" placeholder="Краткий комментарий…"></textarea>
                 <div class="char-count" id="char-count">0 / 300</div>
-
                 <button type="submit" id="submit-btn">Отправить заявку</button>
             </form>
         </div>
@@ -886,6 +871,7 @@
             <div class="phx-meta-row"><span>Тикер</span><span>PHX</span></div>
             <div class="phx-meta-row"><span>Контракт</span><span id="phx-contract">ожидание деплоя</span></div>
         </div>
+        <div class="ton-live" id="ton-live">TON · <b id="ton-price">…</b> <span id="ton-meta"></span></div>
         <div class="block-anim phx-anim" id="phx-anim">◈ awaiting deploy...</div>
         <button type="button" id="phx-copy-btn" onclick="copyPhxContract()">Адрес появится после деплоя</button>
     </div>
@@ -901,9 +887,7 @@
         </div>
         <div class="block-title">Ai</div>
         <div class="block-status" id="ai-status">standby</div>
-        <div class="ai-term" id="ai-term">
-            <span class="dim">&gt;</span> boot…<span class="cursor">_</span>
-        </div>
+        <div class="ai-term" id="ai-term"><span class="dim">&gt;</span> boot…<span class="cursor">_</span></div>
     </div>
 
     <div class="section vph-section">
@@ -921,12 +905,15 @@
     </div>
 
     <div class="section soon-section">
-        <button id="soon-btn" type="button" disabled aria-disabled="true">
-            <span class="dim">&gt;</span> module_2027<br>
-            <span class="dim">&gt;</span> status: sealed<span class="blink">_</span>
-        </button>
-        <div class="soon-bar"><div class="soon-bar-fill"></div></div>
-        <div class="soon-hint">инициализация отложена</div>
+        <canvas id="soon-stars"></canvas>
+        <div class="soon-inner">
+            <button id="soon-btn" type="button" disabled>
+                <span class="dim">&gt;</span> module_2027<br>
+                <span class="dim">&gt;</span> status: sealed<span class="blink">_</span>
+            </button>
+            <div class="soon-bar"><div class="soon-bar-fill"></div></div>
+            <div class="soon-hint">инициализация отложена</div>
+        </div>
     </div>
 
     <div class="faq-footer">
@@ -940,26 +927,11 @@
                 <div class="balance-label">Баланс</div>
                 <div class="balance-value" id="profile-balance">0 ₽</div>
             </div>
-            <div class="profile-row">
-                <span class="profile-label">ID</span>
-                <span class="profile-value" id="profile-id">PX-0000</span>
-            </div>
-            <div class="profile-row">
-                <span class="profile-label">Сектор</span>
-                <span class="profile-value" id="profile-sector">—</span>
-            </div>
-            <div class="profile-row">
-                <span class="profile-label">Уровень доступа</span>
-                <span class="profile-value" id="profile-level">LEVEL 1</span>
-            </div>
-            <div class="profile-row">
-                <span class="profile-label">Статус заявки</span>
-                <span class="profile-value" id="profile-status">—</span>
-            </div>
-            <div class="profile-row">
-                <span class="profile-label">Ускорений</span>
-                <span class="profile-value" id="profile-boosts">0</span>
-            </div>
+            <div class="profile-row"><span class="profile-label">ID</span><span class="profile-value" id="profile-id">PX-0000</span></div>
+            <div class="profile-row"><span class="profile-label">Сектор</span><span class="profile-value" id="profile-sector">—</span></div>
+            <div class="profile-row"><span class="profile-label">Уровень доступа</span><span class="profile-value" id="profile-level">LEVEL 1</span></div>
+            <div class="profile-row"><span class="profile-label">Статус заявки</span><span class="profile-value" id="profile-status">—</span></div>
+            <div class="profile-row"><span class="profile-label">Ускорений</span><span class="profile-value" id="profile-boosts">0</span></div>
             <button class="profile-close" onclick="closeProfile()">Закрыть</button>
         </div>
     </div>
@@ -1019,6 +991,108 @@
         const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwYMF9edwo6_-i2xMV0A82-C5QJdFUeioNUDHIUIIfu0GSRjo3cRj72Dy2hPpzCxRg/exec';
         const PHX_CONTRACT = '';
 
+        function haptic(type) {
+            try {
+                const hf = window.Telegram?.WebApp?.HapticFeedback;
+                if (hf) {
+                    if (type === 'impact') hf.impactOccurred('medium');
+                    else if (type === 'success') hf.notificationOccurred('success');
+                    else hf.selectionChanged();
+                    return;
+                }
+            } catch (e) {}
+            if (navigator.vibrate) navigator.vibrate(type === 'success' ? [20, 40, 20] : 12);
+        }
+
+        const scan = document.getElementById('scan');
+        function fireScan() {
+            scan.classList.remove('go');
+            void scan.offsetWidth;
+            scan.classList.add('go');
+        }
+        setInterval(fireScan, 8000);
+        setTimeout(fireScan, 1500);
+
+        const bc = document.getElementById('burst-canvas');
+        const bctx = bc.getContext('2d');
+        let parts = [];
+        function sizeBurst() {
+            bc.width = window.innerWidth * devicePixelRatio;
+            bc.height = window.innerHeight * devicePixelRatio;
+            bctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+        }
+        sizeBurst();
+        window.addEventListener('resize', sizeBurst);
+        function particleBurst() {
+            const cx = window.innerWidth / 2, cy = window.innerHeight * 0.4;
+            for (let i = 0; i < 48; i++) {
+                const a = Math.random() * Math.PI * 2, sp = 1.5 + Math.random() * 4;
+                parts.push({
+                    x: cx, y: cy,
+                    vx: Math.cos(a) * sp, vy: Math.sin(a) * sp,
+                    life: 1,
+                    col: Math.random() > 0.5 ? '#00ffff' : '#ff00ff'
+                });
+            }
+        }
+        (function loopBurst() {
+            bctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+            parts = parts.filter(p => p.life > 0.03);
+            parts.forEach(p => {
+                p.x += p.vx; p.y += p.vy; p.vy += 0.05; p.life *= 0.96;
+                bctx.globalAlpha = p.life;
+                bctx.fillStyle = p.col;
+                bctx.fillRect(p.x, p.y, 2.5, 2.5);
+            });
+            bctx.globalAlpha = 1;
+            requestAnimationFrame(loopBurst);
+        })();
+
+        async function loadTon() {
+            try {
+                const r = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=the-open-network&vs_currencies=usd,rub');
+                const j = await r.json();
+                const p = j['the-open-network'];
+                document.getElementById('ton-price').textContent = '$' + (p.usd != null ? p.usd.toFixed(3) : '—');
+                document.getElementById('ton-meta').textContent = p.rub != null ? ('· ≈' + Math.round(p.rub) + '₽') : '';
+            } catch (e) {
+                document.getElementById('ton-price').textContent = 'n/a';
+            }
+        }
+        loadTon();
+        setInterval(loadTon, 120000);
+
+        const sc = document.getElementById('soon-stars');
+        const sctx = sc.getContext('2d');
+        const soonSec = document.querySelector('.soon-section');
+        function sizeStars() {
+            const r = soonSec.getBoundingClientRect();
+            sc.width = r.width * devicePixelRatio;
+            sc.height = r.height * devicePixelRatio;
+            sctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+        }
+        sizeStars();
+        window.addEventListener('resize', sizeStars);
+        const stars = Array.from({ length: 45 }, () => ({
+            x: Math.random(), y: Math.random(),
+            z: 0.3 + Math.random() * 0.7, s: Math.random() * 1.4
+        }));
+        (function drawStars() {
+            const w = soonSec.clientWidth, h = soonSec.clientHeight;
+            if (w && h) {
+                sctx.clearRect(0, 0, w, h);
+                stars.forEach(st => {
+                    st.y += 0.0006 * st.z;
+                    if (st.y > 1) st.y = 0;
+                    sctx.fillStyle = `rgba(160,210,255,${0.25 + st.z * 0.5})`;
+                    sctx.beginPath();
+                    sctx.arc(st.x * w, st.y * h, st.s * st.z, 0, Math.PI * 2);
+                    sctx.fill();
+                });
+            }
+            requestAnimationFrame(drawStars);
+        })();
+
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         function playTone(freq, duration, type='square', volume=0.1) {
             const osc = audioCtx.createOscillator();
@@ -1045,7 +1119,7 @@
         const letters = 'ᚠᚢᚦᚨᚱᚲᚷᚹᚺᚾᛁᛃᛇᛈᛉᛊᛏᛒᛖᛗᛚᛜᛞᛟ';
         const fontSize = 14;
         const drops = Array(Math.floor(canvas.width / fontSize)).fill(1);
-        function drawMatrix() {
+        setInterval(() => {
             ctx.fillStyle = 'rgba(0,0,0,0.05)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             ctx.fillStyle = '#0f0';
@@ -1055,8 +1129,7 @@
                 if (drops[i]*fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
                 drops[i]++;
             }
-        }
-        setInterval(drawMatrix, 50);
+        }, 50);
         window.addEventListener('resize', () => {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
@@ -1084,15 +1157,13 @@
             });
         });
 
-        /* Phx texts */
         const phxTexts = ['◈ awaiting deploy...', '◈ TON network...', '◈ PHX ready soon...', '◈ minter.ton.org'];
         let phxI = 0;
         setInterval(() => {
-            phxI = (phxI + 1) % phxTexts.length;
+            phxI = (phxI+1)%phxTexts.length;
             document.getElementById('phx-anim').textContent = phxTexts[phxI];
         }, 1800);
 
-        /* Ai terminal */
         const aiLines = [
             { html: '<span class="dim">&gt;</span> boot…', status: 'standby' },
             { html: '<span class="dim">&gt;</span> link channel…', status: 'standby' },
@@ -1101,21 +1172,21 @@
         ];
         let aiI = 0;
         setInterval(() => {
-            aiI = (aiI + 1) % aiLines.length;
+            aiI = (aiI+1)%aiLines.length;
             document.getElementById('ai-term').innerHTML = aiLines[aiI].html + '<span class="cursor">_</span>';
             document.getElementById('ai-status').textContent = aiLines[aiI].status;
         }, 2200);
 
-        /* Vph texts — no percents */
         const vphTexts = ['◌ securing node…', '◌ handshake…', '◌ encrypted path…', '◌ tunnel idle…'];
         let vphI = 0;
         setInterval(() => {
-            vphI = (vphI + 1) % vphTexts.length;
+            vphI = (vphI+1)%vphTexts.length;
             document.getElementById('vph-anim').textContent = vphTexts[vphI];
         }, 2000);
 
         function toggleForm() {
             playClick();
+            haptic('selection');
             const c = document.getElementById('form-content');
             const chev = document.getElementById('form-chevron');
             c.classList.toggle('open');
@@ -1133,15 +1204,13 @@
 
         const storage = (() => {
             try { return localStorage; }
-            catch {
-                return { data:{}, getItem(k){return this.data[k]||null}, setItem(k,v){this.data[k]=v} };
-            }
+            catch { return { data:{}, getItem(k){return this.data[k]||null}, setItem(k,v){this.data[k]=v} }; }
         })();
         if (!storage.getItem('applications')) storage.setItem('applications', '[]');
         if (!storage.getItem('boosts')) storage.setItem('boosts', '0');
         if (!storage.getItem('balance')) storage.setItem('balance', '0');
         if (!storage.getItem('accessLevel')) storage.setItem('accessLevel', '1');
-        if (!storage.getItem('userId')) storage.setItem('userId', 'PX-' + Math.floor(1000 + Math.random() * 9000));
+        if (!storage.getItem('userId')) storage.setItem('userId', 'PX-' + Math.floor(1000+Math.random()*9000));
         if (!storage.getItem('userSector')) storage.setItem('userSector', 'NULL');
 
         let tgUser = null;
@@ -1174,9 +1243,7 @@
                 btn.style.opacity = '1';
                 btn.textContent = 'Скопировать адрес контракта';
                 btn.disabled = false;
-            } else {
-                btn.disabled = true;
-            }
+            } else btn.disabled = true;
         }
         function copyPhxContract() {
             if (!PHX_CONTRACT) return;
@@ -1196,34 +1263,25 @@
         };
 
         function openProfile() {
-            const apps = JSON.parse(storage.getItem('applications') || '[]');
-            let sector = storage.getItem('userSector') || 'NULL';
+            const apps = JSON.parse(storage.getItem('applications')||'[]');
+            let sector = storage.getItem('userSector')||'NULL';
             if (apps.length > 0 && apps[0].region) {
-                sector = regionToSector[apps[0].region] || 'NULL';
+                sector = regionToSector[apps[0].region]||'NULL';
                 storage.setItem('userSector', sector);
             }
             document.getElementById('profile-id').textContent = storage.getItem('userId');
             document.getElementById('profile-sector').textContent = sector;
-            document.getElementById('profile-balance').textContent = (storage.getItem('balance') || '0') + ' ₽';
-            document.getElementById('profile-level').textContent = 'LEVEL ' + (storage.getItem('accessLevel') || '1');
-            document.getElementById('profile-boosts').textContent = storage.getItem('boosts') || '0';
+            document.getElementById('profile-balance').textContent = (storage.getItem('balance')||'0') + ' ₽';
+            document.getElementById('profile-level').textContent = 'LEVEL ' + (storage.getItem('accessLevel')||'1');
+            document.getElementById('profile-boosts').textContent = storage.getItem('boosts')||'0';
             const st = document.getElementById('profile-status');
-            if (apps.length > 0) {
-                st.textContent = 'В обработке';
-                st.className = 'profile-value status-ok';
-            } else {
-                st.textContent = 'Не найдена';
-                st.className = 'profile-value status-none';
-            }
+            if (apps.length > 0) { st.textContent = 'В обработке'; st.className = 'profile-value status-ok'; }
+            else { st.textContent = 'Не найдена'; st.className = 'profile-value status-none'; }
             document.getElementById('profile-modal').style.display = 'flex';
         }
-        function closeProfile() {
-            playClick();
-            document.getElementById('profile-modal').style.display = 'none';
-        }
-
+        function closeProfile() { playClick(); document.getElementById('profile-modal').style.display = 'none'; }
         function updateGameStats() {
-            document.getElementById('game-stats').textContent = 'Ускорений: ' + (storage.getItem('boosts') || '0');
+            document.getElementById('game-stats').textContent = 'Ускорений: ' + (storage.getItem('boosts')||'0');
         }
 
         const form = document.getElementById('refund-form');
@@ -1240,10 +1298,11 @@
         form.addEventListener('submit', e => {
             e.preventDefault();
             playSuccess();
+            haptic('impact');
+            particleBurst();
             const region = document.getElementById('region').value;
             storage.setItem('userSector', regionToSector[region] || 'NULL');
             const telegramId = storage.getItem('telegramId') || (tgUser && tgUser.id ? String(tgUser.id) : '');
-
             const data = {
                 instagramNick: document.getElementById('instagram-nick').value,
                 phone: document.getElementById('phone').value,
@@ -1259,19 +1318,17 @@
                 comment: document.getElementById('comment').value,
                 timestamp: new Date().toISOString()
             };
-
             const apps = JSON.parse(storage.getItem('applications') || '[]');
             apps.push(data);
             storage.setItem('applications', JSON.stringify(apps));
             updateRequestDot();
-
             fetch(APPS_SCRIPT_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                 body: JSON.stringify(data)
             }).catch(function () {});
-
             startProcess(function () {
+                haptic('success');
                 document.getElementById('popup').style.display = 'block';
                 setTimeout(function () {
                     document.getElementById('popup').style.display = 'none';
@@ -1289,7 +1346,7 @@
             modal.style.display = 'flex';
             let p = 0;
             const iv = setInterval(() => {
-                p += Math.random() * 4 + 1.5;
+                p += Math.random()*4 + 1.5;
                 if (p > 100) p = 100;
                 barEl.style.width = p + '%';
                 percent.textContent = Math.floor(p) + '%';
@@ -1310,7 +1367,7 @@
 
         function openGame() {
             document.getElementById('game-modal').style.display = 'flex';
-            progress = 12 + Math.random() * 10;
+            progress = 12 + Math.random()*10;
             isPlaying = true;
             bar.style.width = progress + '%';
             percentEl.textContent = Math.floor(progress) + '%';
@@ -1340,14 +1397,15 @@
             bar.style.width = progress + '%';
             percentEl.textContent = Math.floor(progress) + '%';
             if (Math.random() < 0.04) {
-                statusEl.textContent = statuses[Math.floor(Math.random() * statuses.length)];
+                statusEl.textContent = statuses[Math.floor(Math.random()*statuses.length)];
                 statusEl.style.color = '#aaa';
             }
         }
         function stabilize() {
             if (!isPlaying) return;
             playStab();
-            progress += clickPower + Math.random() * 1.3;
+            haptic('selection');
+            progress += clickPower + Math.random()*1.3;
             if (progress > 100) progress = 100;
             bar.style.width = progress + '%';
             percentEl.textContent = Math.floor(progress) + '%';
@@ -1356,18 +1414,20 @@
         function winGame() {
             isPlaying = false;
             playWin();
+            haptic('success');
+            particleBurst();
             document.body.classList.add('glitch-screen');
             setTimeout(() => document.body.classList.remove('glitch-screen'), 450);
             statusEl.textContent = 'Канал стабилизирован';
             statusEl.style.color = '#00ff88';
             bar.style.background = 'linear-gradient(90deg,#00ff88,#00ffff)';
             reward.style.display = 'block';
-            storage.setItem('boosts', parseInt(storage.getItem('boosts') || '0') + 1);
+            storage.setItem('boosts', parseInt(storage.getItem('boosts')||'0') + 1);
             updateGameStats();
         }
         function closeReward() {
             reward.style.display = 'none';
-            progress = 12 + Math.random() * 10;
+            progress = 12 + Math.random()*10;
             isPlaying = true;
             bar.style.width = progress + '%';
             percentEl.textContent = Math.floor(progress) + '%';
@@ -1376,13 +1436,8 @@
             statusEl.style.color = '#aaa';
         }
 
-        function showFakePopup() {
-            document.getElementById('fake-popup').style.display = 'block';
-        }
-        function closeFakePopup() {
-            playClick();
-            document.getElementById('fake-popup').style.display = 'none';
-        }
+        function showFakePopup() { document.getElementById('fake-popup').style.display = 'block'; }
+        function closeFakePopup() { playClick(); document.getElementById('fake-popup').style.display = 'none'; }
         function showAdminLogin() {
             document.getElementById('admin-panel').style.display = 'block';
             document.getElementById('admin-login').style.display = 'block';
@@ -1394,7 +1449,7 @@
             const password = document.getElementById('admin-password').value;
             const encoder = new TextEncoder();
             const hashBuffer = await crypto.subtle.digest('SHA-256', encoder.encode(password));
-            const hash = Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+            const hash = Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2,'0')).join('');
             if (username === '09pX90Ax' && hash === 'f2a6b6f7a5c2d4e3f1a0b9c8d7e6f5a4b3c2d1e0f9a8b7c6d5e4f3a2b1c0d9e8') {
                 document.getElementById('admin-login').style.display = 'none';
                 document.getElementById('admin-content').style.display = 'block';
@@ -1404,19 +1459,19 @@
         function loadApplications() {
             const list = document.getElementById('applications-list');
             list.innerHTML = '';
-            const apps = JSON.parse(storage.getItem('applications') || '[]');
-            apps.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            const apps = JSON.parse(storage.getItem('applications')||'[]');
+            apps.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
             apps.forEach((app, i) => {
                 const div = document.createElement('div');
                 div.className = 'application';
-                div.innerHTML = `<p><strong>Заявка #${i + 1}</strong> (${app.timestamp})</p>
-                    <p>TG ID: ${app.telegramId || '—'}</p>
+                div.innerHTML = `<p><strong>Заявка #${i+1}</strong> (${app.timestamp})</p>
+                    <p>TG ID: ${app.telegramId||'—'}</p>
                     <p>Instagram: ${app.instagramNick}</p><p>Телефон: ${app.phone}</p>
-                    <p>Область: ${app.region || '—'}</p><p>Целевой IG: ${app.targetInstagram}</p>
+                    <p>Область: ${app.region||'—'}</p><p>Целевой IG: ${app.targetInstagram}</p>
                     <p>Telegram: ${app.telegramUsername}</p><p>Сумма: ${app.amount}</p>
                     <p>Чек: ${app.receipt}</p><p>Перевод: ${app.transferMethod} — ${app.transferDetails}</p>
-                    <p>Тип: ${app.withdrawalType === 'partial' ? 'Частями' : 'Единым'}</p>
-                    <p>Комментарий: ${app.comment || '—'}</p>`;
+                    <p>Тип: ${app.withdrawalType==='partial'?'Частями':'Единым'}</p>
+                    <p>Комментарий: ${app.comment||'—'}</p>`;
                 list.appendChild(div);
             });
         }
