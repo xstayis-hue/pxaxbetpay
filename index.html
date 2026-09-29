@@ -421,7 +421,8 @@ function haptic(type){try{const hf=window.Telegram?.WebApp?.HapticFeedback;if(hf
 
 function pushTerm(msg){const t=document.getElementById('term-log-txt');if(t)t.textContent=msg}
 function openTonViewer(){
-  haptic('selection');pushTerm('ton route · external');
+  haptic('selection');
+  try{pushTerm('ton route · external')}catch(e){}
   try{
     var a=document.createElement('a');
     a.href=TON_LINK;a.target='_blank';a.rel='noopener noreferrer';
@@ -429,9 +430,7 @@ function openTonViewer(){
     return;
   }catch(e){}
   try{window.open(TON_LINK,'_blank','noopener');return}catch(e){}
-  try{if(window.Telegram?.WebApp?.openLink){Telegram.WebApp.openLink(TON_LINK);return}}catch(e){}
-}}catch(e){}
-  window.open(TON_LINK,'_blank','noopener');
+  try{if(window.Telegram&&Telegram.WebApp&&Telegram.WebApp.openLink){Telegram.WebApp.openLink(TON_LINK)}}catch(e){}
 }
 
 const scan=document.getElementById('scan');
@@ -458,7 +457,6 @@ document.getElementById('ton-live').addEventListener('click',openTonViewer);
 document.getElementById('spark-wrap').addEventListener('click',openTonViewer);
 
 /* ambient particles disabled */
-})();
 
 /* breathing */
 (function(){
@@ -539,11 +537,25 @@ function playSuccess(){playTone(600,.08,'sine',.1);setTimeout(()=>playTone(900,.
 function playStab(){playTone(660,.04,'square',.07)}
 function playWin(){playTone(520,.1,'sine',.12);setTimeout(()=>playTone(780,.15,'sine',.12),100);setTimeout(()=>playTone(1040,.2,'sine',.1),220)}
 
-const canvas=document.getElementById('matrix'),ctx=canvas.getContext('2d');
-canvas.width=innerWidth;canvas.height=innerHeight;
-const letters='ᚠᚢᚦᚨᚱᚲᚷᚹᚺᚾᛁᛃᛇᛈᛉᛊᛏᛒᛖᛗᛚᛜᛞᛟ',fontSize=14,drops=Array(Math.floor(canvas.width/fontSize)).fill(1);
-setInterval(()=>{ctx.fillStyle='rgba(0,0,0,0.05)';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.fillStyle='#0f0';ctx.font=fontSize+'px monospace';for(let i=0;i<drops.length;i++){ctx.fillText(letters[Math.floor(Math.random()*letters.length)],i*fontSize,drops[i]*fontSize);if(drops[i]*fontSize>canvas.height&&Math.random()>.975)drops[i]=0;drops[i]++}},50);
-addEventListener('resize',()=>{canvas.width=innerWidth;canvas.height=innerHeight});
+(function(){
+  const canvas=document.getElementById('matrix');
+  if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  function size(){canvas.width=innerWidth;canvas.height=innerHeight}
+  size();
+  const letters='ᚠᚢᚦᚨᚱᚲᚷᚹᚺᚾᛁᛃᛇᛈᛉᛊᛏᛒᛖᛗᛚᛜᛞᛟ',fontSize=14;
+  let drops=Array(Math.floor(canvas.width/fontSize)||1).fill(1);
+  setInterval(()=>{
+    ctx.fillStyle='rgba(0,0,0,0.05)';ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle='#0f0';ctx.font=fontSize+'px monospace';
+    for(let i=0;i<drops.length;i++){
+      ctx.fillText(letters[Math.floor(Math.random()*letters.length)],i*fontSize,drops[i]*fontSize);
+      if(drops[i]*fontSize>canvas.height&&Math.random()>.975)drops[i]=0;
+      drops[i]++;
+    }
+  },50);
+  addEventListener('resize',()=>{size();drops=Array(Math.floor(canvas.width/fontSize)||1).fill(1)});
+})();
 
 const myBtn=document.getElementById('my-request-btn'),profileBtn=document.getElementById('profile-btn'),adminBtn=document.getElementById('admin-btn');
 addEventListener('scroll',()=>{const y=scrollY;document.getElementById('layer1').style.transform=`translateY(${y*.25}px)`;document.getElementById('layer2').style.transform=`translateY(${y*.45}px)`;document.getElementById('layer3').style.transform=`translateY(${y*.65}px)`;const move=Math.min(y*.15,12);myBtn.style.transform=`translateY(${move}px)`;profileBtn.style.transform=`translateY(${move}px)`;adminBtn.style.transform=`translateY(${move*.8}px)`});
