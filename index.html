@@ -194,6 +194,9 @@ input.field-error,textarea.field-error,select.field-error{border-color:rgba(255,
 .profile-top{display:flex;align-items:center;gap:12px;margin-bottom:12px}
 .profile-avatar{width:56px;height:56px;flex:0 0 56px;display:grid;place-items:center;overflow:hidden;border-radius:17px;border:1px solid rgba(0,255,255,.55);background:linear-gradient(145deg,rgba(0,255,255,.17),rgba(255,0,255,.17));color:#a6ffff;font:800 20px Orbitron,'Courier New',monospace;box-shadow:0 0 20px rgba(0,255,255,.15)}
 .profile-avatar img{width:100%;height:100%;object-fit:cover;border-radius:inherit}
+/* если фото загружено, буквы-заглушка не должны просвечивать (важно для ников из символов) */
+.profile-avatar:has(img){font-size:0;color:transparent}
+.profile-avatar:has(img) img{font-size:initial;color:initial}
 .profile-identity{flex:1;min-width:0}
 .profile-title{font-size:10px;color:#00ffff;letter-spacing:1.8px;text-transform:uppercase;margin-bottom:4px}
 .profile-name{overflow:hidden;color:#f0fcff;font-size:17px;font-weight:700;text-overflow:ellipsis;white-space:nowrap}
@@ -454,7 +457,7 @@ TON · <b id="ton-price">…</b> <span id="ton-chg" class="chg-flat">—</span>
 <div id="faq-term" style="color:#0f0;font-size:13px;line-height:1.55;min-height:4.5em;white-space:pre-wrap"></div>
 <button type="button" onclick="closeFaq()" style="margin-top:14px;width:100%;padding:10px;background:rgba(0,255,255,.1);border:1px solid #00ffff;color:#00ffff;border-radius:8px;font-family:inherit;cursor:pointer">закрыть</button>
 </div></div>
-<div class="app-version">v1.0 · PXAX</div>
+<div class="app-version">v1.1 · PXAX</div>
 <div class="term-log"><span class="tl-dim">&gt;</span> <span id="term-log-txt">init channel…</span><span class="tl-cursor">_</span></div>
 
 <div id="profile-modal"><div class="profile-box">
