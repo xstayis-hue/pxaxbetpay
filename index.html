@@ -232,6 +232,8 @@ input.field-error,textarea.field-error,select.field-error{border-color:rgba(255,
 .profile-account-item{padding:9px;border-radius:10px;background:rgba(255,255,255,.03)}
 .profile-account-label{color:#648286;font-size:9px}
 .profile-account-value{margin-top:4px;overflow-wrap:anywhere;color:#8ff7f0;font-size:10px;font-weight:700}
+.profile-account-value.status-ok{color:#00ff88}
+.profile-account-value.status-none{color:#ff6666}
 .profile-note{margin:10px 1px 0;color:#4d7074;font-size:9px;line-height:1.45}
 .profile-box .profile-close{margin-top:13px}
 .profile-copy{border:0;background:none;color:#68dada;font:inherit;font-size:9px;text-decoration:underline;cursor:pointer}
@@ -449,7 +451,7 @@ TON · <b id="ton-price">…</b> <span id="ton-chg" class="chg-flat">—</span>
 <div id="faq-term" style="color:#0f0;font-size:13px;line-height:1.55;min-height:4.5em;white-space:pre-wrap"></div>
 <button type="button" onclick="closeFaq()" style="margin-top:14px;width:100%;padding:10px;background:rgba(0,255,255,.1);border:1px solid #00ffff;color:#00ffff;border-radius:8px;font-family:inherit;cursor:pointer">закрыть</button>
 </div></div>
-<div class="app-version">v0.7 · PXAX</div>
+<div class="app-version">v0.8 · PXAX</div>
 <div class="term-log"><span class="tl-dim">&gt;</span> <span id="term-log-txt">init channel…</span><span class="tl-cursor">_</span></div>
 
 <div id="profile-modal"><div class="profile-box">
@@ -462,7 +464,7 @@ TON · <b id="ton-price">…</b> <span id="ton-chg" class="chg-flat">—</span>
   <div class="profile-level-head"><div class="profile-level-icon">⌁</div><div class="profile-level-main"><div class="profile-level-name" id="profile-xp-level">НОВЫЙ ОПЕРАТОР</div><div class="profile-level-copy" id="profile-xp-copy">Первые шаги в системе</div></div><div class="profile-xp-number" id="profile-xp-number">0 XP</div></div>
   <div class="profile-xp-track"><div class="profile-xp-fill" id="profile-xp-fill"></div></div>
   <div class="profile-xp-caption"><span id="profile-xp-current">0 XP</span><span id="profile-xp-next">До следующего уровня: 60 XP</span></div>
-  <div class="profile-xp-note">XP начисляется за записи и ускорения</div>
+  <div class="profile-xp-note">XP начисляется за ускорения</div>
 </div>
 <div class="profile-section-title">СВОДКА</div>
 <div class="profile-stats">
@@ -479,6 +481,7 @@ TON · <b id="ton-price">…</b> <span id="ton-chg" class="chg-flat">—</span>
 <div class="profile-account">
   <div class="profile-account-item"><div class="profile-account-label">ID профиля</div><div class="profile-account-value"><span id="profile-id">PX-0000</span> <button class="profile-copy" type="button" onclick="copyProfileId()">копировать</button></div></div>
   <div class="profile-account-item"><div class="profile-account-label">Уровень доступа</div><div class="profile-account-value" id="profile-level">LEVEL 1</div></div>
+  <div class="profile-account-item"><div class="profile-account-label">Статус заявки</div><div class="profile-account-value" id="profile-status">—</div></div>
 </div>
 <div class="profile-note">Сводка профиля формируется из данных, сохранённых в этом браузере.</div>
 <button class="profile-close" type="button" onclick="closeProfile()">Закрыть</button>
@@ -780,7 +783,14 @@ if(!storage.getItem('userSector'))storage.setItem('userSector','NULL');
 let tgUser=null;
 if(window.Telegram?.WebApp){Telegram.WebApp.ready();Telegram.WebApp.expand();tgUser=Telegram.WebApp.initDataUnsafe?.user||null;if(tgUser?.id)storage.setItem('telegramId',String(tgUser.id));if(tgUser?.username){storage.setItem('telegramUsername','@'+tgUser.username);const tgInput=document.getElementById('telegram-username');if(tgInput&&!tgInput.value)tgInput.value='@'+tgUser.username}}
 
-function updateRequestDot(){const apps=JSON.parse(storage.getItem('applications')||'[]');document.getElementById('request-dot').classList.toggle('on',apps.length>0)}
+function updateRequestDot(){const apps=JSON.parse(storage.getItem('applications')||'[]');document.getElementById('request-dot').classList.toggle('on',apps.length>0);updateProfileRequestStatus(apps)}
+function updateProfileRequestStatus(apps){
+  const st=document.getElementById('profile-status');
+  if(!st)return;
+  const has=Array.isArray(apps)?apps.length>0:false;
+  st.textContent=has?'В обработке':'Не найдена';
+  st.className='profile-account-value '+(has?'status-ok':'status-none');
+}
 updateRequestDot();
 
 function initPhxBlock(){const el=document.getElementById('phx-contract'),btn=document.getElementById('phx-copy-btn');if(PHX_CONTRACT){el.textContent=PHX_CONTRACT.slice(0,6)+'…'+PHX_CONTRACT.slice(-4);el.style.color='#00ff88';btn.style.opacity='1';btn.textContent='Скопировать адрес контракта';btn.disabled=false}else btn.disabled=true}
@@ -879,12 +889,13 @@ function openProfile(){
   document.getElementById('profile-sector').textContent=sector;
   document.getElementById('profile-balance').textContent=(storage.getItem('balance')||'0')+' ₽';
   document.getElementById('profile-level').textContent='LEVEL '+(storage.getItem('accessLevel')||'1');
+  updateProfileRequestStatus(apps);
   document.getElementById('profile-boosts').textContent=String(boosts);
   document.getElementById('profile-app-count').textContent=String(apps.length);
   renderProfileAchievements(apps,boosts,sector);
   renderProfileHistory(apps);
 
-  const xp=apps.length*40+boosts*25;
+  const xp=boosts*25;   // записи больше не дают XP, только ускорения
   const levels=[
     {name:'НОВЫЙ ОПЕРАТОР',threshold:0,copy:'Первые шаги в системе'},
     {name:'ОПЕРАТОР',threshold:60,copy:'Система узнаёт ваш сигнал'},
@@ -1124,7 +1135,7 @@ function openTgBot(url){
   const loadModel = () => {
     attempt += 1;
     loader.load(
-      'angelica.glb?v=4',
+      'angelica.glb?v=5',
       (gltf) => {
         head.add(gltf.scene);
         start();
