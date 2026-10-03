@@ -145,7 +145,54 @@ input.field-error,textarea.field-error,select.field-error{border-color:rgba(255,
 .term-log .tl-dim{color:#2a3a35}.term-log .tl-cursor{animation:term-blink 1s step-end infinite}
 #profile-modal,#game-modal,#process-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.8);z-index:500;align-items:center;justify-content:center;padding:16px;padding-bottom:max(16px,env(safe-area-inset-bottom))}
 .profile-box,.game-box{width:100%;max-width:340px;background:rgba(0,0,0,.75);backdrop-filter:blur(20px);border:1px solid rgba(0,255,255,.35);border-radius:14px;padding:20px 16px;text-align:center;position:relative}
-.profile-title{font-size:15px;color:#ff00ff;text-shadow:0 0 8px #ff00ff;margin-bottom:12px;letter-spacing:1px}
+.profile-box{width:min(100%,390px);max-height:calc(100dvh - 32px - env(safe-area-inset-bottom));overflow:auto;padding:16px;text-align:left;border-color:rgba(0,255,255,.32);background:radial-gradient(ellipse at 90% 0%,rgba(255,0,255,.12),transparent 45%),linear-gradient(155deg,rgba(8,16,22,.97),rgba(5,7,12,.97));box-shadow:0 18px 60px rgba(0,0,0,.58),0 0 32px rgba(0,255,255,.08);scrollbar-width:thin;scrollbar-color:rgba(0,255,255,.3) transparent}
+.profile-top{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.profile-avatar{width:56px;height:56px;flex:0 0 56px;display:grid;place-items:center;overflow:hidden;border-radius:17px;border:1px solid rgba(0,255,255,.55);background:linear-gradient(145deg,rgba(0,255,255,.17),rgba(255,0,255,.17));color:#a6ffff;font:800 20px Orbitron,'Courier New',monospace;box-shadow:0 0 20px rgba(0,255,255,.15)}
+.profile-avatar img{width:100%;height:100%;object-fit:cover}
+.profile-identity{flex:1;min-width:0}
+.profile-title{font-size:10px;color:#00ffff;letter-spacing:1.8px;text-transform:uppercase;margin-bottom:4px}
+.profile-name{overflow:hidden;color:#f0fcff;font-size:17px;font-weight:700;text-overflow:ellipsis;white-space:nowrap}
+.profile-handle{margin-top:3px;color:#6daaaa;font-size:10px;overflow-wrap:anywhere}
+.profile-close-x{width:34px;height:34px;flex:0 0 34px;border:1px solid rgba(0,255,255,.22);border-radius:10px;background:rgba(0,255,255,.06);color:#7bdede;font:20px/1 'Courier New',monospace;cursor:pointer}
+.profile-level-card{padding:13px;border:1px solid rgba(255,0,255,.25);border-radius:14px;background:linear-gradient(120deg,rgba(255,0,255,.08),rgba(0,255,255,.07));margin-bottom:9px}
+.profile-level-head{display:flex;align-items:center;gap:10px}
+.profile-level-icon{width:37px;height:37px;display:grid;place-items:center;border:1px solid rgba(255,0,255,.35);border-radius:12px;background:rgba(255,0,255,.1);font-size:19px}
+.profile-level-main{flex:1;min-width:0}
+.profile-level-name{color:#fff;font-size:13px;font-weight:700}
+.profile-level-copy{margin-top:3px;color:#729096;font-size:10px}
+.profile-xp-number{color:#73fcf1;font-size:11px;font-weight:700;white-space:nowrap}
+.profile-xp-track{height:6px;margin-top:11px;overflow:hidden;border-radius:8px;background:rgba(255,255,255,.08)}
+.profile-xp-fill{width:0;height:100%;border-radius:inherit;background:linear-gradient(90deg,#00ffff,#ff00ff);box-shadow:0 0 12px rgba(0,255,255,.45);transition:width .45s ease}
+.profile-xp-caption{display:flex;justify-content:space-between;margin-top:5px;color:#5f8588;font-size:9px}
+.profile-xp-note{margin-top:7px;color:#58787c;font-size:9px}
+.profile-section-title{display:flex;align-items:center;gap:8px;margin:14px 1px 8px;color:#72bfc0;font-size:9px;letter-spacing:1.4px;text-transform:uppercase}
+.profile-section-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(0,255,255,.18),transparent)}
+.profile-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.profile-stat{min-width:0;padding:10px;border:1px solid rgba(0,255,255,.12);border-radius:12px;background:rgba(0,255,255,.035)}
+.profile-stat-value{overflow:hidden;color:#eaffff;font-size:18px;font-weight:800;text-overflow:ellipsis;white-space:nowrap}
+.profile-stat-value.cyan{color:#64ffff}.profile-stat-value.green{color:#64ffaf}.profile-stat-value.pink{color:#ff82ed}.profile-stat-value.gold{color:#ffdc75}
+.profile-stat-label{margin-top:3px;color:#668489;font-size:9px;letter-spacing:.35px}
+.profile-achievements{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.profile-achievement{display:flex;align-items:center;gap:8px;min-width:0;padding:9px;border:1px solid rgba(0,255,255,.11);border-radius:11px;background:rgba(255,255,255,.025);opacity:.48}
+.profile-achievement.unlocked{opacity:1;border-color:rgba(0,255,136,.28);background:rgba(0,255,136,.045)}
+.profile-achievement-icon{font-size:17px;filter:grayscale(1)}
+.profile-achievement.unlocked .profile-achievement-icon{filter:none}
+.profile-achievement-name{color:#b6cece;font-size:9px;line-height:1.35}
+.profile-history{display:grid;gap:6px}
+.profile-history-row{display:flex;align-items:center;gap:8px;padding:9px 10px;border:1px solid rgba(0,255,255,.1);border-radius:10px;background:rgba(255,255,255,.025)}
+.profile-history-mark{width:7px;height:7px;flex:0 0 7px;border-radius:50%;background:#00ff88;box-shadow:0 0 8px rgba(0,255,136,.45)}
+.profile-history-info{flex:1;min-width:0}
+.profile-history-title{overflow:hidden;color:#d6e8e8;font-size:10px;text-overflow:ellipsis;white-space:nowrap}
+.profile-history-date{margin-top:3px;color:#5f7c80;font-size:9px}
+.profile-history-amount{color:#80f7dd;font-size:10px;font-weight:700;white-space:nowrap}
+.profile-empty{padding:12px;border:1px dashed rgba(0,255,255,.16);border-radius:10px;color:#668489;font-size:10px;line-height:1.5;text-align:center}
+.profile-account{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.profile-account-item{padding:9px;border-radius:10px;background:rgba(255,255,255,.03)}
+.profile-account-label{color:#648286;font-size:9px}
+.profile-account-value{margin-top:4px;overflow-wrap:anywhere;color:#8ff7f0;font-size:10px;font-weight:700}
+.profile-note{margin:10px 1px 0;color:#4d7074;font-size:9px;line-height:1.45}
+.profile-box .profile-close{margin-top:13px}
+.profile-copy{border:0;background:none;color:#68dada;font:inherit;font-size:9px;text-decoration:underline;cursor:pointer}
 .profile-balance{background:rgba(0,255,136,.06);border:1px solid rgba(0,255,136,.25);border-radius:10px;padding:12px;margin-bottom:12px}
 .balance-label{font-size:11px;color:#888;margin-bottom:4px}
 .balance-value{font-size:20px;color:#00ff88;font-weight:700;text-shadow:0 0 10px rgba(0,255,136,.4)}
@@ -338,13 +385,34 @@ TON · <b id="ton-price">…</b> <span id="ton-chg" class="chg-flat">—</span>
 <div class="term-log"><span class="tl-dim">&gt;</span> <span id="term-log-txt">init channel…</span><span class="tl-cursor">_</span></div>
 
 <div id="profile-modal"><div class="profile-box">
-<div class="profile-title">ПРОФИЛЬ</div>
-<div class="profile-balance"><div class="balance-label">Баланс</div><div class="balance-value" id="profile-balance">0 ₽</div></div>
-<div class="profile-row"><span class="profile-label">ID</span><span class="profile-value" id="profile-id">PX-0000</span></div>
-<div class="profile-row"><span class="profile-label">Сектор</span><span class="profile-value" id="profile-sector">—</span></div>
-<div class="profile-row"><span class="profile-label">Уровень доступа</span><span class="profile-value" id="profile-level">LEVEL 1</span></div>
-<div class="profile-row"><span class="profile-label">Статус заявки</span><span class="profile-value" id="profile-status">—</span></div>
-<div class="profile-row"><span class="profile-label">Ускорений</span><span class="profile-value" id="profile-boosts">0</span></div>
+<div class="profile-top">
+  <div class="profile-avatar" id="profile-avatar" aria-label="Аватар профиля">PX</div>
+  <div class="profile-identity"><div class="profile-title">ЛИЧНЫЙ ПРОФИЛЬ</div><div class="profile-name" id="profile-name">PXAX USER</div><div class="profile-handle" id="profile-handle">Локальный профиль</div></div>
+  <button class="profile-close-x" type="button" onclick="closeProfile()" aria-label="Закрыть профиль">×</button>
+</div>
+<div class="profile-level-card">
+  <div class="profile-level-head"><div class="profile-level-icon">⌁</div><div class="profile-level-main"><div class="profile-level-name" id="profile-xp-level">НОВЫЙ ОПЕРАТОР</div><div class="profile-level-copy" id="profile-xp-copy">Первые шаги в системе</div></div><div class="profile-xp-number" id="profile-xp-number">0 XP</div></div>
+  <div class="profile-xp-track"><div class="profile-xp-fill" id="profile-xp-fill"></div></div>
+  <div class="profile-xp-caption"><span id="profile-xp-current">0 XP</span><span id="profile-xp-next">До следующего уровня: 60 XP</span></div>
+  <div class="profile-xp-note">XP начисляется за записи и ускорения</div>
+</div>
+<div class="profile-section-title">СВОДКА</div>
+<div class="profile-stats">
+  <div class="profile-stat"><div class="profile-stat-value green" id="profile-balance">0 ₽</div><div class="profile-stat-label">Баланс профиля</div></div>
+  <div class="profile-stat"><div class="profile-stat-value cyan" id="profile-app-count">0</div><div class="profile-stat-label">Записей заявок</div></div>
+  <div class="profile-stat"><div class="profile-stat-value pink" id="profile-boosts">0</div><div class="profile-stat-label">Ускорений</div></div>
+  <div class="profile-stat"><div class="profile-stat-value gold" id="profile-sector">NULL</div><div class="profile-stat-label">Сектор</div></div>
+</div>
+<div class="profile-section-title">ДОСТИЖЕНИЯ</div>
+<div class="profile-achievements" id="profile-achievements"></div>
+<div class="profile-section-title">ПОСЛЕДНИЕ ЗАПИСИ</div>
+<div class="profile-history" id="profile-history"></div>
+<div class="profile-section-title">АККАУНТ</div>
+<div class="profile-account">
+  <div class="profile-account-item"><div class="profile-account-label">ID профиля</div><div class="profile-account-value"><span id="profile-id">PX-0000</span> <button class="profile-copy" type="button" onclick="copyProfileId()">копировать</button></div></div>
+  <div class="profile-account-item"><div class="profile-account-label">Уровень доступа</div><div class="profile-account-value" id="profile-level">LEVEL 1</div></div>
+</div>
+<div class="profile-note">Сводка профиля формируется из данных, сохранённых в этом браузере.</div>
 <button class="profile-close" type="button" onclick="closeProfile()">Закрыть</button>
 </div></div>
 
@@ -657,8 +725,134 @@ initPhxBlock();
 
 const regionToSector={'Московская':'1-A','Ленинградская':'2-B','Новосибирская':'3-C','Свердловская':'4-A','Краснодарский край':'5-B','Ростовская':'6-C','Республика Татарстан':'7-A','Челябинская':'8-B','Нижегородская':'9-C','Самарская':'10-A','Другая':'NULL'};
 
-function openProfile(){pushTerm('route · profile');const apps=JSON.parse(storage.getItem('applications')||'[]');let sector=storage.getItem('userSector')||'NULL';if(apps.length>0&&apps[0].region){sector=regionToSector[apps[0].region]||'NULL';storage.setItem('userSector',sector)}document.getElementById('profile-id').textContent=storage.getItem('userId');document.getElementById('profile-sector').textContent=sector;document.getElementById('profile-balance').textContent=(storage.getItem('balance')||'0')+' ₽';document.getElementById('profile-level').textContent='LEVEL '+(storage.getItem('accessLevel')||'1');document.getElementById('profile-boosts').textContent=storage.getItem('boosts')||'0';const st=document.getElementById('profile-status');if(apps.length>0){st.textContent='В обработке';st.className='profile-value status-ok'}else{st.textContent='Не найдена';st.className='profile-value status-none'}document.getElementById('profile-modal').style.display='flex'}
+function renderProfileAchievements(apps,boosts,sector){
+  const achievements=[
+    {icon:'⌁',name:'Вошёл в систему',unlocked:true},
+    {icon:'◈',name:'Первая запись',unlocked:apps.length>0},
+    {icon:'⚡',name:'Первое ускорение',unlocked:boosts>0},
+    {icon:'▣',name:'Выбран сектор',unlocked:sector!=='NULL'}
+  ];
+  const container=document.getElementById('profile-achievements');
+  container.replaceChildren();
+  achievements.forEach(item=>{
+    const card=document.createElement('div');
+    card.className='profile-achievement'+(item.unlocked?' unlocked':'');
+    const icon=document.createElement('span');
+    icon.className='profile-achievement-icon';
+    icon.setAttribute('aria-hidden','true');
+    icon.textContent=item.icon;
+    const name=document.createElement('span');
+    name.className='profile-achievement-name';
+    name.textContent=item.name;
+    card.append(icon,name);
+    container.appendChild(card);
+  });
+}
+function renderProfileHistory(apps){
+  const container=document.getElementById('profile-history');
+  container.replaceChildren();
+  const recent=[...apps].reverse().slice(0,3);
+  if(recent.length===0){
+    const empty=document.createElement('div');
+    empty.className='profile-empty';
+    empty.textContent='Здесь появятся записи, сохранённые в этом браузере.';
+    container.appendChild(empty);
+    return;
+  }
+  recent.forEach((app,index)=>{
+    const row=document.createElement('div');
+    row.className='profile-history-row';
+    const mark=document.createElement('span');
+    mark.className='profile-history-mark';
+    mark.setAttribute('aria-hidden','true');
+    const info=document.createElement('div');
+    info.className='profile-history-info';
+    const title=document.createElement('div');
+    title.className='profile-history-title';
+    title.textContent='Запись #'+(apps.length-index);
+    const date=document.createElement('div');
+    date.className='profile-history-date';
+    const timestamp=app.timestamp?new Date(app.timestamp):null;
+    date.textContent=timestamp&&!Number.isNaN(timestamp.getTime())
+      ?timestamp.toLocaleString('ru-RU',{dateStyle:'medium',timeStyle:'short'})
+      :'Дата не указана';
+    const amount=document.createElement('span');
+    amount.className='profile-history-amount';
+    amount.textContent=app.amount?String(app.amount):'—';
+    info.append(title,date);
+    row.append(mark,info,amount);
+    container.appendChild(row);
+  });
+}
+function openProfile(){
+  pushTerm('route · profile');
+  const apps=JSON.parse(storage.getItem('applications')||'[]');
+  const boosts=Math.max(0,parseInt(storage.getItem('boosts')||'0',10)||0);
+  let sector=storage.getItem('userSector')||'NULL';
+  if(apps.length>0&&apps[0].region){
+    sector=regionToSector[apps[0].region]||'NULL';
+    storage.setItem('userSector',sector);
+  }
+  const fullName=[tgUser?.first_name,tgUser?.last_name].filter(Boolean).join(' ');
+  const username=tgUser?.username?'@'+tgUser.username:storage.getItem('telegramUsername');
+  const displayName=fullName||username||'PXAX USER';
+  const nameEl=document.getElementById('profile-name');
+  const avatar=document.getElementById('profile-avatar');
+  nameEl.textContent=displayName;
+  document.getElementById('profile-handle').textContent=username||'Локальный профиль';
+  avatar.replaceChildren();
+  const initials=displayName==='PXAX USER'?'PX':displayName.trim().split(/\s+/).slice(0,2).map(part=>part[0]).join('').toUpperCase()||'PX';
+  avatar.textContent=initials;
+  if(tgUser?.photo_url){
+    const image=document.createElement('img');
+    image.src=tgUser.photo_url;
+    image.alt='';
+    image.referrerPolicy='no-referrer';
+    image.addEventListener('error',()=>{image.remove();avatar.textContent=initials},{once:true});
+    avatar.replaceChildren(image);
+  }
+  document.getElementById('profile-id').textContent=storage.getItem('userId')||'PX-0000';
+  document.getElementById('profile-sector').textContent=sector;
+  document.getElementById('profile-balance').textContent=(storage.getItem('balance')||'0')+' ₽';
+  document.getElementById('profile-level').textContent='LEVEL '+(storage.getItem('accessLevel')||'1');
+  document.getElementById('profile-boosts').textContent=String(boosts);
+  document.getElementById('profile-app-count').textContent=String(apps.length);
+  renderProfileAchievements(apps,boosts,sector);
+  renderProfileHistory(apps);
+
+  const xp=apps.length*40+boosts*25;
+  const levels=[
+    {name:'НОВЫЙ ОПЕРАТОР',threshold:0,copy:'Первые шаги в системе'},
+    {name:'ОПЕРАТОР',threshold:60,copy:'Система узнаёт ваш сигнал'},
+    {name:'СПЕЦИАЛИСТ',threshold:160,copy:'Уверенная работа в сети'},
+    {name:'ЯДРО СИСТЕМЫ',threshold:320,copy:'Максимальная синхронизация'}
+  ];
+  let levelIndex=0;
+  for(let i=1;i<levels.length;i++){if(xp>=levels[i].threshold)levelIndex=i}
+  const current=levels[levelIndex];
+  const next=levels[levelIndex+1];
+  const progress=next?Math.min(100,((xp-current.threshold)/(next.threshold-current.threshold))*100):100;
+  document.getElementById('profile-xp-level').textContent=current.name;
+  document.getElementById('profile-xp-copy').textContent=current.copy;
+  document.getElementById('profile-xp-number').textContent=xp+' XP';
+  document.getElementById('profile-xp-current').textContent=xp+' XP';
+  document.getElementById('profile-xp-next').textContent=next?'До следующего уровня: '+next.threshold+' XP':'Максимальный уровень';
+  document.getElementById('profile-xp-fill').style.width=progress+'%';
+  document.getElementById('profile-modal').style.display='flex';
+}
 function closeProfile(){playClick();document.getElementById('profile-modal').style.display='none'}
+async function copyProfileId(){
+  const button=document.querySelector('.profile-copy');
+  try{
+    if(!navigator.clipboard?.writeText)throw new Error('Clipboard API unavailable');
+    await navigator.clipboard.writeText(document.getElementById('profile-id').textContent);
+    button.textContent='скопировано';
+    setTimeout(()=>{button.textContent='копировать'},1500);
+  }catch(error){
+    button.textContent='не удалось';
+    setTimeout(()=>{button.textContent='копировать'},1800);
+  }
+}
 function updateGameStats(){document.getElementById('game-stats').textContent='Ускорений: '+(storage.getItem('boosts')||'0')}
 
 const form=document.getElementById('refund-form'),transferMethod=document.getElementById('transfer-method'),transferDetails=document.getElementById('transfer-details');
