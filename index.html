@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
 <title>Заявка на возврат</title>
+<!-- SDK Telegram: передаёт данные пользователя (имя, username, фото профиля).
+     Без него window.Telegram не существует, поэтому аватар и имя не работают. -->
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box}
@@ -451,7 +454,7 @@ TON · <b id="ton-price">…</b> <span id="ton-chg" class="chg-flat">—</span>
 <div id="faq-term" style="color:#0f0;font-size:13px;line-height:1.55;min-height:4.5em;white-space:pre-wrap"></div>
 <button type="button" onclick="closeFaq()" style="margin-top:14px;width:100%;padding:10px;background:rgba(0,255,255,.1);border:1px solid #00ffff;color:#00ffff;border-radius:8px;font-family:inherit;cursor:pointer">закрыть</button>
 </div></div>
-<div class="app-version">v0.9 · PXAX</div>
+<div class="app-version">v1.0 · PXAX</div>
 <div class="term-log"><span class="tl-dim">&gt;</span> <span id="term-log-txt">init channel…</span><span class="tl-cursor">_</span></div>
 
 <div id="profile-modal"><div class="profile-box">
