@@ -181,6 +181,45 @@ input.field-error,textarea.field-error,select.field-error{border-color:rgba(255,
 .ai-hint{margin-top:8px;font-size:11px;color:rgba(0,255,255,.55);letter-spacing:.5px}
 .ai-ring.fast{animation-duration:1.4s!important}
 
+/* ---------- AI-прогнозы (predict) ---------- */
+.predict-section{text-align:left;padding:14px;border-color:rgba(94,225,230,.28);background:radial-gradient(ellipse at 88% 12%,rgba(157,107,255,.16),transparent 44%),radial-gradient(ellipse at 8% 96%,rgba(0,229,255,.12),transparent 46%),linear-gradient(135deg,rgba(8,16,30,.9),rgba(5,8,16,.94));overflow:hidden;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.predict-section:active{opacity:.92}
+.predict-hero{display:grid;grid-template-columns:minmax(0,1fr) 108px;align-items:center;gap:10px}
+.predict-copy{min-width:0}
+.predict-title-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.predict-section .block-title{margin:0;color:#dffcff;text-align:left;font-size:24px;letter-spacing:1px;text-shadow:0 0 12px rgba(0,229,255,.45)}
+.predict-title-row .block-status{margin:0}
+.predict-title-row .block-status.live{color:#7bffd0;background:rgba(0,255,200,.1);border-color:rgba(0,255,200,.4)}
+.predict-description{max-width:264px;margin-top:8px;color:#8fb3c9;font-size:10px;line-height:1.5}
+.predict-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px}
+.predict-tag{padding:4px 6px;border:1px solid rgba(94,225,230,.2);border-radius:6px;background:rgba(94,225,230,.05);color:#8fdfe6;font-size:8px;letter-spacing:.2px}
+/* радар-арт вместо портрета Ai */
+.predict-art{height:112px;position:relative;display:flex;align-items:center;justify-content:center;border:1px solid rgba(94,225,230,.24);border-radius:12px;overflow:hidden;isolation:isolate;background:radial-gradient(circle at 50% 50%,rgba(0,229,255,.12),transparent 62%),linear-gradient(150deg,#070f1e,#101a30 55%,#180f2e)}
+.predict-art::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(0,229,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,.06) 1px,transparent 1px);background-size:14px 14px;-webkit-mask-image:radial-gradient(circle at 50% 50%,#000,transparent 72%);mask-image:radial-gradient(circle at 50% 50%,#000,transparent 72%)}
+.predict-radar{position:relative;width:74px;height:74px;border-radius:50%;border:1px solid rgba(94,225,230,.32);box-shadow:0 0 16px rgba(0,229,255,.16),inset 0 0 14px rgba(0,229,255,.1)}
+.predict-radar::before{content:'';position:absolute;inset:14px;border-radius:50%;border:1px solid rgba(94,225,230,.2)}
+.predict-radar::after{content:'';position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,rgba(0,229,255,.42),transparent 26%);animation:predict-sweep 3.4s linear infinite}
+@keyframes predict-sweep{to{transform:rotate(360deg)}}
+.predict-blip{position:absolute;width:5px;height:5px;border-radius:50%;background:#7bffd0;box-shadow:0 0 8px #7bffd0;top:20px;left:46px}
+.predict-blip.b{top:48px;left:24px;background:#ff7bdc;box-shadow:0 0 8px #ff7bdc}
+.predict-art-label{position:absolute;z-index:3;color:#74dce5;font:6px 'Courier New',monospace;letter-spacing:.5px;text-shadow:0 0 5px rgba(0,229,255,.7)}
+.predict-art-label.top{top:8px;left:9px}.predict-art-label.side{right:7px;bottom:20px;color:#c79be8;writing-mode:vertical-rl}
+/* live-строка последнего сигнала */
+.predict-live{margin-top:12px;padding:10px 11px;border:1px solid rgba(94,225,230,.18);border-radius:10px;background:rgba(6,14,26,.55)}
+.predict-live.loading .predict-prob{opacity:.4}
+.predict-live-head{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:9px;letter-spacing:.6px;text-transform:uppercase;color:#6fa6bd}
+.predict-prob{color:#00e5ff;font-weight:700;font-size:12px;text-shadow:0 0 8px rgba(0,229,255,.5)}
+.predict-match{margin-top:6px;font-size:13px;color:#eaffff;line-height:1.35;display:flex;align-items:center;gap:7px}
+.predict-vs{color:#5f89a5;font-size:10px;flex-shrink:0}
+.predict-meta{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:7px;font-size:9px;color:#7fa0b5}
+.predict-value{padding:2px 6px;border-radius:7px;font-weight:800;font-size:8px;letter-spacing:.06em;color:#08131f;background:linear-gradient(135deg,#7bffd0,#00e5ff)}
+.predict-bar{margin-top:9px;height:5px;border-radius:5px;background:rgba(139,163,199,.16);overflow:hidden}
+.predict-bar i{display:block;height:100%;width:0;border-radius:5px;background:linear-gradient(90deg,#00e5ff,#9d6bff);box-shadow:0 0 10px rgba(0,229,255,.55);transition:width .9s cubic-bezier(.22,1,.36,1)}
+.predict-action{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:12px;padding:9px 10px;border:1px solid rgba(94,225,230,.22);border-radius:9px;background:rgba(94,225,230,.06);color:#a9f2fb;font-size:10px}
+.predict-action strong{color:#00e5ff;font-size:10px;font-weight:600}
+.predict-term{margin-top:10px;text-align:left;max-width:280px;font-size:11px;line-height:1.55;color:#5ec7d6;min-height:3.2em}
+.predict-term .dim{color:#2a5a6a}.predict-term .cursor{display:inline-block;width:7px;animation:term-blink 1s step-end infinite}
+@media(max-width:360px){.predict-hero{grid-template-columns:minmax(0,1fr) 84px}.predict-art{height:98px}.predict-section{padding:12px}}
 .faq-footer{text-align:center;padding:12px 0 4px;position:relative;z-index:1}
 .faq-footer button{background:transparent;border:none;color:#555;font-size:12px;font-family:inherit;cursor:pointer;letter-spacing:1px;padding:8px}
 .app-version{text-align:center;padding:4px 0 8px;font-size:10px;color:#333;letter-spacing:1.5px;user-select:none;position:relative;z-index:1}
@@ -411,6 +450,29 @@ input.field-error,textarea.field-error,select.field-error{border-color:rgba(255,
 <div class="ai-term" id="ai-term"><span class="dim">&gt;</span> room · awaiting operator<span class="cursor">_</span></div>
 </div>
 
+<div class="section predict-section" id="predict-block">
+<div class="ecosystem-kicker">PXAX · ИИ-прогнозы на спорт</div>
+<div class="predict-hero">
+  <div class="predict-copy">
+    <div class="predict-title-row"><div class="block-title">AI-прогнозы</div><div class="block-status live">live · v0.6</div></div>
+    <div class="predict-description">Модель считает вероятности исходов по данным ESPN и сама находит ставки с перевесом над линией букмекера.</div>
+    <div class="predict-tags"><span class="predict-tag">модель Пуассона</span><span class="predict-tag">футбол · хоккей · NBA</span><span class="predict-tag">value-ставки</span></div>
+  </div>
+  <div class="predict-art" aria-hidden="true">
+    <div class="predict-radar"><span class="predict-blip"></span><span class="predict-blip b"></span></div>
+    <span class="predict-art-label top">PX / ML-03</span><span class="predict-art-label side">SIGNAL GRID</span>
+  </div>
+</div>
+<div class="predict-live loading" id="predict-live">
+  <div class="predict-live-head"><span>Последний сигнал дня</span><span class="predict-prob" id="predict-prob">—</span></div>
+  <div class="predict-match"><span id="predict-home">загрузка…</span><span class="predict-vs">vs</span><span id="predict-away"></span></div>
+  <div class="predict-meta"><span id="predict-market">—</span><span id="predict-value" class="predict-value" style="display:none">VALUE</span></div>
+  <div class="predict-bar"><i id="predict-fill"></i></div>
+</div>
+<div class="predict-action"><span id="predict-count">сигналы на сегодня</span><strong>Открыть прогнозы ↗</strong></div>
+<div class="predict-term" id="predict-term"><span class="dim">&gt;</span> model · poisson-v2 · awaiting feed<span class="cursor">_</span></div>
+</div>
+
 <div class="section phx-section">
 <div class="block-icon phx-icon"><svg viewBox="0 0 56 56" fill="none"><polygon points="28,6 50,22 42,48 14,48 6,22" stroke="#00ff88" stroke-width="2"/><polygon points="28,16 40,24 36,40 20,40 16,24" fill="#00ff88" opacity=".35"/></svg></div>
 <div class="block-title">ВайбКоин · VPHX</div>
@@ -451,7 +513,7 @@ TON · <b id="ton-price">…</b> <span id="ton-chg" class="chg-flat">—</span>
 <div id="faq-term" style="color:#0f0;font-size:13px;line-height:1.55;min-height:4.5em;white-space:pre-wrap"></div>
 <button type="button" onclick="closeFaq()" style="margin-top:14px;width:100%;padding:10px;background:rgba(0,255,255,.1);border:1px solid #00ffff;color:#00ffff;border-radius:8px;font-family:inherit;cursor:pointer">закрыть</button>
 </div></div>
-<div class="app-version">v1.1 · PXAX</div>
+<div class="app-version">v1.2 · PXAX</div>
 <div class="term-log"><span class="tl-dim">&gt;</span> <span id="term-log-txt">init channel…</span><span class="tl-cursor">_</span></div>
 
 <div id="profile-modal"><div class="profile-box">
@@ -760,6 +822,8 @@ commentEl.addEventListener('input',updateCharCount);
 const AI_BOT_LINK = 'https://t.me/PxAxAi_bot';
 const VIBECOIN_APP_LINK = 'https://xstayis-hue.github.io/PHXcoin/';
 const VPH_BOT_LINK = 'https://t.me/Vphoenixx_bot';
+const PREDICT_APP_LINK = 'https://xstayis-hue.github.io/pxax-predict/';
+const PREDICT_FEED = 'https://xstayis-hue.github.io/pxax-predict/data/predictions.json';
 const storage=(()=>{try{return localStorage}catch{return{data:{},getItem(k){return this.data[k]||null},setItem(k,v){this.data[k]=v}}}})();
 if(!storage.getItem('applications'))storage.setItem('applications','[]');
 if(!storage.getItem('balance'))storage.setItem('balance','0');
@@ -1022,6 +1086,66 @@ function openTgBot(url){
     openLink(typeof VIBECOIN_APP_LINK!=='undefined'?VIBECOIN_APP_LINK:'https://xstayis-hue.github.io/PHXcoin/');
   }
   phx.addEventListener('click',goPhx);
+})();
+
+(function bindPredictBot(){
+  var el=document.getElementById('predict-block');
+  if(!el)return;
+  el.addEventListener('click',function(){
+    try{if(typeof playClick==='function')playClick()}catch(err){}
+    try{haptic('selection')}catch(err){}
+    try{pushTerm('route · ai-predict')}catch(err){}
+    openLink(PREDICT_APP_LINK);
+  });
+
+  // живой сигнал дня: тянем свежий data/predictions.json из приложения прогнозов (CORS открыт)
+  var live=document.getElementById('predict-live');
+  var homeEl=document.getElementById('predict-home'),awayEl=document.getElementById('predict-away');
+  var probEl=document.getElementById('predict-prob'),marketEl=document.getElementById('predict-market');
+  var valueEl=document.getElementById('predict-value'),fillEl=document.getElementById('predict-fill');
+  var countEl=document.getElementById('predict-count'),termEl=document.getElementById('predict-term');
+  var termLines=['model · poisson-v2 · feed ok','odds · edge scan · done','signals · ranked by confidence'];
+  var termI=0;
+  function setTerm(t){if(termEl)termEl.innerHTML='<span class="dim">&gt;</span> '+t+'<span class="cursor">_</span>'}
+  fetch(PREDICT_FEED+'?t='+Date.now(),{cache:'no-store'})
+    .then(function(r){if(!r.ok)throw new Error('http '+r.status);return r.json()})
+    .then(function(d){
+      var preds=Array.isArray(d.predictions)?d.predictions:[];
+      if(!preds.length)throw new Error('empty');
+      var today=new Date(Date.now()+3*3600e3).toISOString().slice(0,10);
+      if(d.date && d.date!==today){ // данные ещё не обновились на сегодня — не врём живьём
+        setTerm('feed · last update '+d.date);
+      }
+      // берём самый уверенный сигнал дня
+      var top=preds.slice().sort(function(a,b){return (b.confidence||0)-(a.confidence||0)})[0];
+      if(homeEl)homeEl.textContent=top.home||'—';
+      if(awayEl)awayEl.textContent=top.away||'—';
+      if(probEl)probEl.textContent=(top.confidence||0)+'%';
+      if(marketEl)marketEl.textContent=[top.sport,top.lgName,top.market].filter(Boolean).join(' · ');
+      if(valueEl){valueEl.style.display=top.value?'inline-block':'none';}
+      if(countEl){
+        var pro=preds.filter(function(p){return p.tier==='pro'}).length;
+        countEl.textContent=preds.length+' сигнал(ов) на сегодня · '+pro+' в PRO';
+      }
+      if(live)live.classList.remove('loading');
+      requestAnimationFrame(function(){requestAnimationFrame(function(){
+        if(fillEl)fillEl.style.width=Math.max(0,Math.min(100,top.confidence||0))+'%';
+      })});
+      if(!d.date||d.date===today)setTerm(termLines[0]);
+    })
+    .catch(function(err){
+      if(live)live.classList.remove('loading');
+      if(homeEl)homeEl.textContent='прогнозы обновляются';
+      if(awayEl)awayEl.textContent='';
+      if(probEl)probEl.textContent='—';
+      if(marketEl)marketEl.textContent='фид недоступен';
+      if(countEl)countEl.textContent='открыть приложение';
+      setTerm('feed · offline · tap to open');
+    });
+  setInterval(function(){
+    if(!document.getElementById('predict-term'))return;
+    termI=(termI+1)%termLines.length;setTerm(termLines[termI]);
+  },5200);
 })();
 
 </script>
