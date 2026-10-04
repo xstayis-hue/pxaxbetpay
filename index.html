@@ -482,7 +482,7 @@ input.field-error,textarea.field-error,select.field-error{border-color:rgba(255,
   <div class="predict-copy">
     <div class="predict-title-row"><div class="block-title">AI-прогнозы</div><div class="block-status live">live · v0.6</div></div>
     <div class="predict-description">Модель считает вероятности исходов по данным ESPN и сама находит ставки с перевесом над линией букмекера.</div>
-    <div class="predict-tags"><span class="predict-tag">модель Пуассона</span><span class="predict-tag">футбол · хоккей · NBA</span><span class="predict-tag">value-ставки</span></div>
+    <div class="predict-tags"><span class="predict-tag">футбол · хоккей · NBA</span><span class="predict-tag">value-ставки</span></div>
   </div>
   <div class="predict-art" aria-hidden="true">
     <div class="predict-radar"><span class="predict-blip"></span><span class="predict-blip b"></span></div>
@@ -496,15 +496,15 @@ input.field-error,textarea.field-error,select.field-error{border-color:rgba(255,
   <div class="predict-bar"><i id="predict-fill"></i></div>
 </div>
 <div class="predict-action"><span id="predict-count">сигналы на сегодня</span><strong>Открыть прогнозы ↗</strong></div>
-<div class="predict-term" id="predict-term"><span class="dim">&gt;</span> model · poisson-v2 · awaiting feed<span class="cursor">_</span></div>
+<div class="predict-term" id="predict-term"><span class="dim">&gt;</span> model · value-v2 · awaiting feed<span class="cursor">_</span></div>
 </div>
 
 <div class="section phx-section">
 <div class="phx-kicker">PXAX · мем-токен экосистемы</div>
 <div class="phx-hero">
   <div class="phx-copy">
-    <div class="phx-title-row"><div class="block-title">ВайбКоин · VPHX</div><div class="block-status live">pre-launch · ИИ-проект</div></div>
-    <div class="phx-desc">Мем-токен PXAX в сети TON. Приложение создал ИИ — контракт и деплой тоже за ИИ.</div>
+    <div class="phx-title-row"><div class="block-title">ВайбКоин · VPHX</div><div class="block-status live">pre-launch</div></div>
+    <div class="phx-desc">Мем-токен PXAX в сети TON. Утилита для доступа к экосистеме: прогнозы, PxAxAi, VPH.</div>
     <div class="phx-tags"><span class="phx-tag">TON</span><span class="phx-tag">тикер VPHX</span><span class="phx-tag">utility · доступ в экосистему</span></div>
   </div>
   <div class="phx-art" aria-hidden="true">
@@ -528,7 +528,7 @@ input.field-error,textarea.field-error,select.field-error{border-color:rgba(255,
 <div class="phx-meta">
 <div class="phx-meta-row"><span>Сеть</span><span>TON</span></div>
 <div class="phx-meta-row"><span>Тикер</span><span>VPHX</span></div>
-<div class="phx-meta-row"><span>Апп</span><span>создан ИИ · коин создаст ИИ</span></div>
+<div class="phx-meta-row"><span>Апп</span><span>скоро · TON</span></div>
 </div>
 <div class="phx-anim" id="phx-anim">◈ jetton on TON · soon</div>
 <button type="button" id="phx-copy-btn" onclick="copyPhxContract()">Адрес появится после деплоя</button>
@@ -787,7 +787,7 @@ async function loadTonPulse(){
 }
 loadTonPulse();setInterval(loadTonPulse,30000);
 
-const phxTexts=['◈ app built by AI','◈ coin deploy: soon · by AI','◈ ticker VPHX · TON','◈ utility · ecosystem access','◈ network · TON mainnet'];
+const phxTexts=['◈ ticker VPHX · TON','◈ utility · ecosystem access','◈ coin deploy: soon','◈ network · TON mainnet'];
 let phxI=0;setInterval(()=>{phxI=(phxI+1)%phxTexts.length;document.getElementById('phx-anim').textContent=phxTexts[phxI]},2200);
 
 const sc=document.getElementById('soon-stars'),sctx=sc.getContext('2d'),soonSec=document.querySelector('.soon-section');
@@ -860,6 +860,7 @@ const AI_BOT_LINK = 'https://t.me/PxAxAi_bot';
 const VIBECOIN_APP_LINK = 'https://xstayis-hue.github.io/PHXcoin/';
 const VPH_BOT_LINK = 'https://t.me/Vphoenixx_bot';
 const PREDICT_APP_LINK = 'https://xstayis-hue.github.io/pxax-predict/';
+const PREDICT_BOT_LINK = 'https://t.me/pxaxbetai_bot';
 const PREDICT_FEED = 'https://xstayis-hue.github.io/pxax-predict/data/predictions.json';
 const storage=(()=>{try{return localStorage}catch{return{data:{},getItem(k){return this.data[k]||null},setItem(k,v){this.data[k]=v}}}})();
 if(!storage.getItem('applications'))storage.setItem('applications','[]');
@@ -1098,6 +1099,12 @@ function openExternal(url){
   try{window.open(url,'_blank','noopener');return}catch(e){}
   window.location.href=url;
 }
+// внешняя ссылка (GitHub Pages и др.): в Telegram — WebApp.openLink (вебвью),
+// вне Telegram — новая вкладка
+function openLink(url){
+  try{if(window.Telegram&&Telegram.WebApp&&Telegram.WebApp.openLink){Telegram.WebApp.openLink(url);return}}catch(e){}
+  var w=window.open(url,'_blank');if(!w)window.location.href=url;
+}
 function openTgBot(url){
   try{if(window.Telegram?.WebApp?.HapticFeedback)Telegram.WebApp.HapticFeedback.selectionChanged()}catch(e){}
   try{if(window.Telegram?.WebApp?.openTelegramLink){Telegram.WebApp.openTelegramLink(url);return}}catch(e){}
@@ -1132,7 +1139,7 @@ function openTgBot(url){
     try{if(typeof playClick==='function')playClick()}catch(err){}
     try{haptic('selection')}catch(err){}
     try{pushTerm('route · ai-predict')}catch(err){}
-    openLink(PREDICT_APP_LINK);
+    openTgBot(PREDICT_BOT_LINK);
   });
 
   // живой сигнал дня: тянем свежий data/predictions.json из приложения прогнозов (CORS открыт)
@@ -1141,7 +1148,7 @@ function openTgBot(url){
   var probEl=document.getElementById('predict-prob'),marketEl=document.getElementById('predict-market');
   var valueEl=document.getElementById('predict-value'),fillEl=document.getElementById('predict-fill');
   var countEl=document.getElementById('predict-count'),termEl=document.getElementById('predict-term');
-  var termLines=['model · poisson-v2 · feed ok','odds · edge scan · done','signals · ranked by confidence'];
+  var termLines=['model · value-v2 · feed ok','odds · edge scan · done','signals · ranked by confidence'];
   var termI=0;
   function setTerm(t){if(termEl)termEl.innerHTML='<span class="dim">&gt;</span> '+t+'<span class="cursor">_</span>'}
   fetch(PREDICT_FEED+'?t='+Date.now(),{cache:'no-store'})
@@ -1161,8 +1168,14 @@ function openTgBot(url){
       if(marketEl)marketEl.textContent=[top.sport,top.lgName,top.market].filter(Boolean).join(' · ');
       if(valueEl){valueEl.style.display=top.value?'inline-block':'none';}
       if(countEl){
-        var pro=preds.filter(function(p){return p.tier==='pro'}).length;
-        countEl.textContent=preds.length+' сигнал(ов) на сегодня · '+pro+' в PRO';
+        // то же, что показывает приложение прогнозов: свежий фид + до 5 на группу
+        if(d.date===today){
+          var freeShown=Math.min(preds.filter(function(p){return p.tier!=='pro'}).length,5);
+          var proShown=Math.min(preds.filter(function(p){return p.tier==='pro'}).length,5);
+          countEl.textContent=(freeShown+proShown)+' сигнал(ов) на сегодня · '+proShown+' в PRO';
+        }else{
+          countEl.textContent='фид от '+d.date+' · открыть бота';
+        }
       }
       if(live)live.classList.remove('loading');
       requestAnimationFrame(function(){requestAnimationFrame(function(){
