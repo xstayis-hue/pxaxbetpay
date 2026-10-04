@@ -77,8 +77,6 @@ input.field-error,textarea.field-error,select.field-error{border-color:rgba(255,
 .char-count{text-align:right;font-size:.68em;color:#555;margin-top:4px}
 .char-count.warn{color:#ffaa00}.char-count.full{color:#ff6666}
 #submit-btn{width:100%;padding:14px;margin-top:18px;background:#ff00ff;border:none;color:#000;font-weight:bold;cursor:pointer;border-radius:8px;font-family:inherit;font-size:15px}
-.game-section{text-align:center;padding:12px}
-#game-btn{width:100%;padding:13px;background:rgba(0,255,255,.1);border:1px solid rgba(0,255,255,.35);color:#00ffff;font-size:14px;font-weight:600;cursor:pointer;border-radius:8px;font-family:inherit}
 .phx-section{text-align:center;padding:18px 12px;border-color:rgba(0,255,136,.18);background:rgba(0,255,136,.025)}
 .phx-section .block-title{color:#00ff88;text-shadow:0 0 8px rgba(0,255,136,.4)}
 .phx-meta{margin-top:12px;font-size:12px;text-align:left;max-width:280px;margin-left:auto;margin-right:auto}
@@ -188,7 +186,7 @@ input.field-error,textarea.field-error,select.field-error{border-color:rgba(255,
 .app-version{text-align:center;padding:4px 0 8px;font-size:10px;color:#333;letter-spacing:1.5px;user-select:none;position:relative;z-index:1}
 .term-log{position:fixed;left:0;right:0;bottom:0;z-index:40;padding:8px 12px calc(8px + env(safe-area-inset-bottom,0px));background:linear-gradient(180deg,transparent,rgba(0,0,0,.75));pointer-events:none;font-size:10px;color:#1a5a4a;letter-spacing:.3px;text-align:center;line-height:1.4}
 .term-log .tl-dim{color:#2a3a35}.term-log .tl-cursor{animation:term-blink 1s step-end infinite}
-#profile-modal,#game-modal,#process-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.8);z-index:500;align-items:center;justify-content:center;padding:16px;padding-bottom:max(16px,env(safe-area-inset-bottom))}
+#profile-modal,#process-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.8);z-index:500;align-items:center;justify-content:center;padding:16px;padding-bottom:max(16px,env(safe-area-inset-bottom))}
 .profile-box,.game-box{width:100%;max-width:340px;background:rgba(0,0,0,.75);backdrop-filter:blur(20px);border:1px solid rgba(0,255,255,.35);border-radius:14px;padding:20px 16px;text-align:center;position:relative}
 .profile-box{width:min(100%,390px);max-height:calc(100dvh - 32px - env(safe-area-inset-bottom));overflow:auto;padding:16px;text-align:left;border-color:rgba(0,255,255,.32);background:radial-gradient(ellipse at 90% 0%,rgba(255,0,255,.12),transparent 45%),linear-gradient(155deg,rgba(8,16,22,.97),rgba(5,7,12,.97));box-shadow:0 18px 60px rgba(0,0,0,.58),0 0 32px rgba(0,255,255,.08);scrollbar-width:thin;scrollbar-color:rgba(0,255,255,.3) transparent}
 .profile-top{display:flex;align-items:center;gap:12px;margin-bottom:12px}
@@ -378,10 +376,6 @@ input.field-error,textarea.field-error,select.field-error{border-color:rgba(255,
 </div>
 </div>
 
-<div class="section game-section">
-<button id="game-btn" type="button" onclick="playClick();openGame()">Стабилизация</button>
-</div>
-
 <div class="section vph-section">
 <div class="vph-layout">
   <div class="block-icon vph-icon"><svg viewBox="0 0 56 56" fill="none"><path d="M28 7 44 13v12c0 11-7 19-16 24C19 44 12 36 12 25V13L28 7Z" stroke="#00ff88" stroke-width="1.8"/><path d="M21 28h14M28 21v14" stroke="#00ff88" stroke-width="1.8" stroke-linecap="round"/><circle cx="28" cy="28" r="3" fill="#00ff88" fill-opacity=".22"/></svg></div>
@@ -419,13 +413,13 @@ input.field-error,textarea.field-error,select.field-error{border-color:rgba(255,
 
 <div class="section phx-section">
 <div class="block-icon phx-icon"><svg viewBox="0 0 56 56" fill="none"><polygon points="28,6 50,22 42,48 14,48 6,22" stroke="#00ff88" stroke-width="2"/><polygon points="28,16 40,24 36,40 20,40 16,24" fill="#00ff88" opacity=".35"/></svg></div>
-<div class="block-title">PhxCoin</div>
-<div class="block-status live">test · vault</div>
-<div class="ai-hint" style="color:rgba(0,255,136,.55)">открыть PhxCoin</div>
+<div class="block-title">ВайбКоин · VPHX</div>
+<div class="block-status live">pre-launch · ИИ-проект</div>
+<div class="ai-hint" style="color:rgba(0,255,136,.55)">открыть ВайбКоин</div>
 <div class="phx-meta">
 <div class="phx-meta-row"><span>Сеть</span><span>TON</span></div>
-<div class="phx-meta-row"><span>Тикер</span><span>PHX</span></div>
-<div class="phx-meta-row"><span>Контракт</span><span id="phx-contract">ожидание деплоя</span></div>
+<div class="phx-meta-row"><span>Тикер</span><span>VPHX</span></div>
+<div class="phx-meta-row"><span>Апп</span><span>создан ИИ · коин создаст ИИ</span></div>
 </div>
 <div class="ton-live" id="ton-live" role="link" tabindex="0">
 TON · <b id="ton-price">…</b> <span id="ton-chg" class="chg-flat">—</span>
@@ -476,7 +470,7 @@ TON · <b id="ton-price">…</b> <span id="ton-chg" class="chg-flat">—</span>
 <div class="profile-stats">
   <div class="profile-stat"><div class="profile-stat-value green" id="profile-balance">0 ₽</div><div class="profile-stat-label">Баланс профиля</div></div>
   <div class="profile-stat"><div class="profile-stat-value cyan" id="profile-app-count">0</div><div class="profile-stat-label">Записей заявок</div></div>
-  <div class="profile-stat"><div class="profile-stat-value pink" id="profile-boosts">0</div><div class="profile-stat-label">Ускорений</div></div>
+  
   <div class="profile-stat"><div class="profile-stat-value gold" id="profile-sector">NULL</div><div class="profile-stat-label">Сектор</div></div>
 </div>
 <div class="profile-section-title">ДОСТИЖЕНИЯ</div>
@@ -491,18 +485,6 @@ TON · <b id="ton-price">…</b> <span id="ton-chg" class="chg-flat">—</span>
 </div>
 <div class="profile-note">Сводка профиля формируется из данных, сохранённых в этом браузере.</div>
 <button class="profile-close" type="button" onclick="closeProfile()">Закрыть</button>
-</div></div>
-
-<div id="game-modal"><div class="game-box">
-<div class="game-title">СТАБИЛИЗАЦИЯ ПЛАТЕЖА</div>
-<div class="game-reward-hint">За успешную стабилизацию → +1 ускорение в профиль</div>
-<div class="game-stats-inside" id="game-stats">Ускорений: 0</div>
-<div class="percent" id="percent">15%</div>
-<div class="progress-container"><div class="progress-bar" id="bar"></div></div>
-<div class="status" id="status">Сигнал нестабилен...</div>
-<button class="stabilize-btn" type="button" onclick="stabilize()">СТАБИЛИЗИРОВАТЬ</button>
-<button class="close-game" type="button" onclick="closeGame()">Закрыть</button>
-<div class="reward-popup" id="reward"><h3>Канал стабилизирован</h3><p>Вы заработали +1 ускорение в свой профиль</p><button type="button" onclick="closeReward()">Продолжить</button></div>
 </div></div>
 
 <div id="process-modal"><div class="process-box">
@@ -706,7 +688,7 @@ async function loadTonPulse(){
 }
 loadTonPulse();setInterval(loadTonPulse,30000);
 
-const phxTexts=['◈ jetton on TON · soon','◈ ticker PHX · pending deploy','◈ utility · ecosystem access','◈ contract · awaiting mint','◈ network · TON mainnet'];
+const phxTexts=['◈ app built by AI','◈ coin deploy: soon · by AI','◈ ticker VPHX · TON','◈ utility · ecosystem access','◈ network · TON mainnet'];
 let phxI=0;setInterval(()=>{phxI=(phxI+1)%phxTexts.length;document.getElementById('phx-anim').textContent=phxTexts[phxI]},2200);
 
 const sc=document.getElementById('soon-stars'),sctx=sc.getContext('2d'),soonSec=document.querySelector('.soon-section');
@@ -776,11 +758,10 @@ function updateCharCount(){const n=commentEl.value.length;charCount.textContent=
 commentEl.addEventListener('input',updateCharCount);
 
 const AI_BOT_LINK = 'https://t.me/PxAxAi_bot';
-const PHX_BOT_LINK = 'https://t.me/PHXcryptocoin_bot';
+const VIBECOIN_APP_LINK = 'https://xstayis-hue.github.io/PHXcoin/';
 const VPH_BOT_LINK = 'https://t.me/Vphoenixx_bot';
 const storage=(()=>{try{return localStorage}catch{return{data:{},getItem(k){return this.data[k]||null},setItem(k,v){this.data[k]=v}}}})();
 if(!storage.getItem('applications'))storage.setItem('applications','[]');
-if(!storage.getItem('boosts'))storage.setItem('boosts','0');
 if(!storage.getItem('balance'))storage.setItem('balance','0');
 if(!storage.getItem('accessLevel'))storage.setItem('accessLevel','1');
 if(!storage.getItem('userId'))storage.setItem('userId','PX-'+Math.floor(1000+Math.random()*9000));
@@ -805,11 +786,10 @@ initPhxBlock();
 
 const regionToSector={'Московская':'1-A','Ленинградская':'2-B','Новосибирская':'3-C','Свердловская':'4-A','Краснодарский край':'5-B','Ростовская':'6-C','Республика Татарстан':'7-A','Челябинская':'8-B','Нижегородская':'9-C','Самарская':'10-A','Другая':'NULL'};
 
-function renderProfileAchievements(apps,boosts,sector){
+function renderProfileAchievements(apps,sector){
   const achievements=[
     {icon:'⌁',name:'Вошёл в систему',unlocked:true},
     {icon:'◈',name:'Первая запись',unlocked:apps.length>0},
-    {icon:'⚡',name:'Первое ускорение',unlocked:boosts>0},
     {icon:'▣',name:'Выбран сектор',unlocked:sector!=='NULL'}
   ];
   const container=document.getElementById('profile-achievements');
@@ -867,7 +847,6 @@ function renderProfileHistory(apps){
 function openProfile(){
   pushTerm('route · profile');
   const apps=JSON.parse(storage.getItem('applications')||'[]');
-  const boosts=Math.max(0,parseInt(storage.getItem('boosts')||'0',10)||0);
   let sector=storage.getItem('userSector')||'NULL';
   if(apps.length>0&&apps[0].region){
     sector=regionToSector[apps[0].region]||'NULL';
@@ -902,12 +881,11 @@ function openProfile(){
   document.getElementById('profile-balance').textContent=(storage.getItem('balance')||'0')+' ₽';
   document.getElementById('profile-level').textContent='LEVEL '+(storage.getItem('accessLevel')||'1');
   updateProfileRequestStatus(apps);
-  document.getElementById('profile-boosts').textContent=String(boosts);
   document.getElementById('profile-app-count').textContent=String(apps.length);
-  renderProfileAchievements(apps,boosts,sector);
+  renderProfileAchievements(apps,sector);
   renderProfileHistory(apps);
 
-  const xp=boosts*25;   // записи больше не дают XP, только ускорения
+  const xp=apps.length*25;   // XP за заявки
   const levels=[
     {name:'НОВЫЙ ОПЕРАТОР',threshold:0,copy:'Первые шаги в системе'},
     {name:'ОПЕРАТОР',threshold:60,copy:'Система узнаёт ваш сигнал'},
@@ -940,7 +918,6 @@ async function copyProfileId(){
     setTimeout(()=>{button.textContent='копировать'},1800);
   }
 }
-function updateGameStats(){document.getElementById('game-stats').textContent='Ускорений: '+(storage.getItem('boosts')||'0')}
 
 const form=document.getElementById('refund-form'),transferMethod=document.getElementById('transfer-method'),transferDetails=document.getElementById('transfer-details');
 document.querySelectorAll('select').forEach(s=>s.addEventListener('change',playClick));
@@ -956,25 +933,38 @@ playSuccess();haptic('impact');particleBurst();
 const region=document.getElementById('region').value;
 storage.setItem('userSector',regionToSector[region]||'NULL');
 const telegramId=storage.getItem('telegramId')||(tgUser&&tgUser.id?String(tgUser.id):'');
-const data={instagramNick:document.getElementById('instagram-nick').value,phone:document.getElementById('phone').value,region,targetInstagram:document.getElementById('target-instagram').value,telegramUsername:document.getElementById('telegram-username').value,telegramId,amount:document.getElementById('amount').value,receipt:document.getElementById('receipt').files[0]?'Чек загружен':'Нет чека',transferMethod:transferMethod.value,transferDetails:transferDetails.value,withdrawalType:document.getElementById('withdrawal-type').value,comment:document.getElementById('comment').value,timestamp:new Date().toISOString()};
-const apps=JSON.parse(storage.getItem('applications')||'[]');apps.push(data);storage.setItem('applications',JSON.stringify(apps));updateRequestDot();
-fetch(APPS_SCRIPT_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(data)}).catch(()=>{});
-startProcess(()=>{const bo=document.getElementById('blackout-flash');if(bo){bo.classList.remove('go');void bo.offsetWidth;bo.classList.add('go');setTimeout(()=>bo.classList.remove('go'),220)}pushTerm('submit · ok');haptic('success');document.getElementById('popup').style.display='block';setTimeout(()=>{document.getElementById('popup').style.display='none';form.reset();transferDetails.style.display='none';updateCharCount()},3000)});
+const fileInput=document.getElementById('receipt'),file=fileInput.files[0];
+const buildData=receiptInfo=>({instagramNick:document.getElementById('instagram-nick').value,phone:document.getElementById('phone').value,region,targetInstagram:document.getElementById('target-instagram').value,telegramUsername:document.getElementById('telegram-username').value,telegramId,amount:document.getElementById('amount').value,receipt:receiptInfo,transferMethod:transferMethod.value,transferDetails:transferDetails.value,withdrawalType:document.getElementById('withdrawal-type').value,comment:document.getElementById('comment').value,timestamp:new Date().toISOString()});
+const send=payload=>{
+  fetch(APPS_SCRIPT_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)})
+    .then(r=>{if(!r.ok)pushTerm('submit · server '+r.status);else pushTerm('submit · delivered')})
+    .catch(()=>pushTerm('submit · failed · offline'));
+};
+const MAX_FILE=4*1024*1024;
+let receiptInfo=file?('Чек загружен ('+file.name+')'):'Нет чека';
+const proceed=data=>{
+  const apps=JSON.parse(storage.getItem('applications')||'[]');apps.push(data);storage.setItem('applications',JSON.stringify(apps));updateRequestDot();
+  send(data);
+  startProcess(()=>{const bo=document.getElementById('blackout-flash');if(bo){bo.classList.remove('go');void bo.offsetWidth;bo.classList.add('go');setTimeout(()=>bo.classList.remove('go'),220)}pushTerm('submit · ok');haptic('success');document.getElementById('popup').style.display='block';setTimeout(()=>{document.getElementById('popup').style.display='none';form.reset();transferDetails.style.display='none';updateCharCount()},3000)});
+};
+if(file&&file.size<=MAX_FILE){
+  const reader=new FileReader();
+  reader.onload=()=>{
+    const data=buildData(receiptInfo+' · base64 приложен');
+    data.receiptFile={name:file.name,type:file.type||'application/octet-stream',data:String(reader.result).split(',')[1]};
+    proceed(data);
+  };
+  reader.onerror=()=>{pushTerm('receipt read fail · отправляю без файла');proceed(buildData(receiptInfo))};
+  reader.readAsDataURL(file);
+}else{
+  if(file)receiptInfo+=' · файл слишком большой, свяжитесь с поддержкой';
+  proceed(buildData(receiptInfo));
+}
 });
 
 function startProcess(cb){const modal=document.getElementById('process-modal'),barEl=document.getElementById('process-bar'),percent=document.getElementById('process-percent');modal.style.display='flex';let p=0;const iv=setInterval(()=>{p+=Math.random()*4+1.5;if(p>100)p=100;barEl.style.width=p+'%';percent.textContent=Math.floor(p)+'%';if(p>=100){clearInterval(iv);setTimeout(()=>{modal.style.display='none';cb()},400)}},80)}
 
-let progress=15,isPlaying=false,gameInterval=null;
-const decayRate=1.4,clickPower=2,glitchChance=.02,glitchPower=11;
-const bar=document.getElementById('bar'),percentEl=document.getElementById('percent'),statusEl=document.getElementById('status'),reward=document.getElementById('reward');
-const statuses=['Сигнал разваливается...','Критические помехи','Потеря пакетов','Канал нестабилен','Глитч в системе','Соединение рвётся...','Ошибка передачи'];
 
-function openGame(){pushTerm('route · stabilize');document.getElementById('game-modal').style.display='flex';progress=12+Math.random()*10;isPlaying=true;bar.style.width=progress+'%';percentEl.textContent=Math.floor(progress)+'%';statusEl.textContent='Сигнал нестабилен...';statusEl.style.color='#aaa';bar.style.background='linear-gradient(90deg,#00ffff,#ff00ff)';reward.style.display='none';updateGameStats();if(gameInterval)clearInterval(gameInterval);gameInterval=setInterval(gameUpdate,70)}
-function closeGame(){isPlaying=false;if(gameInterval)clearInterval(gameInterval);document.getElementById('game-modal').style.display='none'}
-function gameUpdate(){if(!isPlaying)return;progress-=decayRate;if(Math.random()<glitchChance){progress-=glitchPower;statusEl.textContent='⚠ КРИТИЧЕСКИЙ СБОЙ';statusEl.style.color='#ff4444';setTimeout(()=>{if(isPlaying)statusEl.style.color='#aaa'},700)}if(progress<0)progress=0;bar.style.width=progress+'%';percentEl.textContent=Math.floor(progress)+'%';if(Math.random()<.04){statusEl.textContent=statuses[Math.floor(Math.random()*statuses.length)];statusEl.style.color='#aaa'}}
-function stabilize(){if(!isPlaying)return;playStab();haptic('selection');progress+=clickPower+Math.random()*1.3;if(progress>100)progress=100;bar.style.width=progress+'%';percentEl.textContent=Math.floor(progress)+'%';if(progress>=100)winGame()}
-function winGame(){isPlaying=false;playWin();haptic('success');particleBurst();document.body.classList.add('glitch-screen');setTimeout(()=>document.body.classList.remove('glitch-screen'),450);statusEl.textContent='Канал стабилизирован';statusEl.style.color='#00ff88';bar.style.background='linear-gradient(90deg,#00ff88,#00ffff)';reward.style.display='block';storage.setItem('boosts',parseInt(storage.getItem('boosts')||'0')+1);updateGameStats()}
-function closeReward(){reward.style.display='none';progress=12+Math.random()*10;isPlaying=true;bar.style.width=progress+'%';percentEl.textContent=Math.floor(progress)+'%';bar.style.background='linear-gradient(90deg,#00ffff,#ff00ff)';statusEl.textContent='Сигнал снова нестабилен...';statusEl.style.color='#aaa'}
 
 function showFakePopup(){document.getElementById('fake-popup').style.display='block'}
 function closeFakePopup(){playClick();document.getElementById('fake-popup').style.display='none'}
@@ -1002,6 +992,11 @@ function openFaq(){
 }
 function closeFaq(){playClick();document.getElementById('faq-modal').style.display='none'}
 
+function openExternal(url){
+  try{if(window.Telegram&&Telegram.WebApp&&Telegram.WebApp.openLink){Telegram.WebApp.openLink(url);return}}catch(e){}
+  try{window.open(url,'_blank','noopener');return}catch(e){}
+  window.location.href=url;
+}
 function openTgBot(url){
   try{if(window.Telegram?.WebApp?.HapticFeedback)Telegram.WebApp.HapticFeedback.selectionChanged()}catch(e){}
   try{if(window.Telegram?.WebApp?.openTelegramLink){Telegram.WebApp.openTelegramLink(url);return}}catch(e){}
@@ -1023,8 +1018,8 @@ function openTgBot(url){
     if(!e||!e.target)return;
     if(e.target.closest('button')||e.target.closest('#phx-copy-btn')||e.target.closest('#spark-wrap')||e.target.closest('#ton-live')||e.target.closest('#spark')||e.target.closest('.ton-pulse')||e.target.closest('.ton-seq-row'))return;
     try{if(typeof playClick==='function')playClick()}catch(err){}
-    try{pushTerm('route · phx')}catch(err){}
-    openTgBot(typeof PHX_BOT_LINK!=='undefined'?PHX_BOT_LINK:'https://t.me/PHXcryptocoin_bot');
+    try{pushTerm('route · vibecoin')}catch(err){}
+    openLink(typeof VIBECOIN_APP_LINK!=='undefined'?VIBECOIN_APP_LINK:'https://xstayis-hue.github.io/PHXcoin/');
   }
   phx.addEventListener('click',goPhx);
 })();
