@@ -1157,31 +1157,40 @@ function openTgBot(url){
       var preds=Array.isArray(d.predictions)?d.predictions:[];
       if(!preds.length)throw new Error('empty');
       var today=new Date(Date.now()+3*3600e3).toISOString().slice(0,10);
-      if(d.date && d.date!==today){ // данные ещё не обновились на сегодня — не врём живьём
-        setTerm('feed · last update '+d.date);
+      if(!d.date||d.date!==today){
+        // приложение прогнозов показывает только фид на сегодня (иначе — демо).
+        // Сигнала, которого нет в приложении, не показываем: честно пишем, когда фид обновится
+        if(live)live.classList.remove('loading');
+        if(homeEl)homeEl.textContent='прогнозы обновляются';
+        if(awayEl)awayEl.textContent='';
+        if(probEl)probEl.textContent='—';
+        if(marketEl)marketEl.textContent='последний фид · '+(d.date||'—');
+        if(valueEl)valueEl.style.display='none';
+        if(countEl)countEl.textContent='фид от '+(d.date||'—')+' · открыть бота';
+        if(fillEl)fillEl.style.width='0%';
+        setTerm('feed · last update '+(d.date||'—')+' · tap to open');
+        return;
       }
-      // берём самый уверенный сигнал дня
-      var top=preds.slice().sort(function(a,b){return (b.confidence||0)-(a.confidence||0)})[0];
+      // то же самое, что показывает приложение прогнозов: первые 5 на группу в порядке фида
+      var visible=preds.filter(function(p){return p.tier!=='pro'}).slice(0,5)
+                       .concat(preds.filter(function(p){return p.tier==='pro'}).slice(0,5));
+      // берём самый уверенный сигнал из видимого в приложении набора
+      var top=visible.slice().sort(function(a,b){return (b.confidence||0)-(a.confidence||0)})[0];
       if(homeEl)homeEl.textContent=top.home||'—';
       if(awayEl)awayEl.textContent=top.away||'—';
       if(probEl)probEl.textContent=(top.confidence||0)+'%';
       if(marketEl)marketEl.textContent=[top.sport,top.lgName,top.market].filter(Boolean).join(' · ');
       if(valueEl){valueEl.style.display=top.value?'inline-block':'none';}
       if(countEl){
-        // то же, что показывает приложение прогнозов: свежий фид + до 5 на группу
-        if(d.date===today){
-          var freeShown=Math.min(preds.filter(function(p){return p.tier!=='pro'}).length,5);
-          var proShown=Math.min(preds.filter(function(p){return p.tier==='pro'}).length,5);
-          countEl.textContent=(freeShown+proShown)+' сигнал(ов) на сегодня · '+proShown+' в PRO';
-        }else{
-          countEl.textContent='фид от '+d.date+' · открыть бота';
-        }
+        var freeShown=Math.min(preds.filter(function(p){return p.tier!=='pro'}).length,5);
+        var proShown=Math.min(preds.filter(function(p){return p.tier==='pro'}).length,5);
+        countEl.textContent=(freeShown+proShown)+' сигнал(ов) на сегодня · '+proShown+' в PRO';
       }
       if(live)live.classList.remove('loading');
       requestAnimationFrame(function(){requestAnimationFrame(function(){
         if(fillEl)fillEl.style.width=Math.max(0,Math.min(100,top.confidence||0))+'%';
       })});
-      if(!d.date||d.date===today)setTerm(termLines[0]);
+      setTerm(termLines[0]);
     })
     .catch(function(err){
       if(live)live.classList.remove('loading');
