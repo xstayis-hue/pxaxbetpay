@@ -349,6 +349,55 @@ input.field-error,textarea.field-error,select.field-error{border-color:rgba(255,
 #blackout-flash.go{display:block;animation:bo .2s ease-out}
 @keyframes bo{0%{opacity:.85}100%{opacity:0}}
 .ai-3d{position:absolute;inset:0;width:100%;height:100%;border-radius:inherit;display:block}
+/* ---------- Экосистема: сетка 2x2 под «Создать заявку» ---------- */
+.eco-status{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:7px;margin:2px 0 8px;font-size:8px;letter-spacing:1.5px;color:#4a7a7a;text-transform:uppercase}
+.eco-status .sd{display:inline-flex;align-items:center;gap:4px}
+.eco-status .sd i{width:5px;height:5px;border-radius:50%;background:#555;display:inline-block}
+.eco-status .sd.live i{background:#00ff88;box-shadow:0 0 6px #00ff88;animation:ping-pulse 1.4s ease-in-out infinite}
+.eco-status .sd.test i{background:#00ffff;box-shadow:0 0 5px #00ffff}
+.eco-status .sd.soon i{background:#ffaa00;box-shadow:0 0 4px rgba(255,170,0,.6)}
+.eco-status .sd.sealed i{background:#5a8a5a}
+.eco-status .sep{opacity:.35}
+.eco-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.eco-tile{position:relative;border:1px solid rgba(255,255,255,.1);border-radius:12px;background:rgba(255,255,255,.03);backdrop-filter:blur(22px) saturate(170%);-webkit-backdrop-filter:blur(22px) saturate(170%);padding:10px 9px 9px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:border-color .25s,box-shadow .25s,transform .15s;overflow:hidden;min-height:112px;display:flex;flex-direction:column}
+.eco-tile:active{transform:scale(.985)}
+.eco-tile.active{border-color:rgba(0,255,255,.45);box-shadow:0 0 18px rgba(0,255,255,.15)}
+.eco-tile.breathe{animation:section-breathe 3.8s ease-in-out}
+.eco-tile .tile-top{display:flex;align-items:center;gap:6px;min-width:0}
+.eco-tile .tile-ico{font-size:14px;line-height:1;flex-shrink:0}
+.eco-tile .tile-name{font-size:11px;font-weight:700;letter-spacing:.6px;color:#e8f8ff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.eco-tile .tile-pill{margin-left:auto;padding:2px 6px;border-radius:10px;font-size:7px;letter-spacing:.5px;white-space:nowrap;border:1px solid;flex-shrink:0}
+.tile-pill.live{color:#00ffcc;border-color:rgba(0,255,200,.4);background:rgba(0,255,200,.08);text-shadow:0 0 6px rgba(0,255,200,.4)}
+.tile-pill.test{color:#ffaa00;border-color:rgba(255,170,0,.35);background:rgba(255,170,0,.08)}
+.tile-pill.soon{color:#81cda1;border-color:rgba(0,255,136,.25);background:rgba(0,255,136,.05)}
+.eco-tile .tile-body{flex:1;display:flex;flex-direction:column;justify-content:center;gap:4px;margin:7px 0 8px;min-width:0}
+.tile-match{font-size:10px;color:#d8f4ff;line-height:1.35;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tile-match .dim{color:#5a8a8a}
+.tile-prob-row{display:flex;align-items:center;gap:6px}
+.tile-prob{font-size:14px;font-weight:700;color:#00ffcc;text-shadow:0 0 8px rgba(0,255,200,.4)}
+.tile-value{display:none;font-size:7.5px;color:#00ff88;border:1px solid rgba(0,255,136,.45);border-radius:8px;padding:1px 5px;letter-spacing:.5px}
+.tile-ton{font-size:14px;font-weight:700;color:#ffe08a;line-height:1.2}
+.tile-ton-chg{font-size:9px;color:#a68b52}
+.tile-ton-chg.chg-up{color:#7bffb0}.tile-ton-chg.chg-down{color:#ff8095}
+.tile-note{font-size:8.5px;color:#6a9a9a;line-height:1.35}
+.tile-ai-mini{width:26px;height:26px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#7ff6ff 0%,#2aa8c8 45%,#0b1a2b 100%);box-shadow:0 0 10px rgba(0,255,255,.35);flex-shrink:0}
+.eco-tile .tile-cta{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:6px 8px;border-radius:8px;font-size:9px;border:1px solid;background:rgba(0,0,0,.22);cursor:pointer;font-family:inherit}
+.eco-tile .tile-cta .hint{opacity:.75;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tile-cta strong{font-size:9px;font-weight:600}
+.tile-predict .tile-cta{border-color:rgba(0,255,255,.3);color:#9be8ff}.tile-predict .tile-cta strong{color:#00ffff}
+.tile-ai .tile-cta{border-color:rgba(0,255,255,.3);color:#9be8ff}.tile-ai .tile-cta strong{color:#00ffff}
+.tile-phx .tile-cta{border-color:rgba(255,201,60,.3);color:#ffd98a}.tile-phx .tile-cta strong{color:#ffc93c}
+.tile-vph .tile-cta{border-color:rgba(0,255,136,.3);color:#94c8a8}.tile-vph .tile-cta strong{color:#76e6a0}
+/* module_2027 — компактная полоса под сеткой */
+.soon-section{padding:10px 12px}
+#soon-btn{padding:9px 10px;font-size:11px;line-height:1.5}
+.soon-bar{margin-top:8px}
+.soon-hint{margin-top:6px;font-size:9px}
+.soon-section.shake{animation:form-shake .4s ease}
+.promo-hint{margin:0 0 8px;text-align:center;font-size:9px;color:#6a9a9a;letter-spacing:.5px}
+.promo-hint b{color:#00ffcc;font-weight:600;border:1px dashed rgba(0,255,204,.4);border-radius:6px;padding:1px 6px;margin-left:4px}
+.section-collapse{position:absolute;top:8px;right:8px;z-index:5;padding:4px 8px;background:rgba(0,255,255,.08);border:1px solid rgba(0,255,255,.3);color:#9be8ff;border-radius:8px;font-family:inherit;font-size:9px;letter-spacing:.5px;cursor:pointer}
+.section-collapse:active{background:rgba(0,255,255,.18)}
 </style>
 <script type="importmap">
 {
@@ -441,7 +490,47 @@ input.field-error,textarea.field-error,select.field-error{border-color:rgba(255,
 </div>
 </div>
 
-<div class="section vph-section">
+<div class="eco-status" aria-hidden="true">
+<span class="sd live"><i></i>live</span><span class="sep">·</span>
+<span class="sd test"><i></i>test</span><span class="sep">·</span>
+<span class="sd soon"><i></i>soon</span><span class="sep">·</span>
+<span class="sd sealed"><i></i>2027</span>
+</div>
+<div class="eco-grid">
+<div class="eco-tile tile-predict" id="tile-predict" role="button" tabindex="0" aria-label="AI-прогнозы — раскрыть блок">
+<div class="tile-top"><span class="tile-ico">✦</span><span class="tile-name">AI-прогнозы</span><span class="tile-pill live">LIVE</span></div>
+<div class="tile-body">
+<div class="tile-match" id="tile-p-match">загрузка фида…</div>
+<div class="tile-prob-row"><span class="tile-prob" id="tile-p-prob">—</span><span class="tile-value" id="tile-p-value">VALUE</span></div>
+</div>
+<button type="button" class="tile-cta" id="tile-p-cta"><span class="hint">Сигналы дня · открыть бота</span><strong>↗</strong></button>
+</div>
+<div class="eco-tile tile-ai" id="tile-ai" role="button" tabindex="0" aria-label="Ai-компаньон — раскрыть блок">
+<div class="tile-top"><span class="tile-ai-mini" aria-hidden="true"></span><span class="tile-name">Ai · 3D-комната</span><span class="tile-pill test">ТЕСТ</span></div>
+<div class="tile-body">
+<div class="tile-note">Нейро-компаньон в 3D-комнате: общение, мини-игры, уход</div>
+</div>
+<button type="button" class="tile-cta" id="tile-ai-cta"><span class="hint">Открыть Ai</span><strong>↗</strong></button>
+</div>
+<div class="eco-tile tile-phx" id="tile-phx" role="button" tabindex="0" aria-label="VibeCoin VPHX — раскрыть блок">
+<div class="tile-top"><span class="tile-ico">◈</span><span class="tile-name">VPHX · TON</span><span class="tile-pill soon">SOON</span></div>
+<div class="tile-body">
+<div class="tile-ton" id="tile-ton">TON · …</div>
+<div class="tile-ton-chg" id="tile-ton-chg">рынок · live</div>
+</div>
+<button type="button" class="tile-cta" id="tile-phx-cta"><span class="hint">Jetton · открыть блок</span><strong>↗</strong></button>
+</div>
+<div class="eco-tile tile-vph" id="tile-vph" role="button" tabindex="0" aria-label="Vph — раскрыть блок">
+<div class="tile-top"><span class="tile-ico">⌁</span><span class="tile-name">Vph</span><span class="tile-pill soon">SOON</span></div>
+<div class="tile-body">
+<div class="tile-note">Защищённый канал PXAX · запуск готовится</div>
+</div>
+<button type="button" class="tile-cta" id="tile-vph-cta"><span class="hint">Открыть Vph-бота</span><strong>↗</strong></button>
+</div>
+</div>
+
+<div class="section vph-section" hidden>
+<button type="button" class="section-collapse" data-collapse="vph">▴ свернуть блок</button>
 <div class="vph-layout">
   <div class="block-icon vph-icon"><svg viewBox="0 0 56 56" fill="none"><path d="M28 7 44 13v12c0 11-7 19-16 24C19 44 12 36 12 25V13L28 7Z" stroke="#00ff88" stroke-width="1.8"/><path d="M21 28h14M28 21v14" stroke="#00ff88" stroke-width="1.8" stroke-linecap="round"/><circle cx="28" cy="28" r="3" fill="#00ff88" fill-opacity=".22"/></svg></div>
   <div class="vph-copy">
@@ -455,7 +544,8 @@ input.field-error,textarea.field-error,select.field-error{border-color:rgba(255,
 <div class="vph-action">Открыть Vph-бота <strong>↗</strong></div>
 </div>
 
-<div class="section ai-section" id="ai-block">
+<div class="section ai-section" id="ai-block" hidden>
+<button type="button" class="section-collapse" data-collapse="ai">▴ свернуть блок</button>
 <div class="ecosystem-kicker">PXAX · цифровой компаньон</div>
 <div class="ai-hero">
   <div class="ai-copy">
@@ -476,7 +566,8 @@ input.field-error,textarea.field-error,select.field-error{border-color:rgba(255,
 <div class="ai-term" id="ai-term"><span class="dim">&gt;</span> room · awaiting operator<span class="cursor">_</span></div>
 </div>
 
-<div class="section predict-section" id="predict-block">
+<div class="section predict-section" id="predict-block" hidden>
+<button type="button" class="section-collapse" data-collapse="predict">▴ свернуть блок</button>
 <div class="ecosystem-kicker">PXAX · ИИ-прогнозы на спорт</div>
 <div class="predict-hero">
   <div class="predict-copy">
@@ -499,7 +590,8 @@ input.field-error,textarea.field-error,select.field-error{border-color:rgba(255,
 <div class="predict-term" id="predict-term"><span class="dim">&gt;</span> model · value-v2 · awaiting feed<span class="cursor">_</span></div>
 </div>
 
-<div class="section phx-section">
+<div class="section phx-section" hidden>
+<button type="button" class="section-collapse" data-collapse="phx">▴ свернуть блок</button>
 <div class="phx-kicker">PXAX · мем-токен экосистемы</div>
 <div class="phx-hero">
   <div class="phx-copy">
@@ -542,6 +634,8 @@ input.field-error,textarea.field-error,select.field-error{border-color:rgba(255,
 <div class="soon-hint">инициализация отложена</div>
 </div>
 </div>
+
+<div class="promo-hint">промокод для комнаты Ai<b>PXAX-BETPAY</b></div>
 
 <div class="faq-footer"><button type="button" id="faq-btn" onclick="openFaq()">Faq</button></div>
 <div id="faq-modal" style="display:none;position:fixed;inset:0;z-index:600;background:rgba(0,0,0,.85);align-items:center;justify-content:center;padding:16px">
@@ -700,7 +794,7 @@ tickTerm();setInterval(tickTerm,3200);
 
 /* breathing */
 (function(){
-  const blocks=Array.from(document.querySelectorAll('.section'));
+  const blocks=Array.from(document.querySelectorAll('.section:not([hidden]), .eco-tile'));
   if(!blocks.length)return;
   let i=0;
   setInterval(()=>{
@@ -737,10 +831,13 @@ function fetchTimeout(url,ms){
     return r;
   }).catch(function(e){if(timer)clearTimeout(timer);throw e});
 }
+var lastChartPrices=null;
 async function loadTonMarket(){
   const priceEl=document.getElementById('ton-price');
   const rubEl=document.getElementById('ton-rub');
   const chEl=document.getElementById('ton-chg');
+  const tileTon=document.getElementById('tile-ton');
+  const tileChg=document.getElementById('tile-ton-chg');
   if(!priceEl)return;
   try{
     const priceRes=await fetchTimeout('https://api.coingecko.com/api/v3/simple/price?ids=the-open-network&vs_currencies=usd,rub&include_24hr_change=true',10000);
@@ -749,10 +846,13 @@ async function loadTonMarket(){
     if(p){
       priceEl.textContent=p.usd!=null?('$'+(+p.usd).toFixed(3)):'—';
       if(rubEl)rubEl.textContent=p.rub!=null?('≈ '+Math.round(p.rub).toLocaleString('ru-RU')+' ₽'):'';
+      if(tileTon)tileTon.textContent=p.usd!=null?('TON · $'+(+p.usd).toFixed(3)):'TON · n/a';
+      if(tileChg)tileChg.textContent='рынок · live';
       if(chEl&&p.usd_24h_change!=null&&!isNaN(p.usd_24h_change)){
         const ch=+p.usd_24h_change;
         chEl.textContent=(ch>0?'+':'')+ch.toFixed(2)+'% 24h';
         chEl.className=ch>0.05?'chg-up':ch<-0.05?'chg-down':'chg-flat';
+        if(tileChg){tileChg.textContent=(ch>0?'▲ +':'')+ch.toFixed(2)+'% 24h';tileChg.className='tile-ton-chg '+(ch>0.05?'chg-up':ch<-0.05?'chg-down':'')}
       }
     }
   }catch(e1){
@@ -764,12 +864,13 @@ async function loadTonMarket(){
       const rub=rates.prices&&rates.prices.RUB||rates.rub;
       if(usd!=null)priceEl.textContent='$'+(+usd).toFixed(3);
       if(rubEl&&rub!=null)rubEl.textContent='≈ '+Math.round(+rub).toLocaleString('ru-RU')+' ₽';
-    }catch(e2){priceEl.textContent='n/a'}
+      if(tileTon&&usd!=null)tileTon.textContent='TON · $'+(+usd).toFixed(3);
+    }catch(e2){priceEl.textContent='n/a';if(tileTon)tileTon.textContent='TON · n/a'}
   }
   try{
     const chartRes=await fetchTimeout('https://api.coingecko.com/api/v3/coins/the-open-network/market_chart?vs_currency=usd&days=1',10000);
     const chartJ=await chartRes.json();
-    if(chartJ&&chartJ.prices)drawSpark(chartJ.prices);
+    if(chartJ&&chartJ.prices){lastChartPrices=chartJ.prices;drawSpark(lastChartPrices)}
   }catch(e){}
 }
 loadTonMarket();setInterval(loadTonMarket,120000);
@@ -1132,6 +1233,65 @@ function openTgBot(url){
   phx.addEventListener('click',goPhx);
 })();
 
+(function bindEcoGrid(){
+  var tiles={predict:document.getElementById('tile-predict'),ai:document.getElementById('tile-ai'),phx:document.getElementById('tile-phx'),vph:document.getElementById('tile-vph')};
+  var sections={predict:document.getElementById('predict-block'),ai:document.getElementById('ai-block'),phx:document.querySelector('.phx-section'),vph:document.querySelector('.vph-section')};
+  var links={predict:PREDICT_BOT_LINK,ai:AI_BOT_LINK,phx:(typeof VIBECOIN_APP_LINK!=='undefined'?VIBECOIN_APP_LINK:'https://t.me/phxcryptocoin_bot'),vph:VPH_BOT_LINK};
+  var routes={predict:'route · ai-predict',ai:'route · ai',phx:'route · vibecoin',vph:'route · vph'};
+  function collapse(k){
+    if(sections[k])sections[k].hidden=true;
+    if(tiles[k])tiles[k].classList.remove('active');
+  }
+  Object.keys(tiles).forEach(function(k){
+    var t=tiles[k];
+    if(!t||!sections[k])return;
+    t.addEventListener('click',function(){
+      var sec=sections[k];
+      var wasOpen=!sec.hidden;
+      Object.keys(sections).forEach(function(o){if(o!==k)collapse(o)});
+      sec.hidden=wasOpen;
+      t.classList.toggle('active',!sec.hidden);
+      try{if(typeof playClick==='function')playClick()}catch(e){}
+      try{pushTerm('route · '+(sec.hidden?'collapse':'expand')+' · '+k)}catch(e){}
+      if(!sec.hidden){
+        if(k==='phx'){try{if(window.lastChartPrices&&typeof drawSpark==='function')drawSpark(window.lastChartPrices)}catch(e){}}
+        try{window.dispatchEvent(new Event('resize'))}catch(e){}
+      }
+    });
+    t.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();t.click()}});
+    var cta=t.querySelector('.tile-cta');
+    if(cta)cta.addEventListener('click',function(e){
+      e.stopPropagation();
+      try{if(typeof playClick==='function')playClick()}catch(err){}
+      try{haptic('selection')}catch(err){}
+      try{pushTerm(routes[k])}catch(err){}
+      openTgBot(links[k]);
+    });
+  });
+  document.querySelectorAll('.section-collapse').forEach(function(cb){
+    cb.addEventListener('click',function(e){
+      e.stopPropagation();
+      var k=cb.getAttribute('data-collapse');
+      if(sections[k])collapse(k);
+      try{if(typeof playClick==='function')playClick()}catch(err){}
+      try{pushTerm('route · collapse · '+k)}catch(err){}
+    });
+  });
+  window.lastChartPrices=lastChartPrices;
+})();
+
+(function bindSoonShake(){
+  var sec=document.querySelector('.soon-section');
+  if(!sec)return;
+  sec.addEventListener('click',function(){
+    sec.classList.remove('shake');
+    void sec.offsetWidth;
+    sec.classList.add('shake');
+    try{if(typeof playStab==='function')playStab()}catch(e){}
+    try{pushTerm('module_2027 · access denied · sealed')}catch(e){}
+  });
+})();
+
 (function bindPredictBot(){
   var el=document.getElementById('predict-block');
   if(!el)return;
@@ -1148,6 +1308,7 @@ function openTgBot(url){
   var probEl=document.getElementById('predict-prob'),marketEl=document.getElementById('predict-market');
   var valueEl=document.getElementById('predict-value'),fillEl=document.getElementById('predict-fill');
   var countEl=document.getElementById('predict-count'),termEl=document.getElementById('predict-term');
+  var tMatchEl=document.getElementById('tile-p-match'),tProbEl=document.getElementById('tile-p-prob'),tValEl=document.getElementById('tile-p-value');
   var termLines=['model · value-v2 · feed ok','odds · edge scan · done','signals · ranked by confidence'];
   var termI=0;
   function setTerm(t){if(termEl)termEl.innerHTML='<span class="dim">&gt;</span> '+t+'<span class="cursor">_</span>'}
@@ -1168,6 +1329,9 @@ function openTgBot(url){
         if(valueEl)valueEl.style.display='none';
         if(countEl)countEl.textContent='фид от '+(d.date||'—')+' · открыть бота';
         if(fillEl)fillEl.style.width='0%';
+        if(tMatchEl)tMatchEl.innerHTML='<span class="dim">фид от '+(d.date||'—')+'</span> · обновляется';
+        if(tProbEl)tProbEl.textContent='—';
+        if(tValEl)tValEl.style.display='none';
         setTerm('feed · last update '+(d.date||'—')+' · tap to open');
         return;
       }
@@ -1181,6 +1345,12 @@ function openTgBot(url){
       if(probEl)probEl.textContent=(top.confidence||0)+'%';
       if(marketEl)marketEl.textContent=[top.sport,top.lgName,top.market].filter(Boolean).join(' · ');
       if(valueEl){valueEl.style.display=top.value?'inline-block':'none';}
+      if(tMatchEl){
+        var esc=function(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')};
+        tMatchEl.innerHTML=esc(top.home||'—')+' <span class="dim">vs</span> '+esc(top.away||'—');
+      }
+      if(tProbEl)tProbEl.textContent=(top.confidence||0)+'%';
+      if(tValEl)tValEl.style.display=top.value?'inline-block':'none';
       if(countEl){
         var freeShown=Math.min(preds.filter(function(p){return p.tier!=='pro'}).length,5);
         var proShown=Math.min(preds.filter(function(p){return p.tier==='pro'}).length,5);
@@ -1199,6 +1369,9 @@ function openTgBot(url){
       if(probEl)probEl.textContent='—';
       if(marketEl)marketEl.textContent='фид недоступен';
       if(countEl)countEl.textContent='открыть приложение';
+      if(tMatchEl)tMatchEl.innerHTML='<span class="dim">фид недоступен</span> · открой бота';
+      if(tProbEl)tProbEl.textContent='—';
+      if(tValEl)tValEl.style.display='none';
       setTerm('feed · offline · tap to open');
     });
   setInterval(function(){
