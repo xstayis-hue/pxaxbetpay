@@ -1305,6 +1305,7 @@ function openTgBot(url){
   var termLines=['model · value-v2 · feed ok','odds · edge scan · done','signals · ranked by confidence'];
   var termI=0;
   function setTerm(t){if(termEl)termEl.innerHTML='<span class="dim">&gt;</span> '+t+'<span class="cursor">_</span>'}
+  function refreshFeed(){
   fetch(PREDICT_FEED+'?t='+Date.now(),{cache:'no-store'})
     .then(function(r){if(!r.ok)throw new Error('http '+r.status);return r.json()})
     .then(function(d){
@@ -1328,9 +1329,30 @@ function openTgBot(url){
         setTerm('feed · last update '+(d.date||'—')+' · tap to open');
         return;
       }
+      // живые сигналы: матчи, которые уже начались/сыграны, не показываем (matchDate из фида)
+      var nowMs=Date.now();
+      var upc=preds.filter(function(p){
+        var md=p.matchDate?Date.parse(p.matchDate):NaN;
+        return isNaN(md)||md>=nowMs;
+      });
+      if(!upc.length){
+        if(live)live.classList.remove('loading');
+        if(homeEl)homeEl.textContent='ждём новые сигналы';
+        if(awayEl)awayEl.textContent='';
+        if(probEl)probEl.textContent='—';
+        if(marketEl)marketEl.textContent='матчи фида от '+(d.date||'—')+' сыграны';
+        if(valueEl)valueEl.style.display='none';
+        if(countEl)countEl.textContent='пересчёт · новые сигналы в течение 2 ч';
+        if(fillEl)fillEl.style.width='0%';
+        if(tMatchEl)tMatchEl.innerHTML='<span class="dim">пересчёт</span> · новые сигналы в течение 2 ч';
+        if(tProbEl)tProbEl.textContent='—';
+        if(tValEl)tValEl.style.display='none';
+        setTerm('feed · matches done · next update ~2h');
+        return;
+      }
       // то же самое, что показывает приложение прогнозов: первые 5 на группу в порядке фида
-      var visible=preds.filter(function(p){return p.tier!=='pro'}).slice(0,5)
-                       .concat(preds.filter(function(p){return p.tier==='pro'}).slice(0,5));
+      var visible=upc.filter(function(p){return p.tier!=='pro'}).slice(0,5)
+                       .concat(upc.filter(function(p){return p.tier==='pro'}).slice(0,5));
       // берём самый уверенный сигнал из видимого в приложении набора
       var top=visible.slice().sort(function(a,b){return (b.confidence||0)-(a.confidence||0)})[0];
       if(homeEl)homeEl.textContent=top.home||'—';
@@ -1345,8 +1367,8 @@ function openTgBot(url){
       if(tProbEl)tProbEl.textContent=(top.confidence||0)+'%';
       if(tValEl)tValEl.style.display=top.value?'inline-block':'none';
       if(countEl){
-        var freeShown=Math.min(preds.filter(function(p){return p.tier!=='pro'}).length,5);
-        var proShown=Math.min(preds.filter(function(p){return p.tier==='pro'}).length,5);
+        var freeShown=Math.min(upc.filter(function(p){return p.tier!=='pro'}).length,5);
+        var proShown=Math.min(upc.filter(function(p){return p.tier==='pro'}).length,5);
         countEl.textContent=(freeShown+proShown)+' сигнал(ов) на сегодня · '+proShown+' в PRO';
       }
       if(live)live.classList.remove('loading');
@@ -1367,6 +1389,10 @@ function openTgBot(url){
       if(tValEl)tValEl.style.display='none';
       setTerm('feed · offline · tap to open');
     });
+  }
+  refreshFeed();
+  // фид пересчитывается в pxax-predict каждые ~2 часа — на открытой странице подтягиваем его раз в 10 минут
+  setInterval(function(){try{refreshFeed()}catch(err){}},10*60*1000);
   setInterval(function(){
     if(!document.getElementById('predict-term'))return;
     termI=(termI+1)%termLines.length;setTerm(termLines[termI]);
