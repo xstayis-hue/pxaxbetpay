@@ -39,6 +39,30 @@ APPS_SCRIPT_URL   // вебхук для заявок (Google Apps Script)
 PREDICT_FEED      // фид прогнозов (data/predictions.json из pxax-predict)
 ```
 
+## Локальный бэкенд (`server/`)
+
+**PXAX Core API** — единый backend экосистемы: пользователи, кошельки, подписки и заявки на возврат. Express + SQLite (`better-sqlite3`).
+
+```bash
+cd server
+npm install                 # нативная сборка лучше-sqlite3 требует Visual Studio Build Tools (C++)
+cp .env.example .env        # заполни PXAX_BOT_TOKEN и PXAX_ADMIN_KEY
+npm start                   # http://localhost:3000
+npm test                    # 6 проверок: initData HMAC + кошельки
+```
+
+Роуты:
+
+| Метод | Путь | Назначение |
+|---|---|---|
+| GET | `/api/health` | готовность сервиса и наличие токена |
+| GET | `/api/me` | профиль, кошельки и подписки (initData обязателен) |
+| POST | `/api/refund-requests` | создать заявку на возврат |
+| GET | `/api/refund-requests/mine` | свои заявки |
+| GET | `/api/admin/refund-requests` | все заявки (нужен `Authorization: Bearer <PXAX_ADMIN_KEY>`) |
+
+Авторизация — проверка Telegram `initData` по HMAC-SHA256; без валидной подписи роуты возвращают `invalid_init_data`. Админ-роуты защищены отдельным ключом, который в репозиторий не попадает.
+
 ## Экосистема PXAX
 
 | Продукт | Ссылка | Что это |

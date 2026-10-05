@@ -8,10 +8,11 @@ npm-debug.log*
 !.env.example
 *.local
 
-# служебные данные
-data/*.db
-data/*.sqlite
-data/*.sqlite3
+# базы данных и служебные данные
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+*.db
 *.log
 
 # системное

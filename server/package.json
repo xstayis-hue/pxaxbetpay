@@ -1,0 +1,17 @@
+{
+  "name": "pxax-core-api",
+  "version": "0.1.0",
+  "description": "Unified backend for PXAX ecosystem: users, wallets, subscriptions, product-specific data (starting with pxaxbetpay refund requests)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.3.0",
+    "express": "^4.19.2"
+  },
+  "allowScripts": {
+    "better-sqlite3@11.10.0": true
+  }
+}

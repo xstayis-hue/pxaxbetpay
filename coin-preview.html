@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PXAX // COIN — Cyberpunk 3D</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+html,body{height:100%;margin:0;overflow:hidden;background:#070313}
+#scene{position:fixed;inset:0;width:100%;height:100%;display:block}
+.scan{position:fixed;inset:0;z-index:3;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(255,255,255,.02) 0 1px,transparent 1px 3px)}
+.vignette{position:fixed;inset:0;z-index:4;pointer-events:none;background:radial-gradient(ellipse at 50% 45%,transparent 55%,rgba(3,0,12,.55) 100%)}
+.hud{position:fixed;inset:0;z-index:5;pointer-events:none;font-family:'Orbitron',sans-serif}
+.hud .title{position:absolute;top:22px;left:26px}
+.hud h1{font-size:22px;font-weight:900;letter-spacing:4px;margin:0;color:#fff;text-shadow:0 0 12px #2de2ff,0 0 34px #ff3df0}
+.hud .sub{font-size:10px;letter-spacing:3px;color:#7ff7ff;opacity:.8;margin-top:6px}
+.hud .tag{position:absolute;top:24px;right:26px;font-size:9px;letter-spacing:2px;color:#2de2ff;border:1px solid rgba(45,226,255,.5);padding:5px 9px;border-radius:3px;background:rgba(45,226,255,.07)}
+.hud .hint{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);font-size:10px;letter-spacing:2px;color:#b58bd8;opacity:.75;white-space:nowrap}
+#fallback{display:none;position:fixed;inset:0;align-items:center;justify-content:center;z-index:10;background:#070313;color:#ff5edb;font-family:'Orbitron',sans-serif;letter-spacing:3px}
+</style>
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
+  }
+}
+</script>
+</head>
+<body>
+<canvas id="scene"></canvas>
+<div class="scan"></div>
+<div class="vignette"></div>
+<div class="hud">
+  <div class="title"><h1>PXAX // COIN</h1><div class="sub">CYBERPUNK 3D PREVIEW</div></div>
+  <div class="tag">LIVE</div>
+  <div class="hint">ЛКМ — вращать · колесо — зум · ПКМ — сдвиг</div>
+</div>
+<div id="fallback">WEBGL НЕДОСТУПЕН</div>
+
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+
+const canvas = document.getElementById('scene');
+const fallback = document.getElementById('fallback');
+
+let renderer;
+try {
+  renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+  if (!renderer.getContext()) throw new Error('нет WebGL');
+} catch (err) {
+  console.error('WebGL недоступен:', err);
+  fallback.style.display = 'flex';
+  throw err;
+}
+renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.15;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x070313);
+scene.fog = new THREE.FogExp2(0x070313, 0.02);
+
+const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 240);
+camera.position.set(0, 3.6, 10.5);
+
+const controls = new OrbitControls(camera, canvas);
+controls.target.set(0, 2.5, 0);
+controls.enableDamping = true;
+controls.dampingFactor = 0.06;
+controls.minDistance = 4;
+controls.maxDistance = 22;
+controls.maxPolarAngle = 1.52;
+
+// Свет: холодный верх + неоновые акценты циан/маджента + тёплый подъём под монетой
+scene.add(new THREE.AmbientLight(0x3a3f66, 0.8));
+const sun = new THREE.DirectionalLight(0x96a7ff, 0.55); sun.position.set(0, 14, 6); scene.add(sun);
+const lightCyan = new THREE.PointLight(0x2de2ff, 110, 70, 2); lightCyan.position.set(-7, 6.5, 5); scene.add(lightCyan);
+const lightMagenta = new THREE.PointLight(0xff3df0, 80, 70, 2); lightMagenta.position.set(7, 4, -4); scene.add(lightMagenta);
+const lightUnder = new THREE.PointLight(0xffd27a, 26, 14, 2); lightUnder.position.set(0, 0.5, 0.4); scene.add(lightUnder);
+// ---- пол и неоновая сетка ----
+const floor = new THREE.Mesh(
+  new THREE.PlaneGeometry(240, 240),
+  new THREE.MeshStandardMaterial({ color: 0x05040d, roughness: 0.92, metalness: 0.15 })
+);
+floor.rotation.x = -Math.PI / 2;
+scene.add(floor);
+
+const grid = new THREE.GridHelper(240, 120, 0x2de2ff, 0x181238);
+grid.material.transparent = true;
+grid.material.opacity = 0.5;
+grid.position.y = 0.02;
+scene.add(grid);
+
+// мягкое пятно света под монетой
+(function makeLightPool() {
+  const c = document.createElement('canvas'); c.width = c.height = 256;
+  const g = c.getContext('2d');
+  const r = g.createRadialGradient(128, 128, 0, 128, 128, 128);
+  r.addColorStop(0, 'rgba(255,210,122,0.5)');
+  r.addColorStop(0.4, 'rgba(255,140,90,0.16)');
+  r.addColorStop(1, 'rgba(0,0,0,0)');
+  g.fillStyle = r; g.fillRect(0, 0, 256, 256);
+  const pool = new THREE.Mesh(
+    new THREE.PlaneGeometry(7, 7),
+    new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(c), transparent: true, blending: THREE.AdditiveBlending, depthWrite: false })
+  );
+  pool.rotation.x = -Math.PI / 2;
+  pool.position.y = 0.04;
+  scene.add(pool);
+})();
+
+// ---- «город» вокруг сцены ----
+function makeWindowTexture() {
+  const c = document.createElement('canvas'); c.width = 128; c.height = 256;
+  const g = c.getContext('2d');
+  g.fillStyle = '#05070f'; g.fillRect(0, 0, 128, 256);
+  const cols = 6, rows = 14, w = 128 / cols, h = 256 / rows;
+  const palette = ['#6ff3ff', '#ff5edb', '#ffd27a', '#9d7bff'];
+  for (let i = 0; i < cols; i++) for (let j = 0; j < rows; j++) {
+    if (Math.random() < 0.3) {
+      g.globalAlpha = 0.25 + Math.random() * 0.75;
+      g.fillStyle = palette[(Math.random() * palette.length) | 0];
+      g.fillRect(i * w + 2.5, j * h + 2.5, w - 5, h - 5);
+    }
+  }
+  g.globalAlpha = 1;
+  const t = new THREE.CanvasTexture(c);
+  t.colorSpace = THREE.SRGBColorSpace;
+  return t;
+}
+
+const buildingMats = Array.from({ length: 3 }, () => {
+  const t = makeWindowTexture();
+  return new THREE.MeshStandardMaterial({
+    color: 0x0b0e22, roughness: 0.85, metalness: 0.25,
+    map: t, emissive: 0xffffff, emissiveMap: t, emissiveIntensity: 0.55
+  });
+});
+
+const boxGeo = new THREE.BoxGeometry(1, 1, 1);
+const beaconGeo = new THREE.BoxGeometry(0.5, 0.3, 0.5);
+const accentColors = [0x2de2ff, 0xff3df0, 0xffd27a];
+for (let i = 0; i < 52; i++) {
+  const a = Math.random() * Math.PI * 2;
+  const r = 16 + Math.random() * 44;
+  const w = 2.5 + Math.random() * 5.5;
+  const h = 4 + Math.pow(Math.random(), 2) * 28;
+  const m = new THREE.Mesh(boxGeo, buildingMats[(Math.random() * buildingMats.length) | 0]);
+  m.scale.set(w, h, w * (0.6 + Math.random() * 0.8));
+  m.position.set(Math.cos(a) * r, h / 2, Math.sin(a) * r);
+  m.rotation.y = Math.random() * Math.PI;
+  scene.add(m);
+  if (Math.random() < 0.45) {
+    const beacon = new THREE.Mesh(beaconGeo, new THREE.MeshBasicMaterial({ color: accentColors[(Math.random() * accentColors.length) | 0] }));
+    beacon.position.set(m.position.x, h + 0.15, m.position.z);
+    scene.add(beacon);
+  }
+}
+//__P3__
+//__P4__
+</script>
+</body>
+</html>
