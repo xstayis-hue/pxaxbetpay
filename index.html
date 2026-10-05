@@ -237,6 +237,8 @@ input.field-error,textarea.field-error,select.field-error{border-color:rgba(255,
 .predict-vs{color:#5f89a5;font-size:10px;flex-shrink:0}
 .predict-meta{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:7px;font-size:9px;color:#7fa0b5}
 .predict-value{padding:2px 6px;border-radius:7px;font-weight:800;font-size:8px;letter-spacing:.06em;color:#08131f;background:linear-gradient(135deg,#7bffd0,#00e5ff)}
+.predict-time{margin-top:4px;font-size:9px;color:#67e0ff;letter-spacing:.4px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.predict-time .eta{color:#7fd1ff;opacity:.85}
 .predict-bar{margin-top:9px;height:5px;border-radius:5px;background:rgba(139,163,199,.16);overflow:hidden}
 .predict-bar i{display:block;height:100%;width:0;border-radius:5px;background:linear-gradient(90deg,#00e5ff,#9d6bff);box-shadow:0 0 10px rgba(0,229,255,.55);transition:width .9s cubic-bezier(.22,1,.36,1)}
 .predict-action{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:12px;padding:9px 10px;border:1px solid rgba(94,225,230,.22);border-radius:9px;background:rgba(94,225,230,.06);color:#a9f2fb;font-size:10px}
@@ -580,6 +582,7 @@ input.field-error,textarea.field-error,select.field-error{border-color:rgba(255,
   <div class="predict-live-head"><span>Последний сигнал дня</span><span class="predict-prob" id="predict-prob">—</span></div>
   <div class="predict-match"><span id="predict-home">загрузка…</span><span class="predict-vs">vs</span><span id="predict-away"></span></div>
   <div class="predict-meta"><span id="predict-market">—</span><span id="predict-value" class="predict-value" style="display:none">VALUE</span></div>
+  <div class="predict-time" id="predict-time" style="display:none"><span id="predict-when">—</span><span class="eta" id="predict-eta"></span></div>
   <div class="predict-bar"><i id="predict-fill"></i></div>
 </div>
 <div class="predict-action"><span id="predict-count">сигналы на сегодня</span><strong>Открыть прогнозы ↗</strong></div>
@@ -1316,6 +1319,7 @@ function openTgBot(url){
         if(awayEl)awayEl.textContent='';
         if(probEl)probEl.textContent='—';
         if(marketEl)marketEl.textContent='последний фид · '+(d.date||'—');
+        var ptS=document.getElementById('predict-time');if(ptS)ptS.style.display='none';
         if(valueEl)valueEl.style.display='none';
         if(countEl)countEl.textContent='фид от '+(d.date||'—')+' · открыть бота';
         if(fillEl)fillEl.style.width='0%';
@@ -1337,6 +1341,7 @@ function openTgBot(url){
         if(awayEl)awayEl.textContent='';
         if(probEl)probEl.textContent='—';
         if(marketEl)marketEl.textContent='матчи фида от '+(d.date||'—')+' сыграны';
+        var ptD=document.getElementById('predict-time');if(ptD)ptD.style.display='none';
         if(valueEl)valueEl.style.display='none';
         if(countEl)countEl.textContent='пересчёт · новые сигналы в течение 2 ч';
         if(fillEl)fillEl.style.width='0%';
@@ -1351,10 +1356,23 @@ function openTgBot(url){
                        .concat(upc.filter(function(p){return p.tier==='pro'}).slice(0,5));
       // берём самый уверенный сигнал из видимого в приложении набора
       var top=visible.slice().sort(function(a,b){return (b.confidence||0)-(a.confidence||0)})[0];
+      // время матча + обратный отсчёт: видно, какой именно матч и когда он начнётся
+      var timeEl=document.getElementById('predict-time'),whenEl=document.getElementById('predict-when'),etaEl=document.getElementById('predict-eta');
+      function p2(n){return n<10?'0'+n:''+n}
+      if(timeEl&&top.matchDate){
+        var mdT=Date.parse(top.matchDate);
+        if(mdT>0){
+          timeEl.style.display='';
+          var msK=new Date(mdT+3*3600e3);
+          whenEl.textContent='⏱ '+p2(msK.getUTCMonth()+1)+'.'+p2(msK.getUTCDate())+' · '+p2(msK.getUTCHours())+':'+p2(msK.getUTCMinutes())+' МСК';
+          var leftH=Math.round((mdT-Date.now())/3600e3);
+          etaEl.textContent=leftH>1?'через '+leftH+' ч':'идёт / скоро';
+        }
+      }
       if(homeEl)homeEl.textContent=top.home||'—';
       if(awayEl)awayEl.textContent=top.away||'—';
       if(probEl)probEl.textContent=(top.confidence||0)+'%';
-      if(marketEl)marketEl.textContent=[top.sport,top.lgName,top.market].filter(Boolean).join(' · ');
+      if(marketEl)marketEl.textContent=[top.tier==='pro'?'PRO':null,top.sport,top.lgName,top.market].filter(Boolean).join(' · ');
       if(valueEl){valueEl.style.display=top.value?'inline-block':'none';}
       if(tMatchEl){
         var esc=function(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')};
@@ -1379,6 +1397,7 @@ function openTgBot(url){
       if(awayEl)awayEl.textContent='';
       if(probEl)probEl.textContent='—';
       if(marketEl)marketEl.textContent='фид недоступен';
+      var pt2=document.getElementById('predict-time');if(pt2)pt2.style.display='none';
       if(countEl)countEl.textContent='открыть приложение';
       if(tMatchEl)tMatchEl.innerHTML='<span class="dim">фид недоступен</span> · открой бота';
       if(tProbEl)tProbEl.textContent='—';
