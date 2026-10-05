@@ -857,9 +857,9 @@ function updateCharCount(){const n=commentEl.value.length;charCount.textContent=
 commentEl.addEventListener('input',updateCharCount);
 
 const AI_BOT_LINK = 'https://t.me/PxAxAi_bot';
-const VIBECOIN_APP_LINK = 'https://xstayis-hue.github.io/PHXcoin/';
+const VIBECOIN_APP_LINK = 'https://t.me/phxcryptocoin_bot';
 const VPH_BOT_LINK = 'https://t.me/Vphoenixx_bot';
-const PREDICT_APP_LINK = 'https://xstayis-hue.github.io/pxax-predict/';
+const PREDICT_APP_LINK = 'https://t.me/pxaxbetai_bot';
 const PREDICT_BOT_LINK = 'https://t.me/pxaxbetai_bot';
 const PREDICT_FEED = 'https://xstayis-hue.github.io/pxax-predict/data/predictions.json';
 const storage=(()=>{try{return localStorage}catch{return{data:{},getItem(k){return this.data[k]||null},setItem(k,v){this.data[k]=v}}}})();
@@ -1127,7 +1127,7 @@ function openTgBot(url){
     if(e.target.closest('button')||e.target.closest('#phx-copy-btn')||e.target.closest('#spark-wrap')||e.target.closest('#ton-live')||e.target.closest('#spark')||e.target.closest('.ton-pulse')||e.target.closest('.ton-seq-row'))return;
     try{if(typeof playClick==='function')playClick()}catch(err){}
     try{pushTerm('route · vibecoin')}catch(err){}
-    openLink(typeof VIBECOIN_APP_LINK!=='undefined'?VIBECOIN_APP_LINK:'https://xstayis-hue.github.io/PHXcoin/');
+    openTgBot(typeof VIBECOIN_APP_LINK!=='undefined'?VIBECOIN_APP_LINK:'https://t.me/phxcryptocoin_bot');
   }
   phx.addEventListener('click',goPhx);
 })();
