@@ -364,7 +364,9 @@ input.field-error,textarea.field-error,select.field-error{border-color:rgba(255,
 .eco-tile.active{border-color:rgba(0,255,255,.45);box-shadow:0 0 18px rgba(0,255,255,.15)}
 .eco-tile.breathe{animation:section-breathe 3.8s ease-in-out}
 .eco-tile .tile-top{display:flex;align-items:center;gap:6px;min-width:0}
-.eco-tile .tile-ico{font-size:14px;line-height:1;flex-shrink:0}
+.eco-tile .tile-ico{width:15px;height:15px;line-height:1;flex-shrink:0;color:#9be8ff;display:inline-flex;align-items:center;justify-content:center}
+.eco-tile .tile-ico .tic{width:100%;height:100%;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;display:block}
+.tile-phx .tile-ico{color:#ffd98a}
 .eco-tile .tile-name{font-size:11px;font-weight:700;letter-spacing:.4px;color:#e8f8ff;line-height:1.3;overflow-wrap:anywhere;min-width:0}
 .eco-tile .tile-pill{margin-left:auto;padding:2px 6px;border-radius:10px;font-size:7px;letter-spacing:.5px;white-space:nowrap;border:1px solid;flex-shrink:0}
 .tile-pill.live{color:#00ffcc;border-color:rgba(0,255,200,.4);background:rgba(0,255,200,.08);text-shadow:0 0 6px rgba(0,255,200,.4)}
@@ -498,7 +500,7 @@ input.field-error,textarea.field-error,select.field-error{border-color:rgba(255,
 </div>
 <div class="eco-grid">
 <div class="eco-tile tile-predict" id="tile-predict" role="button" tabindex="0" aria-label="AI-аналитика — раскрыть блок">
-<div class="tile-top"><span class="tile-ico">✦</span><span class="tile-name">AI-аналитика</span><span class="tile-pill live">LIVE</span></div>
+<div class="tile-top"><span class="tile-ico"><svg class="tic" aria-hidden="true"><use href="#i-spark"/></svg></span><span class="tile-name">AI-аналитика</span><span class="tile-pill live">LIVE</span></div>
 <div class="tile-body">
 <div class="tile-match" id="tile-p-match">загрузка фида…</div>
 <div class="tile-prob-row"><span class="tile-prob" id="tile-p-prob">—</span><span class="tile-value" id="tile-p-value">VALUE</span></div>
@@ -513,7 +515,7 @@ input.field-error,textarea.field-error,select.field-error{border-color:rgba(255,
 <button type="button" class="tile-cta" id="tile-ai-cta"><span class="hint">3D-комната</span><strong>↧</strong></button>
 </div>
 <div class="eco-tile tile-phx" id="tile-phx" role="button" tabindex="0" aria-label="VibeCoin VPHX — раскрыть блок">
-<div class="tile-top"><span class="tile-ico">◈</span><span class="tile-name">VPHX · TON</span><span class="tile-pill soon">SOON</span></div>
+<div class="tile-top"><span class="tile-ico"><svg class="tic" aria-hidden="true"><use href="#i-coin2"/></svg></span><span class="tile-name">VPHX · TON</span><span class="tile-pill soon">SOON</span></div>
 <div class="tile-body">
 <div class="tile-ton" id="tile-ton">TON · …</div>
 <div class="tile-ton-chg" id="tile-ton-chg">рынок · live</div>
@@ -521,7 +523,7 @@ input.field-error,textarea.field-error,select.field-error{border-color:rgba(255,
 <button type="button" class="tile-cta" id="tile-phx-cta"><span class="hint">TON · live</span><strong>↧</strong></button>
 </div>
 <div class="eco-tile tile-vph" id="tile-vph" role="button" tabindex="0" aria-label="Vph — раскрыть блок">
-<div class="tile-top"><span class="tile-ico">⌁</span><span class="tile-name">Vph</span><span class="tile-pill soon">SOON</span></div>
+<div class="tile-top"><span class="tile-ico"><svg class="tic" aria-hidden="true"><use href="#i-bolt"/></svg></span><span class="tile-name">Vph</span><span class="tile-pill soon">SOON</span></div>
 <div class="tile-body">
 <div class="tile-note">Защищённый канал PXAX · запуск готовится</div>
 </div>
@@ -1558,5 +1560,9 @@ function openTgBot(url){
   loadModel();
 })();
 </script>
-</body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+<symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3.2l2.3 6.2 6.2 2.3-6.2 2.3L12 20.8l-2.3-6.8-6.2-2.3 6.2-2.3Z"/></symbol>
+<symbol id="i-coin2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.6"/></symbol>
+<symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2.8 5.4 13.4h5l-1.2 7.8 7.4-10.6h-5Z"/></symbol>
+</defs></svg></body>
 </html>
