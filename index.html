@@ -1534,18 +1534,19 @@ function openTgBot(url){
       if(homeEl)homeEl.textContent=top.home||'—';
       if(awayEl)awayEl.textContent=top.away||'—';
       if(probEl)probEl.textContent=(top.confidence||0)+'%';
-      if(marketEl)marketEl.textContent=[top.tier==='pro'?'PRO':null,top.sport,top.lgName,top.market].filter(Boolean).join(' · ');
-      if(valueEl){valueEl.style.display=top.value?'inline-block':'none';}
+      // tier и value — платные признаки PRO: в публичном фиде их больше нет,
+      // поэтому бейдж VALUE на бесплатной карточке не показываем
+      if(marketEl)marketEl.textContent=[top.sport,top.lgName,top.market].filter(Boolean).join(' · ');
+      if(valueEl)valueEl.style.display='none';
       if(tMatchEl){
         var esc=function(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')};
         tMatchEl.innerHTML=esc(top.home||'—')+' <span class="dim">vs</span> '+esc(top.away||'—');
       }
       if(tProbEl)tProbEl.textContent=(top.confidence||0)+'%';
-      if(tValEl)tValEl.style.display=top.value?'inline-block':'none';
+      if(tValEl)tValEl.style.display='none';
       if(countEl){
         var freeShown=Math.min(upc.filter(function(p){return p.tier!=='pro'}).length,5);
-        var proShown=Math.min(upc.filter(function(p){return p.tier==='pro'}).length,5);
-        countEl.textContent=(freeShown+proShown)+' сигнал(ов) на сегодня · '+proShown+' в PRO';
+        countEl.textContent=freeShown+' сигнал(ов) на сегодня';
       }
       if(live)live.classList.remove('loading');
       requestAnimationFrame(function(){requestAnimationFrame(function(){
