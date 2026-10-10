@@ -336,6 +336,14 @@ input.field-error,textarea.field-error,select.field-error{border-color:rgba(255,
 #admin-login{max-width:100%;margin:32px auto 0;padding:16px;border:1px solid #ff00ff;background:rgba(0,0,0,.65);border-radius:12px}
 #admin-login h2{text-align:center;margin:0 0 14px;color:#ff00ff;font-size:1.05em}
 #admin-login input{margin-bottom:10px;width:100%}
+.admin-hint{margin-top:10px;font-size:10px;line-height:1.5;color:#7a9aa0}
+.admin-status{text-align:center;font-size:11px;min-height:1.4em;color:#7a9aa0;margin-bottom:10px}
+.admin-status.err{color:#ff9a9a}
+.admin-status.ok{color:#00ff88}
+.application .a-head{color:#00ffff;font-weight:700;margin-bottom:6px}
+.application .a-key{color:#5a8a8a}
+.application .a-actions{margin-top:8px;display:flex;gap:6px;flex-wrap:wrap}
+.application .a-actions button{padding:4px 9px;font-size:10px;border-radius:6px;border:1px solid rgba(0,255,255,.35);background:rgba(0,255,255,.08);color:#9be8ff;font-family:inherit;cursor:pointer}
 .admin-buttons{display:flex;gap:10px;margin-top:12px}
 .admin-buttons button{flex:1;padding:11px;border-radius:8px;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;border:1px solid}
 #login-btn{background:rgba(0,255,255,.12);border-color:rgba(0,255,255,.45);color:#00ffff}
@@ -694,17 +702,21 @@ input.field-error,textarea.field-error,select.field-error{border-color:rgba(255,
 <div id="admin-panel">
 <div id="admin-login">
 <h2>Вход в админ-панель</h2>
-<input type="text" id="admin-username" placeholder="Логин" autocomplete="username">
-<input type="password" id="admin-password" placeholder="Пароль" autocomplete="current-password">
+<input type="password" id="admin-key" placeholder="Ключ администратора" autocomplete="off" spellcheck="false">
 <div class="admin-buttons">
-<button id="login-btn" type="button" onclick="loginAdmin()">Войти</button>
+<button id="login-btn" type="button" onclick="adminLogin()">Войти</button>
 <button id="close-admin-btn" type="button" onclick="closeAdminPanel()">Закрыть</button>
 </div>
+<div class="admin-hint" id="admin-login-hint">Ключ задаётся на сервере (PXAX_ADMIN_KEY) и в репозиторий не попадает.</div>
 </div>
 <div id="admin-content" style="display:none">
-<h2 style="color:#ff00ff;text-align:center">Заявки (локально)</h2>
+<h2 style="color:#ff00ff;text-align:center">Заявки</h2>
+<div class="admin-status" id="admin-status"></div>
 <div id="applications-list"></div>
-<button type="button" onclick="logoutAdmin()" style="margin-top:12px;padding:10px 18px;background:rgba(255,0,100,.15);border:1px solid rgba(255,0,100,.5);color:#ff6699;border-radius:8px;font-family:inherit;cursor:pointer">Выйти</button>
+<div class="admin-buttons">
+<button id="admin-reload-btn" type="button" onclick="adminLoad()">Обновить</button>
+<button type="button" onclick="adminLogout()" style="background:rgba(255,0,100,.15);border-color:rgba(255,0,100,.5);color:#ff6699">Выйти</button>
+</div>
 </div>
 </div>
 
@@ -712,6 +724,16 @@ input.field-error,textarea.field-error,select.field-error{border-color:rgba(255,
 const APPS_SCRIPT_URL='https://script.google.com/macros/s/AKfycbwYMF9edwo6_-i2xMV0A82-C5QJdFUeioNUDHIUIIfu0GSRjo3cRj72Dy2hPpzCxRg/exec';
 const PHX_CONTRACT='';
 const TON_LINK='https://tonviewer.com/';
+// Админка работает только с защищённым backend'ом (server/, роуты /api/admin/*).
+// Ключ вводится вручную и живёт в sessionStorage: в исходнике его нет.
+// Прод-страница на HTTPS не может звать http://localhost — mixed content, поэтому
+// при локальной проверке открывай саму страницу по http://localhost:3000.
+const CORE_API_URL = (() => {
+  try { return new URLSearchParams(location.search).get('api') || ''; } catch (e) { return ''; }
+})();
+const ADMIN_KEY_STORE = (() => {
+  try { return sessionStorage; } catch (e) { return { data:{}, getItem(k){return this.data[k]||null}, setItem(k,v){this.data[k]=v}, removeItem(k){delete this.data[k]} }; }
+})();
 
 function haptic(type){try{const hf=window.Telegram?.WebApp?.HapticFeedback;if(hf){if(type==='impact')hf.impactOccurred('medium');else if(type==='success')hf.notificationOccurred('success');else hf.selectionChanged();return}}catch(e){}if(navigator.vibrate)navigator.vibrate(type==='success'?[20,40,20]:12)}
 
@@ -1177,10 +1199,146 @@ function startProcess(cb){const modal=document.getElementById('process-modal'),b
 
 function showFakePopup(){document.getElementById('fake-popup').style.display='block'}
 function closeFakePopup(){playClick();document.getElementById('fake-popup').style.display='none'}
-function showAdminLogin(){document.getElementById('admin-panel').style.display='block';document.getElementById('admin-login').style.display='block';document.getElementById('admin-content').style.display='none'}
-async function loginAdmin(){playClick();const username=document.getElementById('admin-username').value,password=document.getElementById('admin-password').value;const encoder=new TextEncoder();const hashBuffer=await crypto.subtle.digest('SHA-256',encoder.encode(password));const hash=Array.from(new Uint8Array(hashBuffer)).map(b=>b.toString(16).padStart(2,'0')).join('');if(username==='09pX90Ax'&&hash==='f2a6b6f7a5c2d4e3f1a0b9c8d7e6f5a4b3c2d1e0f9a8b7c6d5e4f3a2b1c0d9e8'){document.getElementById('admin-login').style.display='none';document.getElementById('admin-content').style.display='block';loadApplications()}else alert('Неверный логин или пароль')}
-function loadApplications(){const list=document.getElementById('applications-list');list.innerHTML='';const apps=JSON.parse(storage.getItem('applications')||'[]');apps.sort((a,b)=>new Date(b.timestamp)-new Date(a.timestamp));apps.forEach((app,i)=>{const div=document.createElement('div');div.className='application';div.innerHTML=`<p><strong>Заявка #${i+1}</strong> (${app.timestamp})</p><p>TG ID: ${app.telegramId||'—'}</p><p>Instagram: ${app.instagramNick}</p><p>Телефон: ${app.phone}</p><p>Область: ${app.region||'—'}</p><p>Целевой IG: ${app.targetInstagram}</p><p>Telegram: ${app.telegramUsername}</p><p>Сумма: ${app.amount}</p><p>Чек: ${app.receipt}</p><p>Перевод: ${app.transferMethod} — ${app.transferDetails}</p><p>Тип: ${app.withdrawalType==='partial'?'Частями':'Единым'}</p><p>Комментарий: ${app.comment||'—'}</p>`;list.appendChild(div)})}
-function logoutAdmin(){closeAdminPanel()}
+
+/* ---------- админ-панель ----------
+   Раньше вход проверялся на клиенте: логин и SHA-256 хеш пароля лежали в этой же
+   странице, то есть были видны любому, кто открыл исходник, а список «заявок» читался
+   из localStorage — это локальные записи самого смотрящего, а не данные сервиса.
+   Теперь панель ходит в защищённый API (сервер проверяет ключ заголовком
+   Authorization: Bearer <PXAX_ADMIN_KEY>, сравнение в постоянном времени), а ключ
+   хранится только в sessionStorage этого браузера и в репозиторий не попадает. */
+function coreApiBase(){
+  if(CORE_API_URL)return CORE_API_URL.replace(/\/+$/,'');
+  // Админка работает только с защищённым backend'ом. Он поднимается локально
+  // (server/server.js), поэтому при открытии страницы с localhost/127.0.0.1 берём тот же
+  // origin: npm start отдаёт и страницу, и /api с одного адреса.
+  const host=location.hostname;
+  if(host==='localhost'||host==='127.0.0.1'||host==='[::1]')return location.origin;
+  return '';
+}
+function adminStatus(text,kind){
+  const el=document.getElementById('admin-status');
+  if(!el)return;
+  el.textContent=text||'';
+  el.className='admin-status'+(kind?' '+kind:'');
+}
+function adminNotice(text,kind){
+  const hint=document.getElementById('admin-login-hint');
+  if(hint){hint.textContent=text;hint.className='admin-hint'+(kind?' '+kind:'')}
+}
+function showAdminLogin(){
+  playClick();
+  document.getElementById('admin-panel').style.display='block';
+  const key=ADMIN_KEY_STORE.getItem('pxax_admin_key');
+  if(key){adminLoad();return}
+  document.getElementById('admin-login').style.display='block';
+  document.getElementById('admin-content').style.display='none';
+  adminNotice('Ключ задаётся на сервере (PXAX_ADMIN_KEY) и в репозиторий не попадает.');
+}
+async function adminLogin(){
+  playClick();
+  const input=document.getElementById('admin-key');
+  const key=(input&&input.value||'').trim();
+  if(!key){adminNotice('Введите ключ администратора','err');return}
+  ADMIN_KEY_STORE.setItem('pxax_admin_key',key);
+  if(input)input.value='';
+  await adminLoad(true);
+}
+function adminLogout(){
+  ADMIN_KEY_STORE.removeItem('pxax_admin_key');
+  adminStatus('');
+  document.getElementById('admin-login').style.display='block';
+  document.getElementById('admin-content').style.display='none';
+  adminNotice('Ключ удалён из этой сессии.');
+  closeAdminPanel();
+}
+function escHtml(v){return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function fmtTs(v){
+  const d=v?new Date(String(v).replace(' ','T')+'Z'):null;
+  return d&&!Number.isNaN(d.getTime())?d.toLocaleString('ru-RU',{dateStyle:'medium',timeStyle:'short'}):(v||'—');
+}
+async function adminLoad(fromLogin){
+  const base=coreApiBase();
+  const key=ADMIN_KEY_STORE.getItem('pxax_admin_key')||'';
+  if(!base){
+    adminStatus('Нужен backend: открой эту страницу с http://localhost:3000 или передай адрес API в ?api=https://…','err');
+    if(fromLogin)adminNotice('Укажи адрес API: ?api=https://…','err');
+    return;
+  }
+  if(!key){adminStatus('Нет ключа — войди заново','err');return}
+  adminStatus('Загрузка…');
+  try{
+    const res=await fetch(base+'/api/admin/refund-requests',{headers:{Authorization:'Bearer '+key}});
+    if(res.status===401){
+      ADMIN_KEY_STORE.removeItem('pxax_admin_key');
+      document.getElementById('admin-login').style.display='block';
+      document.getElementById('admin-content').style.display='none';
+      adminNotice('Ключ не принят сервером.','err');
+      adminStatus('');
+      return;
+    }
+    if(!res.ok){adminStatus('Сервер ответил '+res.status,'err');return}
+    const data=await res.json();
+    document.getElementById('admin-login').style.display='none';
+    document.getElementById('admin-content').style.display='block';
+    renderAdminApplications(Array.isArray(data.requests)?data.requests:[]);
+    adminStatus(data.requests&&data.requests.length?('Заявок: '+data.requests.length):'Заявок пока нет','ok');
+  }catch(e){
+    adminStatus('Не удалось связаться с API ('+base+')','err');
+  }
+}
+function renderAdminApplications(rows){
+  const list=document.getElementById('applications-list');
+  if(!list)return;
+  list.replaceChildren();
+  if(!rows.length){
+    const empty=document.createElement('div');
+    empty.className='application';
+    empty.textContent='Сервер не вернул ни одной заявки.';
+    list.appendChild(empty);
+    return;
+  }
+  rows.forEach((r,i)=>{
+    const div=document.createElement('div');
+    div.className='application';
+    const actions=(r.status&&!['approved','rejected','paid'].includes(r.status))
+      ? '<div class="a-actions"><button type="button" data-act="approved" data-id="'+escHtml(r.id)+'">Одобрить</button>'
+        +'<button type="button" data-act="rejected" data-id="'+escHtml(r.id)+'">Отклонить</button>'
+        +'<button type="button" data-act="paid" data-id="'+escHtml(r.id)+'">Выплачено</button></div>'
+      : '';
+    div.innerHTML=
+      '<div class="a-head">Заявка #'+escHtml(r.id||(i+1))+' · '+escHtml(r.status||'pending')+'</div>'
+      +'<p><span class="a-key">Дата:</span> '+escHtml(fmtTs(r.created_at))+'</p>'
+      +'<p><span class="a-key">Telegram:</span> '+escHtml(r.username||'—')+' · ID '+escHtml(r.telegram_id||'—')+'</p>'
+      +'<p><span class="a-key">Instagram:</span> '+escHtml(r.instagram_nick||'—')+' → '+escHtml(r.target_instagram||'—')+'</p>'
+      +'<p><span class="a-key">Телефон:</span> '+escHtml(r.phone||'—')+'</p>'
+      +'<p><span class="a-key">Область:</span> '+escHtml(r.region||'—')+'</p>'
+      +'<p><span class="a-key">Сумма:</span> '+escHtml(r.amount!=null?r.amount:'—')+'</p>'
+      +'<p><span class="a-key">Перевод:</span> '+escHtml(r.transfer_method||'—')+' — '+escHtml(r.transfer_details||'—')+'</p>'
+      +'<p><span class="a-key">Тип:</span> '+escHtml(r.withdrawal_type==='partial'?'Частями':'Единым')+'</p>'
+      +'<p><span class="a-key">Чек:</span> '+escHtml(r.receipt_name||'—')+'</p>'
+      +'<p><span class="a-key">Комментарий:</span> '+escHtml(r.comment||'—')+'</p>'
+      +actions;
+    div.querySelectorAll('button[data-act]').forEach(btn=>{
+      btn.addEventListener('click',()=>adminSetStatus(btn.getAttribute('data-id'),btn.getAttribute('data-act')));
+    });
+    list.appendChild(div);
+  });
+}
+async function adminSetStatus(id,status){
+  const base=coreApiBase();
+  const key=ADMIN_KEY_STORE.getItem('pxax_admin_key')||'';
+  if(!base||!key)return;
+  try{
+    const res=await fetch(base+'/api/admin/refund-requests/'+encodeURIComponent(id),{
+      method:'PATCH',
+      headers:{'Content-Type':'application/json',Authorization:'Bearer '+key},
+      body:JSON.stringify({status})
+    });
+    if(!res.ok){adminStatus('Не удалось изменить статус ('+res.status+')','err');return}
+    adminLoad();
+  }catch(e){adminStatus('Не удалось связаться с API','err')}
+}
 function closeAdminPanel(){playClick();document.getElementById('admin-panel').style.display='none'}
 
 const title=document.getElementById('project-title');let isFirst=true;

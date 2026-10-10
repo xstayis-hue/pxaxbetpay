@@ -1,4 +1,5 @@
 const express = require('express');
+const crypto = require('crypto');
 const { db, getOrCreateUser } = require('./db');
 const { verifyInitData } = require('./telegramAuth');
 
@@ -16,7 +17,7 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', origin);
     res.setHeader('Vary', 'Origin');
   }
-  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PATCH,OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Telegram-Init-Data');
   if (req.method === 'OPTIONS') return res.sendStatus(204);
   next();
@@ -42,14 +43,29 @@ function requireTelegramUser(req, res, next) {
 }
 
 function requireAdmin(req, res, next) {
-  const key = req.headers['authorization']?.replace(/^Bearer\s+/i, '');
-  if (!ADMIN_KEY || key !== ADMIN_KEY) return res.status(401).json({ error: 'unauthorized' });
+  const key = req.headers['authorization']?.replace(/^Bearer\s+/i, '') || '';
+  if (!ADMIN_KEY || !safeEqual(key, ADMIN_KEY)) return res.status(401).json({ error: 'unauthorized' });
   next();
+}
+
+// Сравнение в постоянном времени: обычное !== выходит на первом несовпавшем символе,
+// и по времени ответа ключ можно подбирать посимвольно.
+function safeEqual(a, b) {
+  const ba = Buffer.from(String(a));
+  const bb = Buffer.from(String(b));
+  if (ba.length !== bb.length) return false;
+  return crypto.timingSafeEqual(ba, bb);
 }
 
 app.get('/api/health', (req, res) => {
   res.json({ ready: Boolean(BOT_TOKEN && ADMIN_KEY), botConfigured: Boolean(BOT_TOKEN) });
 });
+
+// Статика приложения с того же origin, что и API. Это нужно админ-панели: прод-страница
+// живёт на GitHub Pages (HTTPS) и не может звать http://localhost — браузер блокирует такой
+// запрос как mixed content. Открывая страницу с этого же адреса (http://localhost:3000),
+// получаем один origin: ни CORS, ни mixed content не мешают.
+app.use(express.static(require('path').join(__dirname, '..')));
 
 // --- Current user profile: telegram data + wallets + subscriptions ---
 app.get('/api/me', requireTelegramUser, (req, res) => {

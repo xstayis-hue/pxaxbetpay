@@ -5,7 +5,9 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "node test.js"
+    "test": "node test.js && node test-admin.js",
+    "test:admin": "node test-admin.js",
+    "test:admin-api": "node test-admin-api.js"
   },
   "dependencies": {
     "better-sqlite3": "^11.3.0",
