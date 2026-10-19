@@ -1,6 +1,6 @@
 # PXAXBET — хаб экосистемы PXAX
 
-Telegram Mini App, который служит **точкой входа в экосистему PXAX**: приём заявок на возврат средств, локальная админ-панель и 3D-сцена. Из него открываются остальные продукты — AI-прогнозы, AI-компаньон, VPN и монета.
+Telegram Mini App, который служит **точкой входа в экосистему PXAX**: приём заявок на возврат средств, локальная админ-панель и 3D-сцена. Из него открываются остальные продукты — AI-прогнозы, AI-компаньон, VPN, монета и PXAXBYTE STUDENT.
 
 **Демо (GitHub Pages):** https://xstayis-hue.github.io/pxaxbetpay/
 
@@ -9,7 +9,7 @@ Telegram Mini App, который служит **точкой входа в эк
 - 📝 **Заявка на возврат средств** — форма с суммой, комментарием и чеком (base64, до 4 МБ). Заявка уходит в Apps Script-вебхук; статус доставки показывается в интерфейсе.
 - 🔐 **Админ-панель** — вход по ключу, список заявок с сервера, смена статуса. Ключ задаётся только на сервере (`PXAX_ADMIN_KEY`), в странице его нет; данные приходят из защищённого API, а не из localStorage.
 - 🌌 **3D-сцена** — Three.js с загруженным `angelica.glb`, фоновые эффекты (matrix-rain, parallax, burst), переключаемые при скрытой вкладке.
-- 🧩 **Блок экосистемы** — плитки-ссылки на ботов и приложения: `@pxaxbetai_bot` (AI-прогнозы), `@PxAxAi_bot` (3D AI-компаньон), `@phxcryptocoin_bot` (VPHX), `@Vphoenixx_bot` (VPN).
+- 🧩 **Блок экосистемы** — плитки-ссылки на ботов и приложения: `@pxaxbetai_bot` (AI-прогнозы), `@PxAxAi_bot` (3D AI-компаньон), `@phxcryptocoin_bot` (VPHX), `@Vphoenixx_bot` (VPN) и `@pxaxbytestudent_bot` (PXAXBYTE STUDENT).
 - 📡 **Живой сигнал дня** — читает `data/predictions.json` из репозитория прогнозов и показывает топ-матч с таймером до старта.
 - 📱 **Telegram WebApp SDK**, хаптика, тема; адаптивная вёрстка под мобильные.
 
@@ -87,6 +87,7 @@ cd server && npm start        # затем открыть http://localhost:3000/
 | Прогнозы | https://xstayis-hue.github.io/pxax-predict/ | AI-прогнозы на спорт |
 | PHXcoin | https://xstayis-hue.github.io/PHXcoin/ | VPHX — пре-лонч концепт |
 | Vph | https://xstayis-hue.github.io/Vph/ | VPN-подписки |
+| PXAXBYTE STUDENT | https://t.me/pxaxbytestudent_bot | Карманный помощник студента: 7 направлений, 24 урока, ИИ-наставник и портфолио |
 
 ## Лицензия
 

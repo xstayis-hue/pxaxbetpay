@@ -400,6 +400,69 @@ input.field-error,textarea.field-error,select.field-error{border-color:rgba(255,
 .tile-ai .tile-cta{border-color:rgba(0,255,255,.3);color:#9be8ff}.tile-ai .tile-cta strong{color:#00ffff}
 .tile-phx .tile-cta{border-color:rgba(255,201,60,.3);color:#ffd98a}.tile-phx .tile-cta strong{color:#ffc93c}
 .tile-vph .tile-cta{border-color:rgba(0,255,136,.3);color:#94c8a8}.tile-vph .tile-cta strong{color:#76e6a0}
+/* ---------- PXAXBYTE STUDENT: полноширинная плитка-флагман ---------- */
+.eco-tile.eco-wide{grid-column:1/-1;display:grid;grid-template-columns:54px minmax(0,1fr) auto;align-items:center;gap:11px;min-height:104px;padding:12px}
+.eco-tile.eco-wide .tile-main{min-width:0}
+.eco-tile.eco-wide .tile-name{font-size:12px;letter-spacing:1.1px}
+.eco-tile.eco-wide .tile-pill{margin-left:8px}
+.eco-tile.eco-wide .tile-body{margin:6px 0 0}
+.eco-tile.eco-wide .tile-note{font-size:9px;line-height:1.45}
+.eco-tile.eco-wide .tile-cta{width:auto;min-width:92px;margin:0;padding:8px 9px}
+.tile-student{border-color:rgba(155,123,255,.26);background:radial-gradient(circle at 9% 50%,rgba(155,123,255,.2),transparent 42%),linear-gradient(180deg,rgba(155,123,255,.07),rgba(255,255,255,.04) 64%)}
+.tile-student::before{content:'';position:absolute;top:0;left:16%;right:16%;height:1px;background:linear-gradient(90deg,transparent,rgba(155,123,255,.75),transparent)}
+.tile-student .tile-name{color:#f1edff}
+.tile-student .tile-note{color:#b3a9d0}
+.tile-student .tile-cta{border-color:rgba(155,123,255,.3);color:#cfc4ff;background:rgba(155,123,255,.07)}
+.tile-student .tile-cta strong{color:#b9a6ff}
+.tile-student.active{border-color:rgba(155,123,255,.5);box-shadow:0 8px 32px rgba(0,0,0,.22),0 0 20px rgba(155,123,255,.16)}
+.student-badge{position:relative;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 50% 38%,rgba(155,123,255,.3),rgba(12,9,22,.72) 72%);border:1px solid rgba(155,123,255,.45);color:#d8cfff;animation:student-glow 3.4s ease-in-out infinite}
+.student-badge svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.student-badge::before{content:'';position:absolute;inset:-7px;border-radius:50%;border:1px dashed rgba(155,123,255,.4);animation:student-orbit 14s linear infinite}
+.student-beam{position:absolute;left:0;bottom:0;width:34%;height:2px;background:linear-gradient(90deg,transparent,rgba(155,123,255,.85),transparent);animation:student-beam 4.2s ease-in-out infinite;pointer-events:none}
+@keyframes student-glow{0%,100%{box-shadow:0 0 14px rgba(155,123,255,.22),inset 0 0 12px rgba(155,123,255,.1)}50%{box-shadow:0 0 26px rgba(155,123,255,.48),inset 0 0 18px rgba(155,123,255,.2)}}
+@keyframes student-orbit{to{transform:rotate(360deg)}}
+@keyframes student-beam{0%{transform:translateX(-120%)}55%,100%{transform:translateX(330%)}}
+/* секция STUDENT */
+.eco-grid > .section{grid-column:1/-1;margin-bottom:0}
+.student-section{grid-column:1/-1;margin-bottom:0;border-color:rgba(155,123,255,.26);background:radial-gradient(ellipse at 88% 8%,rgba(155,123,255,.14),transparent 46%),rgba(255,255,255,.055)}
+.student-hero{display:grid;grid-template-columns:minmax(0,1fr) 112px;align-items:center;gap:10px}
+.student-title-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.student-section .block-title{margin:0;color:#f1edff;text-align:left;font-size:24px;letter-spacing:2px;text-shadow:0 0 14px rgba(155,123,255,.45)}
+.student-title-row .block-status{margin:0;padding:4px 7px;font-size:8px;letter-spacing:.2px}
+.student-section .block-status.live{color:#cfc4ff;background:rgba(155,123,255,.1);border-color:rgba(155,123,255,.4);text-shadow:0 0 8px rgba(155,123,255,.4)}
+.student-description{max-width:270px;margin-top:8px;color:#a79dc4;font-size:10px;line-height:1.5}
+.student-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px}
+.student-tag{padding:4px 6px;border:1px solid rgba(155,123,255,.2);border-radius:6px;background:rgba(155,123,255,.055);color:#c6bbe4;font-size:8px;letter-spacing:.2px}
+.student-art{height:112px;position:relative;display:flex;align-items:center;justify-content:center;border:1px solid rgba(155,123,255,.22);border-radius:12px;overflow:hidden;isolation:isolate;background:radial-gradient(circle at 50% 52%,rgba(155,123,255,.16),transparent 62%),linear-gradient(150deg,#141020,#1a1428 55%,#0e0b16)}
+.student-art::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(155,123,255,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(155,123,255,.055) 1px,transparent 1px);background-size:14px 14px;-webkit-mask-image:radial-gradient(circle at 50% 50%,#000,transparent 72%);mask-image:radial-gradient(circle at 50% 50%,#000,transparent 72%)}
+.student-emblem{position:relative;z-index:1;width:74px;height:74px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 50% 38%,rgba(155,123,255,.26),rgba(10,8,20,.62) 70%);border:1px solid rgba(155,123,255,.45);box-shadow:0 0 20px rgba(155,123,255,.26),inset 0 0 16px rgba(155,123,255,.12);color:#d8cfff;animation:student-glow 3.8s ease-in-out infinite}
+.student-emblem svg{width:33px;height:33px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.student-emblem::before{content:'';position:absolute;inset:-8px;border-radius:50%;border:1px dashed rgba(155,123,255,.32);animation:student-orbit 18s linear infinite}
+.student-art-label{position:absolute;z-index:3;color:#ab97da;font:6px 'Courier New',monospace;letter-spacing:.5px;text-shadow:0 0 5px rgba(155,123,255,.55)}
+.student-art-label.top{top:8px;left:9px}
+.student-art-label.side{right:7px;bottom:18px;writing-mode:vertical-rl}
+.student-meta{margin-top:11px;display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.student-meta-row{display:flex;flex-direction:column;gap:3px;padding:9px 8px;border:1px solid rgba(155,123,255,.14);border-radius:10px;background:rgba(155,123,255,.035)}
+.student-meta-row span:first-child{color:#8b81a6;font-size:8px;letter-spacing:.4px;text-transform:uppercase}
+.student-meta-row span:last-child{color:#d3c9f2;font-size:11px;font-weight:600;word-break:break-word}
+.student-action{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:12px;padding:9px 10px;border:1px solid rgba(155,123,255,.24);border-radius:9px;background:rgba(155,123,255,.06);color:#cfc4ff;font-size:10px}
+.student-action strong{color:#b9a6ff;font-size:10px;font-weight:600}
+.student-term{margin-top:10px;text-align:left;max-width:280px;font-size:11px;line-height:1.55;color:#a08ec8;min-height:3.2em}
+.student-term .dim{color:#4e4568}
+.student-term .cursor{display:inline-block;width:7px;animation:term-blink 1s step-end infinite}
+@media(max-width:360px){
+  .student-hero{grid-template-columns:minmax(0,1fr) 88px}
+  .student-art{height:100px}
+  .student-emblem{width:64px;height:64px}
+  .student-emblem svg{width:29px;height:29px}
+  .student-section{padding:12px}
+  .student-meta{grid-template-columns:1fr 1fr}
+  .eco-tile.eco-wide{grid-template-columns:52px minmax(0,1fr);gap:8px 10px}
+  .eco-tile.eco-wide .tile-cta{grid-column:1/-1;width:100%}
+}
+@media(prefers-reduced-motion:reduce){
+  .student-badge,.student-badge::before,.student-beam,.student-emblem,.student-emblem::before{animation:none}
+}
 /* module_2027 — компактная полоса под сеткой */
 .soon-section{padding:10px 12px}
 #soon-btn{padding:9px 10px;font-size:11px;line-height:1.5}
@@ -521,6 +584,39 @@ input.field-error,textarea.field-error,select.field-error{border-color:rgba(255,
 <div class="tile-note">Твой нейро-компаньон: общение, игры, забота</div>
 </div>
 <button type="button" class="tile-cta" id="tile-ai-cta"><span class="hint">3D-комната</span><strong>↧</strong></button>
+</div>
+<div class="eco-tile eco-wide tile-student" id="tile-student" role="button" tabindex="0" aria-label="PXAXBYTE STUDENT — раскрыть блок">
+<div class="student-badge" aria-hidden="true"><svg class="tic"><use href="#i-study"/></svg></div>
+<div class="tile-main">
+<div class="tile-top"><span class="tile-name">STUDENT</span><span class="tile-pill live">LIVE</span></div>
+<div class="tile-body">
+<div class="tile-note">7 направлений · 24 урока</div>
+</div>
+</div>
+<button type="button" class="tile-cta" id="tile-student-cta"><span class="hint">учиться</span><strong>↧</strong></button>
+<span class="student-beam" aria-hidden="true"></span>
+</div>
+<div class="section student-section" hidden>
+<button type="button" class="section-collapse" data-collapse="student">▴ свернуть блок</button>
+<div class="ecosystem-kicker">PXAX · PXAXBYTE STUDENT</div>
+<div class="student-hero">
+  <div class="student-copy">
+    <div class="student-title-row"><div class="block-title">STUDENT</div><div class="block-status live">live · v0.1</div></div>
+    <div class="student-description">Карманный помощник студента: короткие уроки от простого к сложному, практика и ИИ-наставник по семи направлениям. Без рейтингов — только личный прогресс и портфолио специалиста.</div>
+    <div class="student-tags"><span class="student-tag">7 направлений</span><span class="student-tag">24 урока</span><span class="student-tag">ИИ-наставник</span><span class="student-tag">портфолио</span><span class="student-tag">вайб-код</span></div>
+  </div>
+  <div class="student-art" aria-hidden="true">
+    <div class="student-emblem"><svg viewBox="0 0 24 24"><use href="#i-study"/></svg></div>
+    <span class="student-art-label top">PX / EDU-05</span><span class="student-art-label side">LEARN CORE</span>
+  </div>
+</div>
+<div class="student-meta">
+  <div class="student-meta-row"><span>Направления</span><span>7</span></div>
+  <div class="student-meta-row"><span>Уроков</span><span>24</span></div>
+  <div class="student-meta-row"><span>Ранг</span><span>6 ступеней</span></div>
+</div>
+<div class="student-action"><span>Открыть в Telegram · без установки</span><strong>Учиться ↗</strong></div>
+<div class="student-term"><span class="dim">&gt;</span> student · 7 tracks · ready<span class="cursor">_</span></div>
 </div>
 <div class="eco-tile tile-phx" id="tile-phx" role="button" tabindex="0" aria-label="VibeCoin VPHX — раскрыть блок">
 <div class="tile-top"><span class="tile-ico"><svg class="tic" aria-hidden="true"><use href="#i-coin2"/></svg></span><span class="tile-name">VPHX · TON</span><span class="tile-pill soon">SOON</span></div>
@@ -653,7 +749,7 @@ input.field-error,textarea.field-error,select.field-error{border-color:rgba(255,
 <div id="faq-term" style="color:#0f0;font-size:13px;line-height:1.55;min-height:4.5em;white-space:pre-wrap"></div>
 <button type="button" onclick="closeFaq()" style="margin-top:14px;width:100%;padding:10px;background:rgba(0,255,255,.1);border:1px solid #00ffff;color:#00ffff;border-radius:8px;font-family:inherit;cursor:pointer">закрыть</button>
 </div></div>
-<div class="app-version">v1.3 · PXAX</div>
+<div class="app-version">v1.4 · PXAX</div>
 <div class="term-log"><span class="tl-dim">&gt;</span> <span id="term-log-txt">init channel…</span><span class="tl-cursor">_</span></div>
 
 <div id="profile-modal"><div class="profile-box">
@@ -988,6 +1084,7 @@ commentEl.addEventListener('input',updateCharCount);
 const AI_BOT_LINK = 'https://t.me/PxAxAi_bot';
 const VIBECOIN_APP_LINK = 'https://t.me/phxcryptocoin_bot';
 const VPH_BOT_LINK = 'https://t.me/Vphoenixx_bot';
+const STUDENT_BOT_LINK = 'https://t.me/pxaxbytestudent_bot';
 const PREDICT_APP_LINK = 'https://t.me/pxaxbetai_bot';
 const PREDICT_BOT_LINK = 'https://t.me/pxaxbetai_bot';
 const PREDICT_FEED = 'https://xstayis-hue.github.io/pxax-predict/data/predictions.json';
@@ -1382,6 +1479,18 @@ function openTgBot(url){
   if(vph)vph.addEventListener('click',function(){try{if(typeof playClick==='function')playClick()}catch(e){}pushTerm('route · vph');openTgBot(VPH_BOT_LINK)});
 })();
 
+/* STUDENT: раскрытый блок ведёт в мини-апп (как и остальные продукты экосистемы). */
+(function bindStudentBot(){
+  var el=document.querySelector('.student-section');
+  if(!el)return;
+  el.addEventListener('click',function(){
+    try{if(typeof playClick==='function')playClick()}catch(e){}
+    try{haptic('selection')}catch(e){}
+    try{pushTerm('route · student')}catch(e){}
+    openTgBot(STUDENT_BOT_LINK);
+  });
+})();
+
 
 (function bindPhxBot(){
   var phx=document.querySelector('.phx-section');
@@ -1398,10 +1507,53 @@ function openTgBot(url){
 })();
 
 (function bindEcoGrid(){
-  var tiles={predict:document.getElementById('tile-predict'),ai:document.getElementById('tile-ai'),phx:document.getElementById('tile-phx'),vph:document.getElementById('tile-vph')};
-  var sections={predict:document.getElementById('predict-block'),ai:document.getElementById('ai-block'),phx:document.querySelector('.phx-section'),vph:document.querySelector('.vph-section')};
+  var grid=document.querySelector('.eco-grid');
+  var tiles={predict:document.getElementById('tile-predict'),ai:document.getElementById('tile-ai'),phx:document.getElementById('tile-phx'),vph:document.getElementById('tile-vph'),student:document.getElementById('tile-student')};
+  var sections={predict:document.getElementById('predict-block'),ai:document.getElementById('ai-block'),phx:document.querySelector('.phx-section'),vph:document.querySelector('.vph-section'),student:document.querySelector('.student-section')};
+  // раскрываем секцию прямо под её рядом плиток, а не под всей сеткой
+  var anchors={predict:'tile-ai',ai:'tile-ai',student:'tile-student',phx:'tile-vph',vph:'tile-vph'};
+  if(grid)Object.keys(anchors).forEach(function(k){
+    var a=document.getElementById(anchors[k]),sec=sections[k];
+    if(a&&sec&&a.parentElement===grid&&sec.parentElement!==grid)a.insertAdjacentElement('afterend',sec);
+  });
+  function showSec(sec){
+    clearTimeout(sec._t);
+    sec.hidden=false;
+    sec.dataset.open='1';
+    sec.style.transition='none';
+    sec.style.overflow='hidden';
+    sec.style.maxHeight='none';
+    var h=sec.offsetHeight;
+    sec.style.maxHeight='0px';
+    sec.style.opacity='0';
+    void sec.offsetHeight;
+    sec.style.transition='max-height .34s cubic-bezier(.2,.75,.25,1),opacity .2s ease';
+    sec.style.maxHeight=h+'px';
+    sec.style.opacity='1';
+    sec._t=setTimeout(function(){
+      sec.style.transition='';sec.style.maxHeight='';sec.style.opacity='';sec.style.overflow='';
+    },370);
+  }
+  function hideSec(sec){
+    if(sec.hidden)return;
+    clearTimeout(sec._t);
+    sec.dataset.open='0';
+    var h=sec.offsetHeight;
+    sec.style.transition='none';
+    sec.style.overflow='hidden';
+    sec.style.maxHeight=h+'px';
+    sec.style.opacity='1';
+    void sec.offsetHeight;
+    sec.style.transition='max-height .28s cubic-bezier(.4,0,.2,1),opacity .18s ease';
+    sec.style.maxHeight='0px';
+    sec.style.opacity='0';
+    sec._t=setTimeout(function(){
+      sec.hidden=true;
+      sec.style.transition='';sec.style.maxHeight='';sec.style.opacity='';sec.style.overflow='';
+    },300);
+  }
   function collapse(k){
-    if(sections[k])sections[k].hidden=true;
+    if(sections[k])hideSec(sections[k]);
     if(tiles[k])tiles[k].classList.remove('active');
   }
   Object.keys(tiles).forEach(function(k){
@@ -1409,13 +1561,13 @@ function openTgBot(url){
     if(!t||!sections[k])return;
     t.addEventListener('click',function(){
       var sec=sections[k];
-      var wasOpen=!sec.hidden;
+      var wasOpen=sec.dataset.open==='1';
       Object.keys(sections).forEach(function(o){if(o!==k)collapse(o)});
-      sec.hidden=wasOpen;
-      t.classList.toggle('active',!sec.hidden);
+      if(wasOpen)hideSec(sec);else showSec(sec);
+      t.classList.toggle('active',!wasOpen);
       try{if(typeof playClick==='function')playClick()}catch(e){}
-      try{pushTerm('route · '+(sec.hidden?'collapse':'expand')+' · '+k)}catch(e){}
-      if(!sec.hidden){
+      try{pushTerm('route · '+(wasOpen?'collapse':'expand')+' · '+k)}catch(e){}
+      if(!wasOpen){
         if(k==='phx'){try{if(window.lastChartPrices&&typeof drawSpark==='function')drawSpark(window.lastChartPrices)}catch(e){}}
         try{window.dispatchEvent(new Event('resize'))}catch(e){}
       }
@@ -1723,5 +1875,6 @@ function openTgBot(url){
 <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3.2l2.3 6.2 6.2 2.3-6.2 2.3L12 20.8l-2.3-6.8-6.2-2.3 6.2-2.3Z"/></symbol>
 <symbol id="i-coin2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.6"/></symbol>
 <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2.8 5.4 13.4h5l-1.2 7.8 7.4-10.6h-5Z"/></symbol>
+<symbol id="i-study" viewBox="0 0 24 24"><path d="M3.2 9.1 12 5.1l8.8 4-8.8 4-8.8-4Z"/><path d="M7.2 11.2v4.3c0 1.5 2.1 2.7 4.8 2.7s4.8-1.2 4.8-2.7v-4.3"/><path d="M20.4 9.6v4.6"/></symbol>
 </defs></svg></body>
 </html>
