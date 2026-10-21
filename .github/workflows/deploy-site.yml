@@ -1,0 +1,53 @@
+name: deploy-site
+
+# Публичный сайт живёт в Cloudflare Worker (assets), исходники — в приватном репозитории.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'coin-preview.html'
+      - 'angelica.glb'
+      - '.github/workflows/deploy-site.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Check token
+        id: token
+        run: echo "present=${{ secrets.CLOUDFLARE_API_TOKEN != '' }}" >> "$GITHUB_OUTPUT"
+
+      - name: Stage static files
+        run: |
+          mkdir -p staged
+          cp -R index.html coin-preview.html angelica.glb staged/
+          printf '/*\n  Access-Control-Allow-Origin: *\n' > staged/_headers
+
+      - name: Deploy Worker with assets
+        if: steps.token.outputs.present == 'true'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          cat > wrangler.site.toml <<'EOF'
+          name = "pxaxbetpay-site"
+          compatibility_date = "2025-01-01"
+
+          [assets]
+          directory = "./staged"
+          not_found_handling = "single-page-application"
+          EOF
+          npx --yes wrangler@4 deploy --config wrangler.site.toml
+
+      - name: Token missing
+        if: steps.token.outputs.present != 'true'
+        run: echo "::warning::CLOUDFLARE_API_TOKEN не задан — сайт не задеплоен"
