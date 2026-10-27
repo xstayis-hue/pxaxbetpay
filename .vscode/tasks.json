@@ -1,0 +1,29 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Preview: статический сервер (3D + app)",
+      "type": "shell",
+      "command": "node",
+      "args": ["server/preview.mjs"],
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+    {
+      "label": "Preview: остановить сервер (порт 8321)",
+      "type": "shell",
+      "command": "Get-NetTCPConnection -LocalPort 8321 -ErrorAction SilentlyContinue | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force }",
+      "problemMatcher": []
+    },
+    {
+      "label": "Backend: PXAX Core API (порт 3000)",
+      "type": "shell",
+      "command": "node",
+      "args": ["server/server.js"],
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated" }
+    }
+  ]
+}
