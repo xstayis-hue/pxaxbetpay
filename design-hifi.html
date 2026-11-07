@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>PXAXBET · HIFI концепт (статичное превью)</title>
+<!-- СТАТИЧНОЕ ПРЕВЬЮ: дизайн-система HIFI (GradientDeck) на контенте pxaxbetpay.
+     Данные захардкожены, никаких API. Форма заявки — вне зоны редизайна. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   PXAX × HIFI DESIGN TOKENS — единственный источник стилей.
+   Правила: чёрный холст, ОДИН кислотный акцент, 0px радиусы,
+   никаких теней и свечений — только 1px hairlines.
+   ============================================================ */
+:root{
+  --void:#000000;          /* холст всех секций */
+  --obsidian:#020202;      /* футер */
+  --charcoal:#1a1a1a;      /* подложки ruled-сеток */
+  --glass:rgba(255,255,255,.07); /* smoked glass поверх фото/карт */
+  --hairline:rgba(255,255,255,.2); /* 1px линии-каркас */
+  --white:#ffffff;
+  --mist:#b2b2b2;          /* читабельный текст (никогда чистый white) */
+  --ash:#808080;           /* вторичная мета */
+  --dusk:#7d7979;          /* мелкий legal */
+  --lemon:#f2ff66;         /* ЕДИНСТВЕННЫЙ цвет в интерфейсе */
+  --aubergine:#191314;     /* текст на лимонном */
+  --f-display:'Space Grotesk',Arial,sans-serif;
+  --f-mono:'Space Mono','Courier New',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--void);color:var(--white);
+  font:400 14px/1.5 var(--f-display);
+  padding:0 0 calc(40px + env(safe-area-inset-bottom,0px));
+}
+.wrap{max-width:430px;margin:0 auto;padding:0 20px}
+.wrap-wide{max-width:620px;margin:0 auto;padding:0 20px}
+
+/* ---------- lemon announcement strip ---------- */
+.strip{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  min-height:40px;padding:6px 14px;background:var(--lemon);
+  color:var(--aubergine);font:600 12px/1.3 var(--f-display);
+  text-transform:uppercase;letter-spacing:.4px;text-align:center;
+}
+.strip .tag{
+  flex:0 0 auto;padding:3px 8px;background:var(--aubergine);color:var(--lemon);
+  font:700 10px/1 var(--f-mono);text-transform:uppercase;letter-spacing:.8px;
+}
+
+/* ---------- header ---------- */
+.header{
+  position:sticky;top:0;z-index:10;
+  background:linear-gradient(var(--obsidian) 30%,rgba(2,2,2,.86) 70%,rgba(2,2,2,0) 100%);
+  padding:14px 0 18px;
+}
+.header-row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.wordmark{font:700 16px/1 var(--f-mono);letter-spacing:1px;color:var(--white);text-transform:uppercase}
+.wordmark b{color:var(--lemon);font-weight:700}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  height:32px;padding:0 14px;border:1px solid var(--lemon);
+  background:var(--lemon);color:var(--aubergine);
+  font:700 11px/1 var(--f-mono);text-transform:uppercase;letter-spacing:.6px;
+  cursor:pointer;text-decoration:none;border-radius:0;
+  transition:opacity .18s;
+}
+.btn:active{opacity:.75}
+.btn--outline{background:transparent;border-color:var(--white);color:var(--white)}
+.btn--block{height:42px;padding:0 24px;font:600 12px/1 var(--f-display)}
+
+/* ---------- hero ---------- */
+.hero{padding:44px 0 64px}
+.hero h1{
+  font:400 clamp(40px,11vw,58px)/0.98 var(--f-display);
+  letter-spacing:0;text-transform:none;
+}
+.hero h1 .acc{color:var(--lemon)}
+.hero p{
+  margin:18px 0 0;max-width:400px;
+  font:400 15px/1.63 var(--f-display);color:var(--mist);
+}
+.hero .btn{margin-top:24px}
+
+/* ---------- scan dashes (декор hero, как в HIFI) ---------- */
+.dashes{position:relative;overflow:hidden;margin-top:-30px;height:52px;pointer-events:none}
+.dashes i{
+  position:absolute;left:0;right:0;height:1px;background:var(--hairline);
+}
+.dashes i:nth-child(1){top:8%;right:-30%}
+.dashes i:nth-child(2){top:34%;right:-55%}
+.dashes i:nth-child(3){top:62%;right:-40%}
+.dashes i:nth-child(4){top:88%;right:-65%}
+.dashes i::after{
+  content:'';position:absolute;right:var(--x,20%);top:-2px;width:26px;height:5px;background:var(--white);
+}
+
+/* ---------- section heading ---------- */
+.section{padding:56px 0 0}
+.sec-head{font:400 30px/1.1 var(--f-display);letter-spacing:0;margin-bottom:6px}
+.sec-head .acc{color:var(--lemon)}
+.sec-sub{font:400 13px/1.55 var(--f-display);color:var(--mist);margin-bottom:22px}
+
+/* ---------- atomic capability grid (продукты) ---------- */
+.grid{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--hairline)}
+.grid--4{grid-template-columns:1fr 1fr}
+.cell{
+  padding:18px 16px 20px;background:var(--void);border:0 solid var(--hairline);
+}
+.cell:nth-child(1){border-right-width:1px;border-bottom-width:1px}
+.cell:nth-child(2){border-bottom-width:1px}
+.cell:nth-child(3){border-right-width:1px}
+.cell--wide{grid-column:1 / -1;border-right-width:0 !important}
+.cell .label{
+  display:flex;align-items:center;gap:7px;
+  font:600 11px/1.2 var(--f-display);text-transform:uppercase;letter-spacing:.8px;color:var(--white);
+}
+.cell .label .dot{
+  width:6px;height:6px;border-radius:9999px;background:var(--lemon);flex:0 0 6px;
+}
+.cell .label .dot--dim{background:var(--ash)}
+.cell .label .dot--soon{background:transparent;border:1px solid var(--ash)}
+.cell .diagram{margin:16px 0 14px;height:44px;position:relative}
+.cell .diagram svg{display:block;width:100%;height:100%}
+.cell p{font:400 12px/1.5 var(--f-display);color:var(--mist)}
+.cell .meta{margin-top:10px;font:400 10px/1.4 var(--f-mono);color:var(--ash);text-transform:uppercase;letter-spacing:.5px}
+.cell .meta b{color:var(--lemon);font-weight:400}
+
+/* ---------- JSON payload panel (статус экосистемы) ---------- */
+.json-panel{border:1px solid var(--hairline);background:var(--void);padding:16px}
+.json-panel .jp-head{
+  font:400 11px/1 var(--f-mono);color:var(--white);letter-spacing:.4px;margin-bottom:12px;
+}
+.json-panel .jp-head b{color:var(--lemon);font-weight:400}
+.json{
+  font:400 11px/1.55 var(--f-mono);color:var(--ash);white-space:pre;overflow-x:auto;
+}
+.json .k{color:var(--white)}
+.json .v-live{color:var(--lemon)}
+.json .v-dim{color:var(--ash)}
+
+/* ---------- bracket tree list ---------- */
+.tree{display:flex;gap:18px;padding:4px 0 0}
+.tree .spine{width:1px;background:var(--hairline);position:relative;flex:0 0 1px;margin-left:5px}
+.tree ul{list-style:none}
+.tree li{
+  position:relative;padding:0 0 14px 18px;
+  font:400 13px/1.5 var(--f-display);color:var(--mist);
+}
+.tree li::before{
+  content:'';position:absolute;left:-1px;top:8px;width:10px;height:10px;
+  background:var(--hairline);
+}
+.tree li::after{
+  content:'';position:absolute;left:9px;top:12.5px;width:12px;height:1px;background:var(--hairline);
+}
+.tree li b{color:var(--white);font-weight:400}
+.tree li .t{font:700 10px/1 var(--f-mono);color:var(--lemon);text-transform:uppercase;letter-spacing:.6px;margin-left:6px}
+
+/* ---------- compliance-style panel (форма заявки тизер) ---------- */
+.panel{
+  border:1px solid var(--hairline);background:rgba(0,0,0,.85);
+  padding:26px 22px;display:flex;gap:18px;align-items:flex-start;
+}
+.panel .ring{flex:0 0 72px;width:72px;height:72px;border:1px solid var(--white);border-radius:50%;
+  display:grid;place-items:center;font:700 10px/1.2 var(--f-mono);color:var(--lemon);text-transform:uppercase;text-align:center}
+.panel h3{font:400 18px/1.18 var(--f-display);margin-bottom:8px}
+.panel p{font:400 12px/1.55 var(--f-display);color:var(--mist)}
+.panel .btn{margin-top:14px}
+
+/* ---------- footer ---------- */
+.footer{margin-top:72px;background:var(--obsidian);border-top:1px solid var(--hairline);padding:32px 0 0}
+.footer .cols{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--hairline);border-left:0;border-right:0}
+.footer .col{padding:16px;border-bottom:1px solid var(--hairline)}
+.footer .col:nth-child(odd){border-right:1px solid var(--hairline)}
+.footer .col h4{font:400 10px/1 var(--f-mono);color:var(--ash);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px}
+.footer .col a{
+  display:block;font:700 12px/1.35 var(--f-mono);color:var(--white);
+  text-decoration:none;text-transform:uppercase;padding:4px 0;
+}
+.footer .col a:active{color:var(--lemon)}
+.footer .status{display:inline-flex;align-items:center;gap:6px;font:400 10px/1 var(--f-mono);color:var(--ash);text-transform:uppercase}
+.footer .status i{width:6px;height:6px;border-radius:9999px;background:var(--lemon)}
+.footer .legal{padding:16px 0 0;font:400 10px/1.55 var(--f-mono);color:var(--dusk)}
+.footer .big{
+  font:700 clamp(44px,17vw,80px)/0.9 var(--f-mono);letter-spacing:-2px;
+  color:var(--white);opacity:.14;margin-top:10px;user-select:none;
+}
+
+@media(min-width:640px){
+  .grid--4{grid-template-columns:repeat(4,1fr)}
+  .cell:nth-child(n){border-right-width:1px;border-bottom-width:1px}
+  .cell:nth-child(4n){border-right-width:0}
+  .cell:nth-child(n+5){border-bottom-width:0}
+  .cell--wide{grid-column:auto;border-right-width:1px !important}
+}
+</style>
+</head>
+<body>
+
+<!-- lemon strip: статус экосистемы -->
+<div class="strip">
+  <span class="tag">live</span>
+  <span>Хаб экосистемы PXAX — заявки принимаются</span>
+</div>
+
+<!-- header -->
+<header class="header">
+  <div class="wrap header-row">
+    <div class="wordmark">PXAX<b>BET</b></div>
+    <a class="btn" href="#">Открыть</a>
+  </div>
+</header>
+
+<!-- hero -->
+<section class="wrap hero">
+  <h1><span class="acc">Ставки</span> на нейросетях.<br>Экосистема PXAX.</h1>
+  <p>Один хаб для всех продуктов PXAX: AI-аналитика, 3D-компаньон, студенческое приложение и VPHX. Подключайся к живым модулям.</p>
+  <a class="btn btn--block" href="#">Подать заявку</a>
+  <div class="dashes"><i style="--x:70%"></i><i style="--x:40%"></i><i style="--x:82%"></i><i style="--x:25%"></i></div>
+</section>
+
+<!-- products: atomic capability grid -->
+<section class="wrap-wide section">
+  <div class="wrap">
+    <h2 class="sec-head"><span class="acc">Продукты</span> экосистемы</h2>
+    <p class="sec-sub">Каждый модуль живёт своей жизнью — статусы обновляются в реальном времени.</p>
+  </div>
+  <div class="grid grid--4">
+    <div class="cell">
+      <div class="label"><i class="dot"></i>AI-аналитика</div>
+      <div class="diagram">
+        <svg viewBox="0 0 120 44" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1">
+          <polyline points="4,38 26,26 48,30 70,14 96,20 116,6" stroke="var(--white)"/>
+          <circle cx="70" cy="14" r="3" fill="var(--lemon)" stroke="none"/>
+          <circle cx="26" cy="26" r="2" fill="var(--void)"/>
+        </svg>
+      </div>
+      <p>Прогнозы на матчах: отчёты, тренды, вероятности от нейросети.</p>
+      <div class="meta"><b>live</b> · 7 направлений</div>
+    </div>
+    <div class="cell">
+      <div class="label"><i class="dot"></i>Ai · 3D</div>
+      <div class="diagram">
+        <svg viewBox="0 0 120 44" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1">
+          <rect x="38" y="6" width="44" height="32" stroke="var(--white)"/>
+          <path d="M38 6 L60 22 L82 6 M60 22 L60 38"/>
+          <circle cx="60" cy="22" r="3" fill="var(--lemon)" stroke="none"/>
+        </svg>
+      </div>
+      <p>3D AI-компаньон Nova: голос, мимика, живой диалог.</p>
+      <div class="meta"><b>live</b> · beta</div>
+    </div>
+    <div class="cell">
+      <div class="label"><i class="dot"></i>STUDENT</div>
+      <div class="diagram">
+        <svg viewBox="0 0 120 44" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1">
+          <path d="M20 14 L60 4 L100 14 L60 24 Z" stroke="var(--white)"/>
+          <path d="M40 19 v10 c0 4 40 4 40 0 v-10"/>
+          <circle cx="100" cy="14" r="3" fill="var(--lemon)" stroke="none"/>
+        </svg>
+      </div>
+      <p>PXAXBYTE STUDENT: мини-апп для студентов с ИИ-наставником.</p>
+      <div class="meta"><b>live</b> · mini app</div>
+    </div>
+    <div class="cell">
+      <div class="label"><i class="dot dot--dim"></i>VPHX</div>
+      <div class="diagram">
+        <svg viewBox="0 0 120 44" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1">
+          <circle cx="60" cy="22" r="16" stroke="var(--white)"/>
+          <path d="M52 22 l6 6 l12 -12"/>
+          <circle cx="76" cy="22" r="3" fill="var(--lemon)" stroke="none"/>
+        </svg>
+      </div>
+      <p>VibePHXCoin: монета сообщества. Майнинг и баунти.</p>
+      <div class="meta">test · phase 2</div>
+    </div>
+    <div class="cell cell--wide">
+      <div class="label"><i class="dot dot--soon"></i>Vph · подписки</div>
+      <div class="diagram" style="height:34px">
+        <svg viewBox="0 0 120 34" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1">
+          <rect x="30" y="6" width="60" height="22" stroke="var(--white)"/>
+          <path d="M30 12 h60" /><rect x="36" y="17" width="14" height="6" fill="rgba(255,255,255,.25)" stroke="none"/>
+          <circle cx="84" cy="24" r="3" fill="var(--lemon)" stroke="none"/>
+        </svg>
+      </div>
+      <p>VPN-подписки через Telegram Stars: оплата в один тап, без карт и границ. Скоро в общем хабе.</p>
+      <div class="meta">soon</div>
+    </div>
+  </div>
+</section>
+
+<!-- ecosystem status: JSON payload -->
+<section class="wrap section">
+  <h2 class="sec-head"><span class="acc">Статус</span> модулей</h2>
+  <p class="sec-sub">Живой срез экосистемы — как API-ответ.</p>
+  <div class="json-panel">
+    <div class="jp-head"><b>GET</b> /api/ecosystem/status</div>
+    <div class="json"><span class="k">{
+  "ai_analytics"</span>:  { <span class="k">"status"</span>: <span class="v-live">"live"</span>, <span class="k">"topics"</span>: <span class="v-dim">7</span> },
+  <span class="k">"nova_3d"</span>:      { <span class="k">"status"</span>: <span class="v-live">"live"</span>, <span class="k">"build"</span>: <span class="v-dim">"beta"</span> },
+  <span class="k">"student"</span>:      { <span class="k">"status"</span>: <span class="v-live">"live"</span>, <span class="k">"app"</span>: <span class="v-dim">"mini"</span> },
+  <span class="k">"vphx"</span>:         { <span class="k">"status"</span>: <span class="v-dim">"test"</span>, <span class="k">"phase"</span>: <span class="v-dim">2</span> },
+  <span class="k">"vph_vpn"</span>:      { <span class="k">"status"</span>: <span class="v-dim">"soon"</span>, <span class="k">"stars"</span>: <span class="v-dim">true</span> }
+}</div>
+  </div>
+</section>
+
+<!-- roadmap: bracket tree -->
+<section class="wrap section">
+  <h2 class="sec-head">Что <span class="acc">дальше</span></h2>
+  <p class="sec-sub">Планы экосистемы на ближайшие релизы.</p>
+  <div class="tree">
+    <div class="spine"></div>
+    <ul>
+      <li><b>Приём заявок через хаб</b><span class="t">now</span><br>Единая форма вместо scattered-ссылок.</li>
+      <li><b>VPHX → публичный листинг</b><span class="t">q1</span></li>
+      <li><b>Vph в общем кабинете</b><span class="t">q1</span><br>Подписки и счётчики в одном профиле.</li>
+      <li><b>AI-аналитика: 24 направления</b><span class="t">q2</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- CTA panel -->
+<section class="wrap section">
+  <div class="panel">
+    <div class="ring">PXAX<br>hub</div>
+    <div>
+      <h3>Готов подключиться?</h3>
+      <p>Оставь заявку — попадёшь в очередь на доступ к закрытым модулям и получишь уведомление первым.</p>
+      <a class="btn btn--block" href="#">Подать заявку</a>
+    </div>
+  </div>
+</section>
+
+<!-- footer -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="cols">
+      <div class="col">
+        <h4>Продукты</h4>
+        <a href="#">AI-аналитика</a>
+        <a href="#">Nova 3D</a>
+        <a href="#">STUDENT</a>
+        <a href="#">VPHX</a>
+      </div>
+      <div class="col">
+        <h4>Связь</h4>
+        <a href="#">Telegram</a>
+        <a href="#">Канал</a>
+        <a href="#">Поддержка</a>
+      </div>
+      <div class="col">
+        <h4>Правовое</h4>
+        <a href="#">Условия</a>
+        <a href="#">Приватность</a>
+      </div>
+      <div class="col">
+        <h4>Статус</h4>
+        <span class="status"><i></i>all systems live</span>
+      </div>
+    </div>
+    <div class="legal">© 2026 PXAX. Все права защищены. 18+ · Играй ответственно.</div>
+    <div class="big">PXAXBET</div>
+  </div>
+</footer>
+
+</body>
+</html>
