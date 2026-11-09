@@ -484,6 +484,23 @@ input.field-error,textarea.field-error,select.field-error{border-color:rgba(255,
 </script>
 </head>
 <body>
+<div id="hub-boot" aria-hidden="true"><div class="hb-inner"><img class="hb-logo" src="boot-logo.jpg" alt=""><div class="hb-bar"><i></i></div><div class="hb-sub">ЭКОСИСТЕМА PXAX</div></div></div>
+<style>
+#hub-boot{position:fixed;inset:0;z-index:9999;background:#000;display:grid;place-items:center;transition:opacity .45s ease,visibility .45s}
+#hub-boot.hide{opacity:0;visibility:hidden;pointer-events:none}
+.hb-inner{display:grid;justify-items:center;gap:14px}
+.hb-logo{width:180px;height:auto;filter:drop-shadow(0 0 14px rgba(255,80,255,.55));animation:hb-flicker 2.6s steps(1) infinite}
+@keyframes hb-flicker{0%,100%{opacity:1}47%{opacity:1}48%{opacity:.55}50%{opacity:1}72%{opacity:.85}73%{opacity:1}}
+.hb-bar{width:150px;height:2px;background:rgba(255,255,255,.12);overflow:hidden;border-radius:2px}
+.hb-bar i{display:block;height:100%;width:0;background:#ff6bff;box-shadow:0 0 10px #ff6bff;animation:hb-fill 1.4s ease-out forwards}
+@keyframes hb-fill{to{width:100%}}
+.hb-sub{font-size:10px;letter-spacing:4px;color:#c58cff;opacity:.8}
+@media(prefers-reduced-motion:reduce){.hb-logo{animation:none}}
+</style>
+<script>
+window.addEventListener('load',function(){setTimeout(function(){var b=document.getElementById('hub-boot');if(b)b.classList.add('hide')},1500)});
+setTimeout(function(){var b=document.getElementById('hub-boot');if(b)b.classList.add('hide')},4000);
+</script>
 <div id="blackout-flash"></div>
 <div class="scan-line" id="scan"></div>
 <canvas id="ambient-canvas"></canvas>
