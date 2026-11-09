@@ -462,6 +462,10 @@ input.field-error,textarea.field-error,select.field-error{border-color:rgba(255,
   .eco-tile.eco-wide{grid-template-columns:52px minmax(0,1fr);gap:8px 10px}
   .eco-tile.eco-wide .tile-cta{grid-column:1/-1;width:100%}
 }
+@media(max-width:600px){
+  .section,.eco-tile,.header-section,.profile-box,.game-box{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(10,12,18,.9)}
+  #popup,#fake-popup{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(6,8,12,.96)}
+}
 @media(prefers-reduced-motion:reduce){
   .student-badge,.student-badge::before,.student-beam,.student-emblem,.student-emblem::before{animation:none}
 }
