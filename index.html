@@ -174,9 +174,10 @@ input.field-error,textarea.field-error,select.field-error{border-color:rgba(255,
 .vph-icon{width:42px;height:42px;display:grid;place-items:center;border:1px solid rgba(0,255,136,.2);border-radius:12px;background:rgba(0,255,136,.055);animation:pulse-lock 2.2s ease-in-out infinite}
 .vph-icon svg{width:31px;height:31px}
 .vph-copy{min-width:0}
-.vph-heading{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.vph-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;padding-right:76px}
 .vph-section .block-title{color:#a7ffce;margin:0;text-align:left;font-size:16px}
 .vph-status-pill{padding:4px 7px;border:1px solid rgba(255,193,92,.19);border-radius:20px;background:rgba(255,193,92,.055);color:#d7b56f;font-size:8px;white-space:nowrap}
+.vph-section .vph-copy{padding-top:24px}
 .vph-description{margin-top:4px;color:#79948a;font-size:9px;line-height:1.4}
 .vph-features{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px}
 .vph-feature{padding:4px 6px;border:1px solid rgba(0,255,136,.12);border-radius:6px;color:#81cda1;font-size:8px}
@@ -641,12 +642,12 @@ input.field-error,textarea.field-error,select.field-error{border-color:rgba(255,
 <div class="vph-layout">
   <div class="block-icon vph-icon"><svg viewBox="0 0 56 56" fill="none"><path d="M28 7 44 13v12c0 11-7 19-16 24C19 44 12 36 12 25V13L28 7Z" stroke="#00ff88" stroke-width="1.8"/><path d="M21 28h14M28 21v14" stroke="#00ff88" stroke-width="1.8" stroke-linecap="round"/><circle cx="28" cy="28" r="3" fill="#00ff88" fill-opacity=".22"/></svg></div>
   <div class="vph-copy">
-    <div class="vph-heading"><div class="block-title">Vph</div><div class="vph-status-pill">ЗАПУСК ГОТОВИТСЯ</div></div>
-    <div class="vph-description">Будущий защищённый канал PXAX · статус сервиса не активен</div>
+    <div class="vph-heading"><div class="block-title">Vph</div><div class="vph-status-pill" id="vph-pill-txt">ПРОВЕРКА…</div></div>
+    <div class="vph-description" id="vph-desc-txt">VPN-подписки PXAX · проверяем сервис</div>
   </div>
 </div>
 <div class="vph-features"><span class="vph-feature">VPN-доступ</span><span class="vph-feature">Управление через Telegram</span></div>
-<div class="vph-anim" id="vph-anim">◌ VPN-сервис готовится к запуску</div>
+<div class="vph-anim" id="vph-anim">◌ проверяем канал…</div>
 <div class="vph-tunnel"><div class="vph-tunnel-fill"></div></div>
 <div class="vph-action">Открыть Vph-бота <strong>↗</strong></div>
 </div>
@@ -1773,8 +1774,11 @@ function openTgBot(url){
       var R={};keys.forEach(function(k,i){R[k]=res[i]});
       var log=[],lat=[];
 
-      if(R.student.up){setPill('student','live','LIVE');lat.push(R.student.ms);log.push('student ok')}
-      else{setPill('student','off','OFFLINE');log.push('student offline')}
+      if(R.student.up){setPill('student','live','LIVE');lat.push(R.student.ms);log.push('student ok');
+        var sb=document.querySelector('.student-title-row .block-status');if(sb)sb.textContent='live · онлайн';
+      }else{setPill('student','off','OFFLINE');log.push('student offline');
+        var sb2=document.querySelector('.student-title-row .block-status');if(sb2)sb2.textContent='offline';
+      }
 
       if(R.ai.up){
         setPill('ai','test','ТЕСТ');
@@ -1787,12 +1791,18 @@ function openTgBot(url){
       if(R.phx.up){setPill('phx','soon','SOON');lat.push(R.phx.ms);log.push('vphx ok')}
       else{setPill('phx','off','OFFLINE');log.push('vphx offline')}
 
-      if(R.vph.up){setPill('vph','live','LIVE');setNote('vph','VPN-подписки · Telegram Stars · онлайн');lat.push(R.vph.ms);log.push('vph ok')}
-      else{setPill('vph','off','OFFLINE');log.push('vph offline')}
+      if(R.vph.up){setPill('vph','live','LIVE');setNote('vph','VPN-подписки · Telegram Stars · онлайн');lat.push(R.vph.ms);log.push('vph ok');
+        var vp=document.getElementById('vph-pill-txt');if(vp)vp.textContent='LIVE · ОНЛАЙН';
+        var vd=document.getElementById('vph-desc-txt');if(vd)vd.textContent='VPN-подписки · оплата Telegram Stars · сервис работает';
+        var va=document.getElementById('vph-anim');if(va)va.textContent='● канал активен';
+      }else{setPill('vph','off','OFFLINE');log.push('vph offline');
+        var vp2=document.getElementById('vph-pill-txt');if(vp2)vp2.textContent='НЕДОСТУПЕН';
+        var vd2=document.getElementById('vph-desc-txt');if(vd2)vd2.textContent='сервис временно недоступен';
+      }
 
-      if(R.predict.up&&R.predict.date===todayMSK())setPill('predict','live','LIVE');
-      else if(R.predict.up)setPill('predict','test','ОЖИДАНИЕ');
-      else setPill('predict','off','OFFLINE');
+      if(R.predict.up&&R.predict.date===todayMSK()){setPill('predict','live','LIVE');var pbs=document.querySelector('.predict-title-row .block-status');if(pbs)pbs.textContent='live · сегодня'}
+      else if(R.predict.up){setPill('predict','test','ОЖИДАНИЕ');var pbt=document.querySelector('.predict-title-row .block-status');if(pbt)pbt.textContent='фид обновляется'}
+      else{setPill('predict','off','OFFLINE');var pbo=document.querySelector('.predict-title-row .block-status');if(pbo)pbo.textContent='offline'}
       if(R.predict.up)lat.push(R.predict.ms);
 
       if(lat.length)window.ecoPing=Math.min.apply(null,lat);
