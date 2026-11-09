@@ -1975,7 +1975,15 @@ function openTgBot(url){
       }
     );
   };
-  loadModel();
+  const aiBlock = document.getElementById('ai-block');
+  let started = false;
+  const boot3d = () => { if (started) return; started = true; loadModel(); };
+  if (aiBlock && aiBlock.hidden) {
+    new MutationObserver(() => { if (!aiBlock.hidden) boot3d(); })
+      .observe(aiBlock, { attributes: true, attributeFilter: ['hidden'] });
+  } else {
+    boot3d();
+  }
 })();
 </script>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
