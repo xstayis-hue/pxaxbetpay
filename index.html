@@ -852,7 +852,7 @@ function haptic(type){try{const hf=window.Telegram?.WebApp?.HapticFeedback;if(hf
   let frame=0;
   (function loop(){
     frame++;
-    if(frame%2)return requestAnimationFrame(loop);
+    if(document.hidden||frame%2)return requestAnimationFrame(loop);
     ctx.clearRect(0,0,W,H);
     drops.forEach(d=>{
       d.y+=d.sp;if(d.y>H+10){d.y=-10;d.x=Math.random()*W}
@@ -1022,7 +1022,7 @@ const sc=document.getElementById('soon-stars'),sctx=sc.getContext('2d'),soonSec=
 function sizeStars(){const r=soonSec.getBoundingClientRect();sc.width=r.width*devicePixelRatio;sc.height=r.height*devicePixelRatio;sctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0)}
 sizeStars();addEventListener('resize',sizeStars);
 const stars=Array.from({length:45},()=>({x:Math.random(),y:Math.random(),z:.3+Math.random()*.7,s:Math.random()*1.4}));
-(function drawStars(){const w=soonSec.clientWidth,h=soonSec.clientHeight;if(w&&h){sctx.clearRect(0,0,w,h);stars.forEach(st=>{st.y+=.0006*st.z;if(st.y>1)st.y=0;sctx.fillStyle=`rgba(160,210,255,${.25+st.z*.5})`;sctx.beginPath();sctx.arc(st.x*w,st.y*h,st.s*st.z,0,Math.PI*2);sctx.fill()})}requestAnimationFrame(drawStars)})();
+(function drawStars(){if(document.hidden||!soonSec.offsetParent){requestAnimationFrame(drawStars);return}const w=soonSec.clientWidth,h=soonSec.clientHeight;if(w&&h){sctx.clearRect(0,0,w,h);stars.forEach(st=>{st.y+=.0006*st.z;if(st.y>1)st.y=0;sctx.fillStyle=`rgba(160,210,255,${.25+st.z*.5})`;sctx.beginPath();sctx.arc(st.x*w,st.y*h,st.s*st.z,0,Math.PI*2);sctx.fill()})}requestAnimationFrame(drawStars)})();
 
 const audioCtx=new(window.AudioContext||window.webkitAudioContext)();
 function playTone(freq,duration,type='square',volume=.1){const osc=audioCtx.createOscillator(),gain=audioCtx.createGain();osc.type=type;osc.frequency.value=freq;gain.gain.value=volume;osc.connect(gain);gain.connect(audioCtx.destination);osc.start();gain.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+duration);osc.stop(audioCtx.currentTime+duration)}
@@ -1824,7 +1824,7 @@ function openTgBot(url){
 
   let renderer;
   try {
-    renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+    renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: !(/Android|iPhone|iPad/i.test(navigator.userAgent)) });
     if (!renderer.getContext()) throw new Error('нет WebGL');
   } catch (err) {
     console.warn('Ai 3D: WebGL недоступен, остаётся SVG-аватар', err);
@@ -1841,7 +1841,7 @@ function openTgBot(url){
   const camera = new THREE.PerspectiveCamera(30, canvas.width / canvas.height, 0.5, 400);
 
   renderer.setClearAlpha(0);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, /Android|iPhone|iPad/i.test(navigator.userAgent) ? 1.5 : 2));
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.08;
   renderer.outputColorSpace = THREE.SRGBColorSpace;
