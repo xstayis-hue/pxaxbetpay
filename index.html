@@ -1091,7 +1091,6 @@ const STUDENT_BOT_LINK = 'https://t.me/pxaxbytestudent_bot';
 const PREDICT_APP_LINK = 'https://t.me/pxaxbetai_bot';
 const PREDICT_BOT_LINK = 'https://t.me/pxaxbetai_bot';
 const PREDICT_FEED = 'https://pxax-predict-site.xstayis.workers.dev/data/predictions.json';
-const ECO_STATUS_URL = 'https://pxaxbetpay-site.xstayis.workers.dev/api/eco-status';
 const storage=(()=>{try{return localStorage}catch{return{data:{},getItem(k){return this.data[k]||null},setItem(k,v){this.data[k]=v}}}})();
 if(!storage.getItem('applications'))storage.setItem('applications','[]');
 if(!storage.getItem('balance'))storage.setItem('balance','0');
@@ -1733,59 +1732,72 @@ function openTgBot(url){
   },5200);
 })();
 
-/* Живой статус экосистемы: раз в минуту опрашиваем воркер-агрегатор (/api/eco-status),
-   который пингует деплой каждого миниаппа. Плитки показывают реальное состояние. */
+/* Живой статус экосистемы: браузер сам опрашивает деплои миниаппов раз в минуту.
+   С открытым CORS читаем версию/фазу/дату фида; без CORS проверяем только доступность
+   (no-cors: ответ придёт, но тело недоступно). */
 (function bindEcoLiveStatus(){
   var REFRESH_MS=60*1000;
   function setPill(k,cls,txt){var t=document.getElementById('tile-'+k);var p=t?t.querySelector('.tile-pill'):null;if(p){p.className='tile-pill '+cls;p.textContent=txt}}
   function setNote(k,txt){var t=document.getElementById('tile-'+k);var n=t?t.querySelector('.tile-note'):null;if(n)n.textContent=txt}
   function todayMSK(){return new Date(Date.now()+3*3600e3).toISOString().slice(0,10)}
   function push(msg){try{if(typeof pushTerm==='function')pushTerm(msg)}catch(e){}}
-
-  function apply(s){
-    if(!s||!s.services)return;
-    var log=[],lat=[];
-    var st=s.services.student;
-    if(st){
-      if(st.up&&st.ok){setPill('student','live','LIVE');lat.push(st.latencyMs);log.push('student online · '+st.latencyMs+'ms')}
-      else{setPill('student','off','OFFLINE');log.push('student offline')}
-    }
-    var ai=s.services.ai;
-    if(ai){
-      if(ai.up){
-        setPill('ai','test','ТЕСТ');
-        var as=document.getElementById('ai-status');
-        if(as&&ai.version)as.textContent='ТЕСТ · v'+ai.version;
-        setNote('ai','Нейро-компаньон · сайт online'+(ai.version?' · v'+ai.version:''));
-        lat.push(ai.latencyMs);log.push('ai v'+(ai.version||'?')+' · '+ai.latencyMs+'ms');
-      }else{setPill('ai','off','OFFLINE');log.push('ai offline')}
-    }
-    var phx=s.services.phx;
-    if(phx){
-      if(phx.up){setPill('phx','soon','SOON');lat.push(phx.latencyMs)}
-      else{setPill('phx','off','OFFLINE');log.push('vphx offline')}
-    }
-    var vph=s.services.vph;
-    if(vph){
-      if(vph.up){setPill('vph','soon','SOON');lat.push(vph.latencyMs)}
-      else{setPill('vph','off','OFFLINE');log.push('vph offline')}
-    }
-    var pd=s.services.predict;
-    if(pd){
-      if(pd.up&&pd.date===todayMSK())setPill('predict','live','LIVE');
-      else if(pd.up)setPill('predict','test','ОЖИДАНИЕ');
-      else setPill('predict','off','OFFLINE');
-      if(pd.up)lat.push(pd.latencyMs);
-    }
-    if(lat.length)window.ecoPing=Math.min.apply(null,lat);
-    push('eco · '+(log.length?log.join(' · '):'all services ok'));
+  function timed(url,opts){
+    var t0=Date.now(),ctrl=new AbortController(),timer=setTimeout(function(){ctrl.abort()},6000);
+    var o=Object.assign({cache:'no-store',signal:ctrl.signal},opts||{});
+    return fetch(url+(url.indexOf('?')<0?'?':'&')+'t='+Date.now(),o)
+      .then(function(r){clearTimeout(timer);return {r:r,ms:Date.now()-t0}},function(e){clearTimeout(timer);throw e});
   }
 
+  var checks={
+    ai:function(){return timed('https://pxax-nova-site.xstayis.workers.dev/').then(function(x){
+      return x.r.text().then(function(body){
+        var m=body.match(/v(\d+\.\d+(?:\.\d+)?)/);
+        return {up:x.r.ok,ms:x.ms,version:m?m[1]:null};
+      });
+    })},
+    phx:function(){return timed('https://phxcoin-site.xstayis.workers.dev/').then(function(x){
+      return x.r.text().then(function(body){return {up:x.r.ok,ms:x.ms,prelaunch:/pre-?launch/i.test(body)}});
+    })},
+    predict:function(){return timed('https://pxax-predict-site.xstayis.workers.dev/data/predictions.json').then(function(x){
+      return x.r.json().then(function(j){return {up:x.r.ok,ms:x.ms,date:j.date}});
+    })},
+    student:function(){return timed('https://pxaxbyte.xstayis.workers.dev/api/health',{mode:'no-cors'}).then(function(x){return {up:true,ms:x.ms}})},
+    vph:function(){return timed('https://vph-site.xstayis.workers.dev/',{mode:'no-cors'}).then(function(x){return {up:true,ms:x.ms}})}
+  };
+
+  function settle(p){return p.then(function(v){return v},function(){return {up:false}})}
+
   function refresh(){
-    fetch(ECO_STATUS_URL+'?t='+Date.now(),{cache:'no-store'})
-      .then(function(r){if(!r.ok)throw new Error('http '+r.status);return r.json()})
-      .then(apply)
-      .catch(function(){push('eco · aggregator unavailable')});
+    var keys=Object.keys(checks);
+    Promise.all(keys.map(function(k){return settle(checks[k]())})).then(function(res){
+      var R={};keys.forEach(function(k,i){R[k]=res[i]});
+      var log=[],lat=[];
+
+      if(R.student.up){setPill('student','live','LIVE');lat.push(R.student.ms);log.push('student ok')}
+      else{setPill('student','off','OFFLINE');log.push('student offline')}
+
+      if(R.ai.up){
+        setPill('ai','test','ТЕСТ');
+        var as=document.getElementById('ai-status');
+        if(as&&R.ai.version)as.textContent='ТЕСТ · v'+R.ai.version;
+        setNote('ai','Нейро-компаньон · сайт online'+(R.ai.version?' · v'+R.ai.version:''));
+        lat.push(R.ai.ms);log.push('ai ok');
+      }else{setPill('ai','off','OFFLINE');log.push('ai offline')}
+
+      if(R.phx.up){setPill('phx','soon','SOON');lat.push(R.phx.ms);log.push('vphx ok')}
+      else{setPill('phx','off','OFFLINE');log.push('vphx offline')}
+
+      if(R.vph.up){setPill('vph','soon','SOON');lat.push(R.vph.ms);log.push('vph ok')}
+      else{setPill('vph','off','OFFLINE');log.push('vph offline')}
+
+      if(R.predict.up&&R.predict.date===todayMSK())setPill('predict','live','LIVE');
+      else if(R.predict.up)setPill('predict','test','ОЖИДАНИЕ');
+      else setPill('predict','off','OFFLINE');
+      if(R.predict.up)lat.push(R.predict.ms);
+
+      if(lat.length)window.ecoPing=Math.min.apply(null,lat);
+      push('eco · '+log.join(' · '));
+    });
   }
   refresh();
   setInterval(refresh,REFRESH_MS);

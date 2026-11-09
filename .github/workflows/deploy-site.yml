@@ -30,7 +30,7 @@ jobs:
       - name: Stage static files
         run: |
           mkdir -p staged
-          cp -R index.html coin-preview.html angelica.glb eco-worker.js staged/
+          cp -R index.html coin-preview.html angelica.glb staged/
           printf '/*\n  Access-Control-Allow-Origin: *\n' > staged/_headers
 
       - name: Deploy Worker with assets
@@ -40,13 +40,11 @@ jobs:
         run: |
           cat > wrangler.site.toml <<'EOF'
           name = "pxaxbetpay-site"
-          main = "./staged/eco-worker.js"
           compatibility_date = "2025-01-01"
 
           [assets]
           directory = "./staged"
           not_found_handling = "single-page-application"
-          run_worker_first = ["/api/*"]
           EOF
           npx --yes wrangler@4 deploy --config wrangler.site.toml
 
