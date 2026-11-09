@@ -1762,9 +1762,7 @@ function openTgBot(url){
       return x.r.json().then(function(j){return {up:x.r.ok,ms:x.ms,date:j.date}});
     })},
     student:function(){return timed('https://pxaxbyte.xstayis.workers.dev/api/health',{mode:'no-cors'}).then(function(x){return {up:true,ms:x.ms}})},
-    vph:function(){return timed('https://vph.phoenixvpn.site/api/health').then(function(x){
-      return x.r.json().then(function(j){return {up:x.r.ok&&j.ok===true,ms:x.ms,stars:!!j.starsReady,vpn:!!j.vpnReady}});
-    })}
+    vph:function(){return timed('https://vph.phoenixvpn.site/api/health',{mode:'no-cors'}).then(function(x){return {up:true,ms:x.ms}})}
   };
 
   function settle(p){return p.then(function(v){return v},function(){return {up:false}})}
@@ -1789,8 +1787,7 @@ function openTgBot(url){
       if(R.phx.up){setPill('phx','soon','SOON');lat.push(R.phx.ms);log.push('vphx ok')}
       else{setPill('phx','off','OFFLINE');log.push('vphx offline')}
 
-      if(R.vph.up&&R.vph.vpn){setPill('vph','live','LIVE');setNote('vph','VPN-подписки · Telegram Stars'+(R.vph.stars?'':' · оплата недоступна'));lat.push(R.vph.ms);log.push('vph ok')}
-      else if(R.vph.up){setPill('vph','test','ТЕСТ');lat.push(R.vph.ms);log.push('vph partial')}
+      if(R.vph.up){setPill('vph','live','LIVE');setNote('vph','VPN-подписки · Telegram Stars · онлайн');lat.push(R.vph.ms);log.push('vph ok')}
       else{setPill('vph','off','OFFLINE');log.push('vph offline')}
 
       if(R.predict.up&&R.predict.date===todayMSK())setPill('predict','live','LIVE');
